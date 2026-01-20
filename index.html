@@ -14,47 +14,75 @@
         /* SILENT PROTECTION */
         body.protected { filter: blur(80px) brightness(0); pointer-events: none; }
 
-        /* --- LOGIN SCREEN (UPDATED) --- */
+        /* --- PROFESSIONAL CINEMATIC LOGIN SCREEN --- */
         #login-screen {
             position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
-            /* Mesh Gradient: Hitam, Biru, Ungu, Pink */
-            background: linear-gradient(135deg, #000000, #1e1b4b, #4c1d95, #831843, #000000);
-            background-size: 400% 400%;
-            animation: meshFlow 12s ease-in-out infinite;
-            transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1);
+            background: radial-gradient(circle at center, #1e1b4b 0%, #000000 100%);
+            transition: 2s cubic-bezier(0.8, 0, 0.2, 1);
         }
         
-        /* Masking Blur Efek agar Fokus ke Tengah */
-        #login-screen::before {
-            content: ''; position: absolute; inset: 0;
-            backdrop-filter: blur(15px);
-            -webkit-mask-image: radial-gradient(circle, transparent 20%, black 80%);
-            mask-image: radial-gradient(circle, transparent 20%, black 80%);
-            pointer-events: none;
+        /* Ambient Glow Behind Box */
+        .login-glow {
+            position: absolute; width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(76, 29, 149, 0.3) 0%, transparent 70%);
+            filter: blur(50px); animation: pulseGlow 8s infinite alternate;
         }
+        @keyframes pulseGlow { from { transform: scale(1); opacity: 0.5; } to { transform: scale(1.3); opacity: 0.8; } }
 
         .login-box {
-            position: relative; width: 320px; padding: 50px 40px; 
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); 
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; 
+            position: relative; width: 380px; padding: 60px 40px; 
+            background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(25px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 2px; 
             text-align: center; z-index: 10;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        input {
-            width: 100%; background: transparent; border: none; border-bottom: 0.5px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 2px; color: white; font-size: 9px; letter-spacing: 5px; margin-bottom: 25px; 
-            outline: none; text-align: center; text-transform: uppercase; transition: 0.5s;
+        /* NEON RUNNING BORDER EFFECT */
+        .login-box::after {
+            content: ''; position: absolute; inset: -1px;
+            background: linear-gradient(90deg, transparent, transparent, #fff, transparent, transparent);
+            background-size: 200% 100%;
+            animation: neonRun 4s linear infinite;
+            z-index: -1; opacity: 0.3;
         }
-        input:focus { border-bottom-color: white; letter-spacing: 7px; }
+        @keyframes neonRun { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+        h1.welcome-text {
+            font-family: 'Tenor Sans', sans-serif;
+            font-size: 24px; letter-spacing: 12px; color: #fff;
+            text-shadow: 0 0 20px rgba(255,255,255,0.3);
+            margin-bottom: 5px;
+        }
+
+        .name-highlight {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic; font-size: 32px; color: rgba(255,255,255,0.9);
+            margin-bottom: 40px; display: block; letter-spacing: 2px;
+        }
+
+        /* TRANSPARENT NEON INPUT */
+        input {
+            width: 100%; background: transparent; border: none; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0; color: white; font-size: 10px; letter-spacing: 6px; 
+            margin-bottom: 30px; outline: none; text-align: center; 
+            text-transform: uppercase; transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        input:focus { 
+            border-bottom-color: #fff; 
+            letter-spacing: 8px;
+            text-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
 
         .login-btn {
-            width: 55px; height: 55px; margin: 15px auto 0; background: white; 
+            width: 50px; height: 50px; margin: 20px auto 0; 
+            background: transparent; border: 1px solid rgba(255,255,255,0.2);
             border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; transition: 0.5s; box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            cursor: pointer; transition: 0.5s; 
         }
-        .login-btn svg { fill: black; width: 22px; height: 22px; }
-        .login-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255,255,255,0.4); }
+        .login-btn svg { fill: white; width: 18px; height: 18px; transition: 0.5s; }
+        .login-btn:hover { background: #fff; border-color: #fff; }
+        .login-btn:hover svg { fill: #000; }
 
         /* MESH GRADIENT MAIN CONTENT */
         .mesh-gradient-bg {
@@ -67,7 +95,7 @@
 
         /* MAIN CONTENT */
         #main-content { opacity: 0; pointer-events: none; transition: 2s ease; height: 100vh; overflow-y: auto; scroll-behavior: smooth; }
-        body.unlocked #login-screen { transform: scale(1.2); opacity: 0; pointer-events: none; }
+        body.unlocked #login-screen { transform: translateY(-100%); opacity: 0; }
         body.unlocked #main-content { opacity: 1; pointer-events: auto; }
 
         .reveal-p { opacity: 0; transform: translateY(30px); transition: all 1.5s ease; filter: blur(10px); margin-bottom: 4rem; }
@@ -85,15 +113,19 @@
 <body oncontextmenu="return false">
 
     <div id="login-screen">
+        <div class="login-glow"></div>
         <div class="flex flex-col items-center">
-            <h1 class="f-tenor text-white text-5xl tracking-[18px] mb-2 opacity-100 drop-shadow-2xl">WELCOME</h1>
-            <p class="text-[8px] text-white/40 tracking-[6px] uppercase mb-12">Access Private Journal</p>
             <div class="login-box">
+                <h1 class="welcome-text">WELCOME</h1>
+                <span class="name-highlight">Virya Rahmawati</span>
+                
                 <input type="text" id="username" placeholder="IDENTITAS" autocomplete="off">
                 <input type="password" id="password" placeholder="KATA SANDI" autocomplete="off">
+                
                 <div class="login-btn" onclick="validateLogin()">
                     <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
                 </div>
+                <p class="mt-8 text-[7px] tracking-[4px] text-white/20 uppercase">Private Access Only</p>
             </div>
         </div>
     </div>
