@@ -13,6 +13,7 @@
 
         /* SILENT PROTECTION */
         body.protected { filter: blur(80px) brightness(0); pointer-events: none; }
+        @media print { body { display: none; } }
 
         /* --- LOGIN SCREEN --- */
         #login-screen {
@@ -50,7 +51,7 @@
         .login-btn svg { fill: black; width: 22px; height: 22px; }
         .login-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255,255,255,0.4); }
 
-        /* MESH GRADIENT MAIN CONTENT */
+        /* --- MAIN CONTENT BG & ANIMATIONS --- */
         .mesh-gradient-bg {
             position: fixed; inset: 0; z-index: -5;
             background: linear-gradient(125deg, #0f172a 0%, #3b0764 25%, #701a75 50%, #db2777 75%, #1e1b4b 100%);
@@ -59,19 +60,41 @@
         }
         @keyframes meshFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* MAIN CONTENT */
         #main-content { opacity: 0; pointer-events: none; transition: 2s ease; height: 100vh; overflow-y: auto; scroll-behavior: smooth; }
         body.unlocked #login-screen { transform: scale(1.2); opacity: 0; pointer-events: none; }
         body.unlocked #main-content { opacity: 1; pointer-events: auto; }
 
-        /* NASKAH ANIMATION */
         .reveal-p { opacity: 0; transform: translateY(30px); transition: all 1.5s ease; filter: blur(10px); margin-bottom: 4rem; }
         .reveal-p.active { opacity: 1; transform: translateY(0); filter: blur(0); }
 
         .rain { position: fixed; background: rgba(255,255,255,0.2); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
+        
+        /* General Flower (for love button and initial burst) */
         .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 1001; animation: bloomFade 2.5s forwards; }
         @keyframes bloomFade { 0% { transform: scale(0) rotate(0); opacity: 0; } 30% { opacity: 1; transform: scale(1.5) rotate(45deg); } 100% { transform: translateY(-100px) rotate(90deg); opacity: 0; } }
+
+        /* Specific Flower (for paragraph reveal) */
+        .para-flower { position: fixed; font-size: 14px; pointer-events: none; z-index: 1001; animation: paraBloom 3s ease-out forwards; opacity: 0; }
+        @keyframes paraBloom { 0% { transform: scale(0) rotate(0); opacity: 0; } 20% { opacity: 1; transform: scale(1.2) rotate(20deg); } 100% { transform: scale(0.8) translateY(100px) rotate(60deg); opacity: 0; } }
+
+        /* Butterfly */
+        .butterfly {
+            position: fixed; font-size: 20px; z-index: 1000; pointer-events: none; opacity: 0;
+            animation: butterflyFlight 8s linear forwards, butterflyFlutter 0.5s infinite alternate;
+            transform-origin: center;
+        }
+        @keyframes butterflyFlight {
+            0% { transform: translate(-10vw, 120vh) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translate(60vw, 20vh) scale(1.2); }
+            90% { opacity: 1; }
+            100% { transform: translate(110vw, -20vh) scale(0.7); opacity: 0; }
+        }
+        @keyframes butterflyFlutter {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(30deg); }
+        }
 
         .f-serif { font-family: 'Cormorant Garamond', serif; }
         .f-tenor { font-family: 'Tenor Sans', sans-serif; }
@@ -110,34 +133,34 @@
         </div>
         
         <main class="max-w-[500px] mx-auto px-8 py-32 text-center relative z-10">
-            <header class="mb-32 reveal-p" data-para-index="0">
+            <header class="mb-32 reveal-p">
                 <p class="text-[9px] tracking-[6px] text-[#c4a47c] uppercase opacity-70">Journal Entry — 2026</p>
                 <h1 class="f-serif text-5xl text-white italic mt-3">For Elfrida</h1>
             </header>
 
-            <div class="border border-white/5 p-2 bg-white/5 backdrop-blur-sm mb-32 reveal-p" data-para-index="1">
+            <div class="border border-white/5 p-2 bg-white/5 backdrop-blur-sm mb-32 reveal-p">
                 <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-60 grayscale">
             </div>
 
             <div class="text-left space-y-24">
-                <p class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p" data-para-index="2">
+                <p class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p">
                     Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
                 </p>
-                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p" data-para-index="3">
+                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
                     Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.
                 </p>
-                <p class="f-serif text-3xl text-white py-12 border-y border-white/10 text-center italic leading-snug reveal-p" data-para-index="4">
+                <p class="f-serif text-3xl text-white py-12 border-y border-white/10 text-center italic leading-snug reveal-p">
                     "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
                 </p>
-                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p" data-para-index="5">
+                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
                     Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.
                 </p>
-                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p" data-para-index="6">
+                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
                     Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang.
                 </p>
             </div>
 
-            <footer class="mt-40 reveal-p" data-para-index="7">
+            <footer class="mt-40 reveal-p">
                 <p class="f-tenor text-2xl tracking-[10px] text-white/80 uppercase">Himam Aby Maulana</p>
                 <p class="text-[7px] tracking-[4px] mt-4 opacity-30 uppercase">© Forever Virya Archive</p>
             </footer>
@@ -151,58 +174,71 @@
         function release() { document.body.classList.remove('protected'); }
         window.addEventListener('blur', secure);
         window.addEventListener('focus', release);
-        document.addEventListener('visibilitychange', () => { if (document.hidden) secure(); else release(); });
 
         function validateLogin() {
             const pass = document.getElementById('password').value;
             if (pass.toUpperCase() === "FLAFOUR") {
                 document.body.classList.add('unlocked');
-                // Bunga pembuka setelah login, sebelum naskah
-                for(let i=0; i<40; i++) { // Lebih banyak bunga untuk pembukaan!
-                    setTimeout(() => createFlower(Math.random() * window.innerWidth, Math.random() * window.innerHeight), i * 50);
+                // Initial flower burst (after login)
+                for(let i=0; i<40; i++) { // Lebih banyak bunga untuk pembukaan
+                    setTimeout(() => {
+                        createFlower(Math.random() * window.innerWidth, Math.random() * window.innerHeight, 'flower');
+                    }, i * 70);
                 }
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
                     if (audio.paused) audio.play();
                     startNaskahReveal();
-                }, 2000); // Tunggu lebih lama agar bunga terlihat
+                }, 2000); // Jeda lebih lama untuk efek bunga pembuka
             }
         }
 
         function startNaskahReveal() {
             const paragraphs = document.querySelectorAll('.reveal-p');
-            let delay = 0;
             paragraphs.forEach((p, index) => {
                 setTimeout(() => {
-                    // Hanya panggil bunga sebelum paragraf muncul
-                    if (index > 0 || index === 0) { // Bahkan untuk header dan gambar pertama
-                        for(let i=0; i<20; i++) { // Jumlah bunga per paragraf
-                            setTimeout(() => createFlower(p.getBoundingClientRect().left + p.offsetWidth / 2, p.getBoundingClientRect().top + p.offsetHeight / 2), i * 70);
-                        }
+                    // Trigger butterflies and small flowers BEFORE paragraph reveals
+                    for(let i=0; i<Math.random() * 5 + 3; i++) { // 3-7 butterflies
+                        createButterfly();
                     }
-                    setTimeout(() => { // Tampilkan paragraf setelah bunga
+                    for(let i=0; i<Math.random() * 10 + 5; i++) { // 5-15 small flowers
+                        createFlower(p.getBoundingClientRect().left + Math.random() * p.offsetWidth, p.getBoundingClientRect().top + Math.random() * p.offsetHeight, 'para-flower');
+                    }
+                    
+                    setTimeout(() => { // Then reveal the paragraph
                         p.classList.add('active');
                         p.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 1000); // Sedikit jeda setelah bunga muncul
-                }, delay);
-                delay += 6000; // Jeda total per paragraf: (waktu bunga) + (waktu muncul paragraf) + (jeda antar paragraf)
+                    }, 1000); // Jeda 1 detik setelah bunga/kupu muncul
+                }, index * 6000); // Jeda 6 detik per paragraf (termasuk animasi kupu/bunga)
             });
         }
 
-        function createFlower(x, y) {
-            const flowers = ['🌸', '✨', '🌷', '🤍', '🌺', '🌼', '💖'];
+        function createFlower(x, y, className) {
+            const flowers = ['🌸', '✨', '🌷', '🤍', '🌺', '🌼', '🌹'];
             const f = document.createElement('div');
-            f.className = 'flower';
+            f.className = className;
             f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-            // Tambahkan sedikit variasi posisi awal bunga
-            f.style.left = (x + (Math.random() * 80 - 40)) + 'px';
-            f.style.top = (y + (Math.random() * 80 - 40)) + 'px';
+            f.style.left = x + 'px';
+            f.style.top = y + 'px';
+            f.style.fontSize = (Math.random() * 10 + 10) + 'px'; // Ukuran bervariasi
             document.body.appendChild(f);
-            setTimeout(() => f.remove(), 2500);
+            setTimeout(() => f.remove(), 3000);
+        }
+
+        function createButterfly() {
+            const butterflies = ['🦋', '💙', '💖', '💜', '🧡']; // Icons for butterflies
+            const b = document.createElement('div');
+            b.className = 'butterfly';
+            b.innerText = butterflies[Math.floor(Math.random() * butterflies.length)];
+            // Randomize start position
+            b.style.left = Math.random() * 10 + 'vw';
+            b.style.top = Math.random() * 10 + 90 + 'vh'; // Start from bottom
+            document.body.appendChild(b);
+            setTimeout(() => b.remove(), 8000);
         }
 
         function triggerLove(e) {
-            for(let i=0; i<15; i++) createFlower(e.clientX, e.clientY); // Lebih banyak bunga saat klik love
+            for(let i=0; i<15; i++) createFlower(e.clientX, e.clientY, 'flower');
             const h = new Date().getHours();
             const msg = document.getElementById('love-msg');
             let greet = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
