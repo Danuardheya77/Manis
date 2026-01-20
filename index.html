@@ -22,29 +22,35 @@
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-script { font-family: 'Pinyon Script', cursive; }
 
-        /* Background Cinematic */
+        /* Background Langit Malam, Bintang, dan Bulan */
         .cinematic-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3;
-            background: radial-gradient(circle at center, rgba(10, 15, 25, 0.9) 0%, #030405 100%),
-                        url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=2094&auto=format&fit=crop');
+            background: radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0) 50%),
+                        linear-gradient(to bottom, #050b18 0%, #000000 100%),
+                        url('https://images.unsplash.com/photo-1532767153582-b1a0e5145009?q=80&w=1974&auto=format&fit=crop');
             background-size: cover; background-position: center;
         }
 
-        /* EFEK GERIMIS YANG LEBIH NYATA */
+        /* Efek Bulan Malam Hari */
+        .moon {
+            position: fixed; top: 10%; right: 15%; width: 80px; height: 80px;
+            background: #fefcd7; border-radius: 50%;
+            box-shadow: 0 0 40px rgba(254, 252, 215, 0.5), inset -10px -10px 20px rgba(0,0,0,0.1);
+            z-index: -2; opacity: 0.8;
+        }
+
+        /* Efek Gerimis */
         #rain-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; pointer-events: none;
         }
-
         .rain-streak {
             position: absolute;
             background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.6));
-            width: 2px; /* Lebih tebal agar terlihat */
-            height: 100px;
+            width: 2px; height: 100px;
             pointer-events: none;
             animation: fall linear infinite;
         }
-
         @keyframes fall {
             from { transform: translateY(-120px); }
             to { transform: translateY(110vh); }
@@ -76,7 +82,6 @@
             width: 45px; height: 45px; border: 1px solid var(--soft-green); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: 0.5s; background: rgba(0,0,0,0.4);
-            box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
         }
         #love-message {
             margin-top: 10px; font-size: 10px; color: var(--soft-green);
@@ -86,7 +91,6 @@
 
         /* Layout */
         .main-container { max-width: 550px; margin: 0 auto; padding: 120px 25px; position: relative; z-index: 10; }
-        
         .title-small { font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color: var(--warm-gold); opacity: 0.8; }
         .title-large { font-size: 50px; margin-top: 5px; margin-bottom: 50px; }
 
@@ -115,6 +119,7 @@
 <body onclick="handleInteraction(event)">
     
     <div class="cinematic-bg"></div>
+    <div class="moon"></div>
     <div id="rain-container"></div>
 
     <div class="digital-clock" id="clock">00:00:00</div>
@@ -129,7 +134,6 @@
     </div>
 
     <main class="main-container text-center">
-        
         <header class="mb-16">
             <p class="title-small">For My Beloved</p>
             <h1 class="font-script title-large text-white">Elfrida</h1>
@@ -143,7 +147,6 @@
             <p class="story-text">
                 Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
             </p>
-
             <p class="story-text">
                 Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.
             </p>
@@ -155,7 +158,6 @@
             <p class="story-text">
                 Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.
             </p>
-
             <p class="story-text">
                 Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang, dan menjadi pundak yang selalu ada kapanpun kamu merasa lelah.
             </p>
@@ -174,7 +176,6 @@
     </main>
 
     <script>
-        // Update Jam
         function updateClock() {
             const now = new Date();
             document.getElementById('clock').innerText = now.toLocaleTimeString('en-GB', { hour12: false });
@@ -182,40 +183,29 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // EFEK GERIMIS YANG LEBIH TERLIHAT
         function createRain() {
             const container = document.getElementById('rain-container');
             const streak = document.createElement('div');
             streak.className = 'rain-streak';
-            
             streak.style.left = Math.random() * 100 + 'vw';
             streak.style.animationDuration = (Math.random() * 0.4 + 0.3) + 's';
             streak.style.opacity = (Math.random() * 0.4 + 0.2);
-            
             container.appendChild(streak);
             setTimeout(() => streak.remove(), 800);
         }
-        // Membuat hujan lebih rapat
         setInterval(createRain, 30);
 
-        // Interaction Handler
         function handleInteraction(e) {
             if(e.target.closest('button')) return;
-
             const ripple = document.createElement('div');
             ripple.className = 'ripple';
             document.body.appendChild(ripple);
             ripple.style.left = `${e.clientX}px`;
             ripple.style.top = `${e.clientY}px`;
             setTimeout(() => ripple.remove(), 800);
-            
-            if (audio.paused && !audio.played.length) {
-                audio.play();
-                document.getElementById('status').innerText = "Ambiance Active";
-            }
+            if (audio.paused && !audio.played.length) audio.play();
         }
 
-        // Love Accessibility
         function sayHello() {
             const h = new Date().getHours();
             const msgEl = document.getElementById('love-message');
