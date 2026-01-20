@@ -14,21 +14,20 @@
         /* SILENT PROTECTION */
         body.protected { filter: blur(80px) brightness(0); pointer-events: none; }
 
-        /* --- OVERLAY PAKSA (INTERAKSI PERTAMA) --- */
+        /* OVERLAY OPEN */
         #force-start {
             position: fixed; inset: 0; z-index: 10000; background: #000;
-            display: flex; align-items: center; justify-content: center; transition: 1s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; align-items: center; justify-content: center; transition: 1s;
         }
         .start-btn {
-            width: 130px; height: 130px; border: 1px solid rgba(255,255,255,0.4);
+            width: 120px; height: 120px; border: 1px solid rgba(255,255,255,0.3);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; background: transparent; color: white;
-            font-size: 9px; letter-spacing: 5px; text-indent: 5px; transition: 0.4s;
-            animation: breathe 3s infinite ease-in-out;
+            cursor: pointer; color: white; font-size: 9px; letter-spacing: 4px;
+            animation: breathe 2s infinite ease-in-out;
         }
-        @keyframes breathe { 0%, 100% { transform: scale(1); border-color: rgba(255,255,255,0.2); } 50% { transform: scale(1.05); border-color: rgba(255,255,255,0.8); } }
+        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 1; } }
 
-        /* --- LOGIN SCREEN --- */
+        /* LOGIN SCREEN */
         #login-screen {
             position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(45deg, #ff00cc, #3333ff, #ff0066, #ff8c00);
@@ -71,14 +70,14 @@
 </head>
 <body>
 
-    <div id="force-start">
-        <div class="start-btn" onclick="startEverything()">OPEN</div>
+    <div id="force-start" onclick="playShania()">
+        <div class="start-btn">OPEN</div>
     </div>
 
-    <audio id="audioWelcome" loop preload="auto">
+    <audio id="audioW" loop>
         <source src="Shania Twain.mp3" type="audio/mpeg">
     </audio>
-    <audio id="audioPerfect" loop preload="auto">
+    <audio id="audioP" loop>
         <source src="Ed Sheeran - Perfect.mp3" type="audio/mpeg">
     </audio>
 
@@ -112,30 +111,26 @@
             </div>
             <div class="text-left space-y-24">
                 <p class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p">
-                    Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku.
+                    Terima kasih banyak ya...
                 </p>
                 </div>
         </main>
     </div>
 
     <script>
-        const audioW = document.getElementById('audioWelcome');
-        const audioP = document.getElementById('audioPerfect');
-        let audioActive = false;
+        const sTwain = document.getElementById('audioW');
+        const sPerfect = document.getElementById('audioP');
 
-        // FUNGSI INI WAJIB JALAN SAAT KLIK 'OPEN'
-        function startEverything() {
-            // PAKSA PLAY
-            audioW.play().then(() => {
-                audioActive = true;
-                console.log("Shania Twain started.");
+        // Fungsi yang dipicu saat tombol OPEN diklik
+        function playShania() {
+            // PAKSA PLAY DENGAN VOLUME PENUH
+            sTwain.volume = 1.0;
+            sTwain.play().then(() => {
+                console.log("Berhasil putar Shania");
             }).catch(e => {
-                // Jika masih gagal, pancing dengan volume
-                audioW.volume = 1.0;
-                audioW.play();
+                alert("Klik lagi sekali untuk aktifkan suara");
             });
 
-            // Hilangkan Overlay
             document.getElementById('force-start').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('force-start').style.display = 'none';
@@ -146,12 +141,8 @@
             const pass = document.getElementById('password').value;
             if (pass.toUpperCase() === "FLAFOUR") {
                 document.body.classList.add('unlocked');
-                
-                // Ganti Musik: Matikan Shania, Hidupkan Perfect
-                audioW.pause();
-                audioW.currentTime = 0;
-                audioP.play();
-
+                sTwain.pause();
+                sPerfect.play();
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
                     startNaskahReveal();
@@ -171,18 +162,15 @@
 
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
         
-        // EFEK GERIMIS (Hanya muncul setelah login)
         setInterval(() => {
             if(!document.body.classList.contains('unlocked')) return;
             const drop = document.createElement('div');
             drop.className = 'rain';
             drop.style.left = Math.random() * 100 + 'vw';
-            drop.style.animationDuration = (Math.random() * 0.4 + 0.3) + 's';
             document.getElementById('rain-layer').appendChild(drop);
             setTimeout(() => drop.remove(), 800);
         }, 50);
 
-        // PROTEKSI BLUR
         window.addEventListener('blur', () => document.body.classList.add('protected'));
         window.addEventListener('focus', () => document.body.classList.remove('protected'));
     </script>
