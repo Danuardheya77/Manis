@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>A Private Letter — Elfrida</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&family=Itim&family=Cormorant+Garamond:italic,wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Itim&family=Cormorant+Garamond:italic,wght@600&family=Indie+Flower&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --ghibli-green: #84a59d; --ghibli-sand: #f5ebe0; --ghibli-brown: #6d4c41; }
-        
+        :root { 
+            --ghibli-green: #84a59d; 
+            --ghibli-brown: #5d4037; 
+            --ghibli-cream: #fdf5e6;
+        }
+
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
         
         body { 
-            background: var(--ghibli-sand); 
+            background: var(--ghibli-cream); 
             color: var(--ghibli-brown); 
             font-family: 'Gaegu', cursive; 
             margin: 0; 
@@ -20,111 +25,127 @@
             transition: filter 0.4s ease;
         }
 
-        /* PERLINDUNGAN PRIVASI (Hanya Hitam, Tanpa Blur agar Totoro tetap cantik) */
+        /* SILENT PROTECTION (Layar Hitam Tanpa Blur agar Totoro tetap tajam) */
         body.protected { filter: brightness(0); pointer-events: none; }
 
-        /* --- STUDIO GHIBLI BACKGROUND --- */
+        /* --- STUDIO GHIBLI BG (MAIN) --- */
         .ghibli-bg {
             position: fixed; inset: 0; z-index: -5;
             background-image: url('https://w0.peakpx.com/wallpaper/434/938/HD-wallpaper-studio-ghibli-background-drawing-art-scenery.jpg');
             background-size: cover;
             background-position: center;
-            opacity: 0.6;
+            opacity: 0.9; /* Tanpa blur agar karakter terlihat */
         }
 
-        /* --- LOGIN SCREEN (TOTORO THEME) --- */
+        /* --- LOGIN SCREEN (ANIMATED TOTORO) --- */
         #login-screen {
             position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
             background: #a8dadc;
             background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-            transition: 1.5s ease-in-out;
+            transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1);
         }
 
-        .totoro-float {
-            position: absolute; width: 120px; animation: float 6s ease-in-out infinite; opacity: 0.8;
+        /* Karakter Totoro Bergerak di Depan */
+        .totoro-anim {
+            position: absolute; width: 100px; animation: bounceGhibli 4s ease-in-out infinite; opacity: 0.9;
         }
-
-        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-20px) rotate(5deg); } }
+        @keyframes bounceGhibli { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
 
         .login-box {
             position: relative; width: 340px; padding: 40px; 
-            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(5px);
-            border: 3px solid var(--ghibli-brown); border-radius: 40px 10px 40px 10px;
-            text-align: center; box-shadow: 15px 15px 0px var(--ghibli-green);
+            background: rgba(255, 255, 255, 0.9); border: 4px solid var(--ghibli-brown); 
+            border-radius: 50px 15px 50px 15px; text-align: center; z-index: 10;
+            box-shadow: 10px 10px 0px var(--ghibli-green);
         }
 
-        .login-box h1 { font-family: 'Gaegu', cursive; font-size: 2.5rem; color: var(--ghibli-brown); margin-bottom: 5px; }
+        .login-box h1 { font-size: 2.2rem; margin-bottom: 20px; color: var(--ghibli-brown); line-height: 1; }
 
+        .input-group { position: relative; margin-bottom: 20px; }
+        .input-group span { position: absolute; left: 15px; top: 12px; font-size: 18px; }
+        
         input {
-            width: 100%; background: #fff; border: 2px solid var(--ghibli-green);
-            padding: 10px; color: var(--ghibli-brown); font-size: 16px; margin-bottom: 15px; 
-            border-radius: 15px; outline: none; text-align: center;
+            width: 100%; background: #fff; border: 2px solid var(--ghibli-brown);
+            padding: 12px 12px 12px 45px; color: var(--ghibli-brown); font-size: 16px; 
+            border-radius: 20px; outline: none; font-family: 'Itim', cursive;
         }
 
         .login-btn {
-            width: 60px; height: 60px; margin: 10px auto 0; background: var(--ghibli-green);
+            width: 65px; height: 65px; margin: 10px auto 0; background: var(--ghibli-green);
             border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; border: 2px solid var(--ghibli-brown); transition: 0.3s;
+            cursor: pointer; border: 3px solid var(--ghibli-brown); transition: 0.3s;
         }
         .login-btn:hover { transform: scale(1.1) rotate(10deg); }
 
-        /* --- WEATHER WIDGET (STORYBOOK STYLE) --- */
-        .weather-card {
-            background: rgba(255, 255, 255, 0.7); border: 2px dashed var(--ghibli-brown);
-            border-radius: 20px; padding: 15px; margin: 20px 0;
+        /* --- WEATHER WIDGET (STORYBOOK) --- */
+        .weather-container {
+            background: rgba(255, 255, 255, 0.85); border: 2px dashed var(--ghibli-brown);
+            border-radius: 25px; padding: 20px; margin-bottom: 30px; text-align: left;
         }
+        .weather-scroll { display: flex; overflow-x: auto; gap: 15px; padding-top: 10px; scrollbar-width: none; }
 
-        /* --- MAIN CONTENT --- */
-        #main-content { opacity: 0; pointer-events: none; transition: 2s ease; height: 100vh; overflow-y: auto; }
+        /* --- MAIN CONTENT & REVEAL SYSTEM --- */
+        #main-content { opacity: 0; pointer-events: none; transition: 2s ease; height: 100vh; overflow-y: auto; scroll-behavior: smooth; }
         body.unlocked #main-content { opacity: 1; pointer-events: auto; }
 
-        /* --- STORYTELLING ELEMENTS --- */
         .reveal-p { 
-            opacity: 0; transform: translateY(20px); transition: 1.5s ease; 
-            margin-bottom: 6rem; position: relative; padding: 20px;
-            background: rgba(255,255,255,0.4); border-radius: 15px;
+            opacity: 0; transform: translateY(30px); transition: 1.5s ease; 
+            margin-bottom: 5rem; position: relative; padding: 25px;
+            background: rgba(255, 255, 255, 0.7); border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.05); font-size: 1.3rem; line-height: 1.6;
         }
         .reveal-p.active { opacity: 1; transform: translateY(0); }
 
         .pull-rope {
-            position: absolute; right: -15px; top: 50%; width: 30px; height: 30px;
-            background: url('https://cdn-icons-png.flaticon.com/512/1041/1041916.png'); /* Acorn icon */
-            background-size: contain; cursor: pointer; animation: swing 2s infinite;
+            position: absolute; right: -20px; top: 50%; width: 40px; height: 40px;
+            background: url('https://cdn-icons-png.flaticon.com/512/1041/1041916.png'); /* Acorn Icon */
+            background-size: contain; cursor: pointer; animation: swing 3s infinite;
         }
-        @keyframes swing { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
+        @keyframes swing { 0%, 100% { transform: rotate(-15deg); } 50% { transform: rotate(15deg); } }
 
-        /* --- PHOTO AREA (GHIBLI STYLE) --- */
-        #photo-container { 
-            border: 8px solid white; border-bottom: 40px solid white; 
-            transform: rotate(-2deg); box-shadow: 10px 10px 20px rgba(0,0,0,0.1);
-            filter: brightness(0.1) sepia(1); transition: 2s;
+        /* --- PHOTO AREA (POLAROID GHIBLI) --- */
+        #photo-frame {
+            position: relative; background: white; padding: 15px 15px 50px 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); transform: rotate(-2deg);
+            filter: brightness(0.1) grayscale(1); transition: 2.5s;
         }
-        #photo-container.lit { filter: brightness(1) sepia(0); }
+        #photo-frame.lit { filter: brightness(1.1) grayscale(0.2); }
+        
+        .lamp-switch {
+            position: absolute; right: -50px; top: 40%; cursor: pointer;
+            animation: bounceX 2s infinite; text-align: center;
+        }
+        @keyframes bounceX { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(10px); } }
 
-        .firefly { 
-            position: absolute; width: 5px; height: 5px; background: #fff176; 
-            border-radius: 50%; filter: blur(1px); box-shadow: 0 0 10px #ffff00;
+        .firefly {
+            position: absolute; width: 4px; height: 4px; background: #fff59d;
+            border-radius: 50%; box-shadow: 0 0 10px #fff59d; pointer-events: none;
         }
 
-        /* ORIGINAL ICON SYSTEM */
-        .rain { position: fixed; background: rgba(100,150,255,0.4); width: 2px; height: 20px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
-        .flower { position: fixed; pointer-events: none; z-index: 1001; animation: bloomFade 3s forwards; }
+        /* EFFECTS */
+        .rain { position: fixed; background: rgba(135, 206, 235, 0.5); width: 2px; height: 15px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
+        .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 1001; animation: bloomFade 3s forwards; }
         @keyframes bloomFade { 0% { transform: scale(0) rotate(0); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-100px) rotate(360deg); opacity: 0; } }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false">
 
     <div id="login-screen">
-        <img src="https://assets.stickpng.com/images/584c30651fc21103bb375ea1.png" class="totoro-float" style="top:10%; left:10%;">
-        <img src="https://assets.stickpng.com/images/584c305a1fc21103bb375ea0.png" class="totoro-float" style="bottom:10%; right:10%; animation-delay: 2s;">
+        <img src="https://assets.stickpng.com/images/584c30651fc21103bb375ea1.png" class="totoro-anim" style="top:15%; left:10%;">
+        <img src="https://assets.stickpng.com/images/584c305a1fc21103bb375ea0.png" class="totoro-anim" style="bottom:15%; right:10%; animation-delay: 1.5s;">
         
         <div class="login-box">
-            <h1>Welcome, Virya Rahmawati</h1>
-            <p style="font-size: 14px; margin-bottom: 20px;">Silakan masuk ke dunia kita...</p>
-            <input type="text" id="username" placeholder="Nama Kecilmu?">
-            <input type="password" id="password" placeholder="Sandi Rahasia">
+            <h1 class="f-tenor text-amber-900">Welcome,<br>Virya Rahmawati</h1>
+            <div class="input-group">
+                <span>🍃</span>
+                <input type="text" id="username" placeholder="IDENTITAS" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <span>🔑</span>
+                <input type="password" id="password" placeholder="KATA SANDI" autocomplete="off">
+            </div>
             <div class="login-btn" onclick="validateLogin()">
-                <img src="https://cdn-icons-png.flaticon.com/512/826/826908.png" width="35"> </div>
+                <img src="https://cdn-icons-png.flaticon.com/512/826/826908.png" width="40">
+            </div>
         </div>
     </div>
 
@@ -132,78 +153,78 @@
         <div class="ghibli-bg"></div>
         <div id="rain-layer"></div>
 
-        <div class="fixed top-5 left-5 z-[100] bg-white/70 px-4 py-2 rounded-full border-2 border-amber-900 shadow-sm">
-            <span id="clock" class="text-lg font-bold">00:00:00</span>
+        <div class="fixed top-6 left-6 z-[100] bg-white/80 border-2 border-amber-900 px-4 py-1 rounded-full shadow-md">
+            <span class="text-sm font-bold text-amber-900 uppercase" id="clock">00:00:00</span>
         </div>
 
-        <div class="fixed top-5 right-5 z-[100] flex flex-col items-center">
-            <button class="w-12 h-12 bg-amber-100 rounded-full border-2 border-amber-900 shadow-md flex items-center justify-center" onclick="triggerLove(event)">
-                ❤️
+        <div class="fixed top-6 right-6 z-[100] flex flex-col items-center gap-1">
+            <button class="w-12 h-12 rounded-full bg-white border-2 border-red-400 shadow-md flex items-center justify-center text-xl" onclick="triggerLove(event)">
+                🍂
             </button>
-            <div id="love-msg" class="text-xs font-bold mt-1 text-red-600 opacity-0 transition-opacity">Love You!</div>
+            <div id="love-msg" class="opacity-0 transition-all text-[10px] font-bold text-red-600 bg-white/80 px-2 rounded">Love You!</div>
         </div>
 
-        <main class="max-w-[500px] mx-auto px-8 py-20 text-center">
-            <header class="mb-10">
-                <img src="https://www.pngplay.com/wp-content/uploads/12/My-Neighbor-Totoro-PNG-Clipart-Background.png" class="w-40 mx-auto mb-4">
-                <p class="text-sm tracking-widest uppercase opacity-70">Sebuah Cerita Untukmu</p>
-                <h1 class="f-serif text-4xl italic text-amber-900">Surat Kecil dari Hati</h1>
-                
-                <div class="weather-card">
-                    <div class="flex justify-between items-center px-4">
-                        <div class="text-left">
-                            <p id="loc-text" class="text-xs uppercase">Hutan Totoro</p>
-                            <p id="weather-desc" class="text-lg font-bold">Cerah Berawan</p>
+        <main class="max-w-[500px] mx-auto px-8 py-20 text-center relative z-10">
+            <header class="mb-16">
+                <img src="https://www.pngplay.com/wp-content/uploads/12/My-Neighbor-Totoro-PNG-Clipart-Background.png" class="w-48 mx-auto mb-6">
+                <p class="text-[10px] tracking-[6px] text-amber-800 uppercase font-bold">Story Entry — 2026</p>
+                <h1 class="f-serif text-5xl text-amber-900 italic mt-3">Untuk Elfrida</h1>
+
+                <div class="weather-container mt-8 shadow-sm">
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <p id="loc-text" class="text-xs font-bold uppercase text-amber-800">Hutan Ghibli</p>
+                            <p id="weather-desc" class="text-sm text-gray-600">Udara Sejuk</p>
                         </div>
-                        <div class="text-4xl" id="main-temp">--°</div>
+                        <div class="text-4xl font-light text-amber-900" id="main-temp">--°</div>
                     </div>
-                    <div class="flex overflow-x-auto gap-4 p-2 mt-2 scrollbar-hide" id="hourly-list"></div>
+                    <div class="weather-scroll scrollbar-hide" id="hourly-list"></div>
                 </div>
             </header>
 
-            <div class="relative mb-20">
-                <div id="switch" class="absolute -right-5 top-1/2 z-20 cursor-pointer text-center" onclick="ignitePhoto()">
-                    <div class="bg-yellow-400 p-2 rounded-full shadow-lg border-2 border-white">🕯️</div>
-                    <p class="text-[10px] font-bold mt-1">NYALAKAN</p>
+            <div class="relative mb-32">
+                <div id="switch" class="lamp-switch" onclick="ignitePhoto()">
+                    <div class="bg-yellow-400 p-3 rounded-full border-2 border-white shadow-lg text-2xl">💡</div>
+                    <p class="text-[10px] font-bold text-amber-900 mt-1">NYALAKAN</p>
                 </div>
-                <div id="photo-container" class="relative overflow-hidden bg-gray-800">
-                    <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-80">
-                    <div id="fireflies-box" class="absolute inset-0 pointer-events-none"></div>
+                <div id="photo-frame" class="mx-auto max-w-[320px]">
+                    <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full">
+                    <div id="firefly-container" class="absolute inset-0 pointer-events-none"></div>
                 </div>
             </div>
 
-            <div class="text-left space-y-16">
-                <p class="text-xl leading-relaxed reveal-p active">
-                    "Dahulu kala, di sebuah sudut hati yang paling dalam..." <br><br>
+            <div class="text-left space-y-20">
+                <p class="reveal-p active">
+                    "Dahulu kala, ada sebuah pesan yang ingin kusampaikan..."<br><br>
                     Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
                     <span class="pull-rope" onclick="revealNext(this)"></span>
                 </p>
 
-                <p class="text-xl leading-relaxed reveal-p">
+                <p class="reveal-p">
                     Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.
                     <span class="pull-rope" onclick="revealNext(this)"></span>
                 </p>
 
-                <p class="text-2xl font-bold text-center py-10 border-y-2 border-dashed border-amber-900 reveal-p">
+                <p class="f-serif text-3xl text-amber-900 py-12 border-y-2 border-dashed border-amber-900/30 text-center italic leading-snug reveal-p">
                     "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
                     <span class="pull-rope" onclick="revealNext(this)"></span>
                 </p>
 
-                <p class="text-xl leading-relaxed reveal-p">
+                <p class="reveal-p">
                     Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.
                     <span class="pull-rope" onclick="revealNext(this)"></span>
                 </p>
 
-                <p class="text-xl leading-relaxed reveal-p">
+                <p class="reveal-p">
                     Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang.
                 </p>
             </div>
 
-            <footer class="mt-32 pb-20">
-                <div id="footer-weather" class="text-lg mb-1">--°C | Sejuk</div>
-                <div id="current-date" class="text-sm font-bold opacity-60 mb-4"></div>
-                <p class="text-3xl text-amber-900">Himam Aby Maulana</p>
-                <p class="text-[10px] mt-2 opacity-50">© 2026 Studio Virya Archive</p>
+            <footer class="mt-40 pb-20">
+                <div class="text-amber-900 font-bold text-xl mb-1" id="temp-footer">--°C</div>
+                <div id="current-date" class="text-[10px] tracking-[4px] text-amber-800 uppercase mb-8"></div>
+                <p class="f-tenor text-3xl tracking-[8px] text-amber-900 uppercase">Himam Aby Maulana</p>
+                <p class="text-[8px] tracking-[4px] mt-4 opacity-40 uppercase">© Forever Virya Studio Ghibli</p>
             </footer>
         </main>
     </div>
@@ -211,24 +232,25 @@
     <audio id="player" src="Ed Sheeran - Perfect.mp3" loop></audio>
 
     <script>
-        // PRIVACY
+        // PROTECTION
         window.addEventListener('blur', () => document.body.classList.add('protected'));
         window.addEventListener('focus', () => document.body.classList.remove('protected'));
 
         async function validateLogin() {
-            if (document.getElementById('password').value.toUpperCase() === "FLAFOUR") {
+            const pass = document.getElementById('password').value;
+            if (pass.toUpperCase() === "FLAFOUR") {
                 document.body.classList.add('unlocked');
                 setTimeout(() => {
                     document.getElementById('login-screen').style.transform = 'translateY(-100%)';
                     document.getElementById('player').play();
                     getWeather();
-                    startGhibliEffects();
+                    startGhibliWorld();
                 }, 1000);
             }
         }
 
-        function startGhibliEffects() {
-            // Rain (Soot Sprites or Rain)
+        // RAIN & BUTTERFLIES
+        function startGhibliWorld() {
             setInterval(() => {
                 const drop = document.createElement('div');
                 drop.className = 'rain';
@@ -236,9 +258,10 @@
                 drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
                 document.getElementById('rain-layer').appendChild(drop);
                 setTimeout(() => drop.remove(), 1000);
-            }, 100);
+            }, 800); // Hujan lebih lembut khas Ghibli
         }
 
+        // STORY REVEAL SYSTEM
         function revealNext(rope) {
             const current = rope.parentElement;
             const next = current.nextElementSibling;
@@ -249,57 +272,59 @@
             }
         }
 
+        // PHOTO IGNITION & FIREFLIES
         function ignitePhoto() {
             document.getElementById('switch').style.display = 'none';
-            document.getElementById('photo-container').classList.add('lit');
-            // Create Fireflies
-            for(let i=0; i<20; i++) {
+            document.getElementById('photo-frame').classList.add('lit');
+            // Munculkan Kunang-kunang
+            for(let i=0; i<15; i++) {
                 const f = document.createElement('div');
                 f.className = 'firefly';
                 f.style.left = Math.random() * 100 + '%';
                 f.style.top = Math.random() * 100 + '%';
-                f.style.animation = `float ${Math.random()*3+2}s infinite ease-in-out`;
-                document.getElementById('fireflies-box').appendChild(f);
+                f.style.animation = `bounceGhibli ${Math.random()*3+2}s infinite ease-in-out`;
+                document.getElementById('firefly-container').appendChild(f);
             }
         }
 
+        // WEATHER API
         async function getWeather() {
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&hourly=temperature_2m&current_weather=true&timezone=auto`);
                 const data = await res.json();
                 const temp = Math.round(data.current_weather.temperature);
                 document.getElementById('main-temp').innerText = temp + '°';
-                document.getElementById('footer-weather').innerText = temp + '°C | Udara Segar';
+                document.getElementById('temp-footer').innerText = temp + '°C';
                 document.getElementById('loc-text').innerText = "Lokasi Virya";
                 
                 let html = '';
                 for(let i=0; i<12; i++) {
-                    html += `<div class="text-center min-w-[50px]"><div class="text-[10px] opacity-60">${i*2}.00</div><div class="text-xs font-bold">${Math.round(data.hourly.temperature_2m[i*2])}°</div></div>`;
+                    html += `<div class="text-center min-w-[50px]"><div class="text-[10px] opacity-60">${i*2}.00</div><div class="text-xs font-bold text-amber-900">${Math.round(data.hourly.temperature_2m[i*2])}°</div></div>`;
                 }
                 document.getElementById('hourly-list').innerHTML = html;
             });
         }
 
+        // CLOCK & LOVE
         setInterval(() => {
             document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB');
             document.getElementById('current-date').innerText = new Date().toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
         }, 1000);
 
         function triggerLove(e) {
-            const flowers = ['🌸', '🌼', '🍃', '🍂'];
+            const items = ['🍃', '🌸', '🍂', '✨'];
             for(let i=0; i<8; i++) {
                 const f = document.createElement('div');
                 f.className = 'flower';
-                f.innerText = flowers[Math.floor(Math.random()*flowers.length)];
+                f.innerText = items[Math.floor(Math.random()*items.length)];
                 f.style.left = e.clientX + 'px';
                 f.style.top = e.clientY + 'px';
-                f.style.fontSize = Math.random() * 20 + 10 + 'px';
                 document.body.appendChild(f);
-                setTimeout(() => f.remove(), 3000);
+                setTimeout(() => f.remove(), 2500);
             }
             const msg = document.getElementById('love-msg');
-            msg.style.opacity = '1';
-            setTimeout(() => msg.style.opacity = '0', 2000);
+            msg.style.opacity = "1";
+            setTimeout(() => msg.style.opacity = "0", 3000);
         }
     </script>
 </body>
