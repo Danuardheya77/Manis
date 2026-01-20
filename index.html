@@ -18,71 +18,61 @@
             cursor: crosshair;
         }
 
-        /* Background Dramatis */
+        /* Background & Layers */
         .bg-gradient {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5;
             background: radial-gradient(circle at 50% 10%, #1a1b3a 0%, #050505 100%);
         }
-
         .stars-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -4;
             background-image: radial-gradient(white, rgba(255,255,255,.1) 1px, transparent 20px);
             background-size: 80px 80px; opacity: 0.15;
         }
-
         .moon {
             position: fixed; top: 15%; right: 10%; width: 100px; height: 100px;
             background: #fff; border-radius: 50%; z-index: -3;
             box-shadow: 0 0 60px 10px rgba(255, 255, 255, 0.1); opacity: 0.8;
         }
 
-        /* Efek Gerimis */
-        .rain {
-            position: fixed; background: rgba(255,255,255,0.4); width: 1px; height: 50px;
-            z-index: -2; pointer-events: none; animation: fall linear infinite;
-        }
+        /* Rain & Butterflies */
+        .rain { position: fixed; background: rgba(255,255,255,0.4); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
+        .butterfly { position: fixed; width: 4px; height: 4px; background: var(--accent); z-index: -1; border-radius: 50%; opacity: 0; box-shadow: 0 0 12px 2px var(--accent); animation: fly linear forwards; }
+        @keyframes fly { 0% { transform: translate(0,0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translate(var(--x), var(--y)); opacity: 0; } }
 
-        /* Kupu-kupu Emas */
-        .butterfly {
-            position: fixed; width: 4px; height: 4px; background: var(--accent);
-            z-index: -1; border-radius: 50%; opacity: 0;
-            box-shadow: 0 0 12px 2px var(--accent);
-            animation: fly linear forwards;
+        /* Ripple Effect */
+        .ripple { position: absolute; border: 0.5px solid rgba(255,255,255,0.5); border-radius: 50%; pointer-events: none; z-index: 9999; animation: ripple-out 0.8s cubic-bezier(0, 0.2, 0.8, 1) forwards; }
+        @keyframes ripple-out { from { width: 0; height: 0; opacity: 0.8; transform: translate(-50%, -50%); } to { width: 150px; height: 150px; opacity: 0; transform: translate(-50%, -50%); } }
+
+        /* GLOW RUNNING EFFECT */
+        .love-btn {
+            position: relative; width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(0,0,0,0.6); display: flex; items-center: center; justify-content: center;
+            border: 1px solid rgba(255,255,255,0.1); overflow: hidden;
         }
-        @keyframes fly {
-            0% { transform: translate(0,0); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translate(var(--x), var(--y)); opacity: 0; }
+        .love-btn::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, #fff);
+            animation: rotateGlow 3s linear infinite; z-index: -1;
+        }
+        @keyframes rotateGlow { to { transform: rotate(360deg); } }
+
+        /* FLOWER EFFECT */
+        .flower {
+            position: fixed; font-size: 24px; pointer-events: none; z-index: 1001;
+            animation: bloomFade 2s ease-out forwards;
+        }
+        @keyframes bloomFade {
+            0% { transform: scale(0) rotate(0); opacity: 0; }
+            50% { opacity: 1; transform: scale(1.2) rotate(20deg); }
+            100% { transform: scale(1) translateY(-50px) rotate(45deg); opacity: 0; }
         }
 
-        /* Efek Tetesan Air (Ripple) - DIPERBAIKI */
-        .ripple {
-            position: absolute; border: 0.5px solid rgba(255,255,255,0.5);
-            border-radius: 50%; pointer-events: none; z-index: 9999;
-            animation: ripple-out 0.8s cubic-bezier(0, 0.2, 0.8, 1) forwards;
-        }
-        @keyframes ripple-out {
-            from { width: 0; height: 0; opacity: 0.8; transform: translate(-50%, -50%); }
-            to { width: 150px; height: 150px; opacity: 0; transform: translate(-50%, -50%); }
-        }
-
-        /* Font Styles */
+        /* Typography */
         .f-serif { font-family: 'Cormorant Garamond', serif; }
-        .f-tenor { font-family: 'Tenor Sans', sans-serif; } /* Font untuk nama Himam */
-        
+        .f-tenor { font-family: 'Tenor Sans', sans-serif; }
         .main-wrapper { max-width: 550px; margin: 0 auto; padding: 120px 24px; z-index: 10; position: relative; }
-        
-        .image-container {
-            border: 1px solid rgba(255,255,255,0.08); padding: 10px;
-            background: rgba(255,255,255,0.02);
-            backdrop-filter: blur(5px);
-        }
-
-        .btn-ui {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px); transition: 0.4s;
-        }
+        .btn-ui { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
     </style>
 </head>
 <body onclick="handleInteraction(event)">
@@ -97,11 +87,14 @@
         <span class="text-[9px] font-light tracking-[4px] text-gray-400 uppercase" id="clock">00:00:00</span>
     </div>
     
-    <div class="fixed top-8 right-8 z-[100] flex flex-col items-end gap-3">
-        <button class="w-11 h-11 rounded-full border border-green-500/30 flex items-center justify-center bg-black/50" onclick="sayHello(event)">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--green)"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <div class="fixed top-8 right-8 z-[100] flex flex-col items-center gap-2">
+        <button class="love-btn" onclick="triggerLove(event)">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--green)" class="relative z-10">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
         </button>
-        <div id="love-msg" class="opacity-0 transition-all duration-700 text-[10px] bg-black/60 px-4 py-2 rounded-lg border border-white/5 text-green-400 tracking-wide"></div>
+        <span class="text-[8px] tracking-[2px] text-white/50 uppercase animate-pulse">Click Me</span>
+        <div id="love-msg" class="opacity-0 transition-all duration-700 text-[10px] bg-black/80 px-4 py-2 rounded-lg border border-white/10 text-green-400 tracking-wide mt-2 shadow-xl"></div>
     </div>
 
     <main class="main-wrapper text-center">
@@ -110,29 +103,20 @@
             <h1 class="f-serif text-5xl text-white italic">For Elfrida</h1>
         </header>
 
-        <div class="image-container mb-24">
+        <div class="image-container mb-24 rounded-sm overflow-hidden">
             <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-70 grayscale hover:grayscale-0 transition-all duration-[3s]" alt="Elfrida">
         </div>
 
         <div class="text-left space-y-10">
-            <p class="f-serif text-2xl italic text-white/90 leading-snug">
-                Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku...
-            </p>
-
+            <p class="f-serif text-2xl italic text-white/90 leading-snug">Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku...</p>
             <div class="font-light text-[14px] text-gray-400 space-y-8 leading-relaxed">
                 <p>Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.</p>
-                
-                <p class="f-serif text-3xl text-white py-10 border-y border-white/10 text-center italic leading-tight">
-                    "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
-                </p>
-
-                <p>Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.</p>
-                
-                <p>Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang.</p>
+                <p class="f-serif text-3xl text-white py-10 border-y border-white/10 text-center italic leading-tight">"Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."</p>
+                <p>Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai.</p>
             </div>
         </div>
 
-        <button onclick="togglePlay()" class="mt-24 w-full py-5 btn-ui text-[10px] tracking-[6px] uppercase text-gray-400 hover:text-white group">
+        <button onclick="togglePlay()" class="mt-24 w-full py-5 btn-ui text-[10px] tracking-[6px] uppercase text-gray-400 hover:text-white transition-all">
             <span id="audio-stat">Enable Ambiance</span>
         </button>
 
@@ -145,10 +129,8 @@
     <audio id="player" src="Ed Sheeran - Perfect.mp3" loop></audio>
 
     <script>
-        // Jam Digital
-        setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB');
-        }, 1000);
+        // Jam
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
 
         // Hujan
         setInterval(() => {
@@ -173,41 +155,47 @@
             setTimeout(() => b.remove(), 10000);
         }, 1500);
 
-        // Efek Tetesan Air & Audio
+        // Ripple Effect
         function handleInteraction(e) {
             if(e.target.closest('button')) return;
-
-            // Ripple (Tetesan)
             const rip = document.createElement('div');
             rip.className = 'ripple';
             rip.style.left = e.pageX + 'px';
             rip.style.top = e.pageY + 'px';
             document.body.appendChild(rip);
             setTimeout(() => rip.remove(), 800);
-
-            // Musik
             if (audio.paused && !audio.played.length) togglePlay();
         }
 
-        const audio = document.getElementById('player');
-        function togglePlay() {
-            if (audio.paused) {
-                audio.play();
-                document.getElementById('audio-stat').innerText = "Ambiance Active";
-            } else {
-                audio.pause();
-                document.getElementById('audio-stat').innerText = "Ambiance Paused";
-            }
-        }
-
-        function sayHello(e) {
+        // FUNGSI KLIK LOVE & BUNGA
+        function triggerLove(e) {
             e.stopPropagation();
+            const flowers = ['🌸', '✨', '🌷', '🤍', '🌺'];
+            for(let i=0; i<12; i++) {
+                setTimeout(() => {
+                    const f = document.createElement('div');
+                    f.className = 'flower';
+                    f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+                    f.style.left = (e.clientX + (Math.random() * 100 - 50)) + 'px';
+                    f.style.top = (e.clientY + (Math.random() * 100 - 50)) + 'px';
+                    document.body.appendChild(f);
+                    setTimeout(() => f.remove(), 2000);
+                }, i * 100);
+            }
+            
             const h = new Date().getHours();
             const msg = document.getElementById('love-msg');
             let g = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
             msg.innerText = "Selamat " + g + " Virya, jangan lupa sholat ❤️";
             msg.style.opacity = "1";
-            setTimeout(() => { msg.style.opacity = "0"; }, 4000);
+            setTimeout(() => { msg.style.opacity = "0"; }, 5000);
+            if (audio.paused) togglePlay();
+        }
+
+        const audio = document.getElementById('player');
+        function togglePlay() {
+            if (audio.paused) { audio.play(); document.getElementById('audio-stat').innerText = "Ambiance Active"; }
+            else { audio.pause(); document.getElementById('audio-stat').innerText = "Ambiance Paused"; }
         }
     </script>
 </body>
