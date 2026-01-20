@@ -3,133 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Celestial Archive - Elfrida</title>
+    <title>Private Journal — Elfrida</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;500&family=Inter:wght@100;300;400&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Pinyon+Script&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --glow: rgba(212, 175, 55, 0.4); }
+        :root { --accent: #c4a47c; --green: #52b788; }
         
         body { 
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #d1d5db; font-family: 'Inter', sans-serif; 
-            margin: 0; overflow-x: hidden; cursor: crosshair;
+            background: #000;
+            color: #fafafa; 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            overflow-x: hidden;
+            cursor: crosshair;
         }
 
-        /* Elements */
-        .moon {
-            position: fixed; top: 60px; right: 40px; width: 70px; height: 70px;
-            background: #fff5e6; border-radius: 50%; z-index: -2;
-            box-shadow: 0 0 40px 5px rgba(255, 245, 230, 0.3);
+        /* Cinematic Background Layers */
+        .bg-gradient {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5;
+            background: radial-gradient(circle at 50% 10%, #1a1b3a 0%, #050505 100%);
         }
 
-        /* Butterflies - Fixed with Glowing Shape */
-        .butterfly {
-            position: fixed; width: 12px; height: 12px; background: var(--gold);
-            z-index: -1; border-radius: 50% 0 50% 0; opacity: 0;
-            filter: blur(1px); box-shadow: 0 0 10px var(--gold);
-            animation: fly linear forwards;
+        .stars-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -4;
+            background-image: radial-gradient(white, rgba(255,255,255,.1) 1px, transparent 20px);
+            background-size: 80px 80px; opacity: 0.15;
         }
-        @keyframes fly {
-            0% { transform: translate(0,0) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.8; }
-            100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
+
+        .moon-cinematic {
+            position: fixed; top: 15%; right: 10%; width: 120px; height: 120px;
+            background: #fff; border-radius: 50%; z-index: -3;
+            filter: blur(1px); box-shadow: 0 0 60px 10px rgba(255, 255, 255, 0.15);
+            opacity: 0.8;
         }
 
         /* Rain Streaks */
         .rain {
-            position: fixed; background: white; width: 1px; height: 60px;
-            z-index: -1; opacity: 0.2; pointer-events: none;
-            animation: fall linear infinite;
+            position: fixed; background: rgba(255,255,255,0.4); width: 1px; height: 50px;
+            z-index: -2; pointer-events: none; animation: fall linear infinite;
         }
         @keyframes fall { to { transform: translateY(110vh); } }
 
+        /* Butterfly - Emas & Elegan */
+        .butterfly {
+            position: fixed; width: 4px; height: 4px; background: var(--accent);
+            z-index: -1; border-radius: 50%; opacity: 0;
+            box-shadow: 0 0 12px 2px var(--accent);
+            animation: fly linear forwards;
+        }
+        @keyframes fly {
+            0% { transform: translate(0,0); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)); opacity: 0; }
+        }
+
         /* Ripple Effect (Tetesan Air) */
         .ripple {
-            position: absolute; border: 1px solid rgba(255,255,255,0.3);
+            position: absolute; border: 0.5px solid rgba(255,255,255,0.4);
             border-radius: 50%; pointer-events: none; z-index: 1000;
-            animation: ripple-out 1s ease-out forwards;
+            animation: ripple-out 0.8s cubic-bezier(0, 0.2, 0.8, 1) forwards;
         }
         @keyframes ripple-out {
-            from { width: 0; height: 0; opacity: 0.5; transform: translate(-50%, -50%); }
-            to { width: 80px; height: 80px; opacity: 0; transform: translate(-50%, -50%); }
+            from { width: 0; height: 0; opacity: 0.6; transform: translate(-50%, -50%); }
+            to { width: 120px; height: 120px; opacity: 0; transform: translate(-50%, -50%); }
         }
 
-        /* Typography Hierarchy */
+        /* Typography & Layout */
         .f-serif { font-family: 'Cormorant Garamond', serif; }
         .f-script { font-family: 'Pinyon Script', cursive; }
-        .text-detail { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); }
+        
+        .main-wrapper { max-width: 550px; margin: 0 auto; padding: 120px 24px; z-index: 10; position: relative; }
+        
+        .image-container {
+            border: 1px solid rgba(255,255,255,0.08); padding: 10px;
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(5px);
+        }
 
-        /* Navigation UI */
-        .nav-ui {
-            position: fixed; z-index: 100; background: rgba(0,0,0,0.2);
-            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05);
+        .btn-ui {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px); transition: 0.4s;
         }
 
         .love-btn {
-            width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(74, 222, 128, 0.3);
-            display: flex; align-items: center; justify-content: center; transition: 0.3s;
+            width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(82, 183, 136, 0.3);
+            display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.5);
         }
-
-        .image-frame {
-            border: 1px solid rgba(255,255,255,0.08); padding: 6px;
-            background: rgba(255,255,255,0.01); transition: 1s;
-        }
-
-        .content-card { max-width: 500px; margin: 0 auto; padding: 100px 25px; }
     </style>
 </head>
 <body onclick="handleInteraction(event)">
     
-    <div class="moon"></div>
+    <div class="bg-gradient"></div>
+    <div class="stars-overlay"></div>
+    <div class="moon-cinematic"></div>
     <div id="rain-layer"></div>
     <div id="butterfly-layer"></div>
 
-    <div class="nav-ui top-[25px] left-[25px] px-4 py-2 rounded-lg">
-        <span class="text-[10px] font-light tracking-[3px] text-gray-400" id="clock">00:00:00</span>
+    <div class="fixed top-8 left-8 z-[100] btn-ui px-4 py-2 rounded-full">
+        <span class="text-[9px] font-light tracking-[4px] text-gray-400 uppercase" id="clock">00:00:00</span>
     </div>
     
-    <div class="fixed top-[25px] right-[25px] z-[100] flex flex-col items-end gap-2">
-        <button class="love-btn" onclick="sayHello(event)">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="#4ade80"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <div class="fixed top-8 right-8 z-[100] flex flex-col items-end gap-3">
+        <button class="love-btn active:scale-90 transition-transform" onclick="sayHello(event)">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--green)"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
         </button>
-        <div id="love-msg" class="opacity-0 transition-opacity text-[9px] bg-black/40 px-3 py-1 rounded text-green-400 tracking-wider"></div>
+        <div id="love-msg" class="opacity-0 transition-all duration-700 translate-x-4 text-[10px] bg-black/60 px-4 py-2 rounded-lg border border-white/5 text-green-400 tracking-wide"></div>
     </div>
 
-    <main class="content-card text-center relative z-10">
-        <header class="mb-14">
-            <p class="text-detail opacity-60">Personal Collection 01</p>
-            <h1 class="f-script text-5xl text-white mt-1">For Elfrida</h1>
+    <main class="main-wrapper text-center">
+        <header class="mb-20 space-y-2">
+            <p class="text-[9px] tracking-[6px] text-[#c4a47c] uppercase opacity-70">Journal Entry — 2026</p>
+            <h1 class="f-script text-6xl text-white">For Elfrida</h1>
         </header>
 
-        <div class="image-frame mb-16">
-            <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-80 grayscale hover:grayscale-0 transition-all duration-[2s]" alt="Elfrida">
+        <div class="image-container mb-24">
+            <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-70 grayscale hover:grayscale-0 transition-all duration-[3s]" alt="Elfrida">
         </div>
 
-        <div class="text-left space-y-8">
-            <p class="f-serif text-xl italic text-gray-200 leading-relaxed">
+        <div class="text-left space-y-10">
+            <p class="f-serif text-2xl italic text-white/90 leading-snug">
                 Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
             </p>
 
-            <div class="font-light text-[13px] text-gray-400 space-y-6 leading-loose">
+            <div class="font-light text-[14px] text-gray-400 space-y-8 leading-relaxed">
                 <p>Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.</p>
                 
-                <p class="f-serif text-2xl text-white py-6 border-y border-white/5 text-center italic">
+                <p class="f-serif text-3xl text-white py-10 border-y border-white/10 text-center italic leading-tight">
                     "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
                 </p>
 
                 <p>Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.</p>
                 
-                <p>Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang, dan menjadi pundak yang selalu ada kapanpun kamu merasa lelah.</p>
+                <p>Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang.</p>
             </div>
         </div>
 
-        <button onclick="togglePlay()" class="mt-16 w-full py-4 border border-white/10 text-[9px] tracking-[5px] uppercase opacity-50 hover:opacity-100 transition">
-            <span id="audio-stat">Initiate Ambiance</span>
+        <button onclick="togglePlay()" class="mt-24 w-full py-5 btn-ui text-[10px] tracking-[6px] uppercase text-gray-400 hover:text-white group">
+            <span id="audio-stat">Enable Ambiance</span>
         </button>
 
-        <footer class="mt-24">
-            <p class="f-script text-4xl text-white/90">Himam Aby M</p>
-            <p class="text-detail mt-3 opacity-30">Forever Yours | 2026</p>
+        <footer class="mt-32">
+            <p class="f-script text-5xl text-white/80">Himam Aby M</p>
+            <p class="text-[8px] tracking-[4px] mt-4 opacity-30 uppercase">© Forever Virya Archive</p>
         </footer>
     </main>
 
@@ -141,39 +156,42 @@
             document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB');
         }, 1000);
 
-        // Rain
+        // Rain System
         setInterval(() => {
             const drop = document.createElement('div');
             drop.className = 'rain';
             drop.style.left = Math.random() * 100 + 'vw';
-            drop.style.animationDuration = (Math.random() * 0.4 + 0.4) + 's';
+            drop.style.animationDuration = (Math.random() * 0.4 + 0.3) + 's';
             document.getElementById('rain-layer').appendChild(drop);
-            setTimeout(() => drop.remove(), 1000);
-        }, 50);
+            setTimeout(() => drop.remove(), 800);
+        }, 40);
 
-        // Butterfly - Pure CSS Golden Glow
+        // Butterfly System
         setInterval(() => {
             const b = document.createElement('div');
             b.className = 'butterfly';
             b.style.left = Math.random() * 100 + 'vw';
             b.style.top = Math.random() * 100 + 'vh';
-            b.style.setProperty('--x', (Math.random() * 200 - 100) + 'px');
-            b.style.setProperty('--y', (Math.random() * -200 - 50) + 'px');
-            b.style.setProperty('--r', Math.random() * 360 + 'deg');
-            b.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            b.style.setProperty('--x', (Math.random() * 300 - 150) + 'px');
+            b.style.setProperty('--y', (Math.random() * -300 - 100) + 'px');
+            b.style.animationDuration = (Math.random() * 5 + 5) + 's';
             document.getElementById('butterfly-layer').appendChild(b);
-            setTimeout(() => b.remove(), 6000);
-        }, 1200);
+            setTimeout(() => b.remove(), 10000);
+        }, 1500);
 
-        // Interactions (Ripple & Start)
+        // Interaction Handler
         function handleInteraction(e) {
+            if(e.target.closest('button')) return;
+
+            // Ripple
             const rip = document.createElement('div');
             rip.className = 'ripple';
             rip.style.left = e.pageX + 'px';
             rip.style.top = e.pageY + 'px';
             document.body.appendChild(rip);
-            setTimeout(() => rip.remove(), 1000);
+            setTimeout(() => rip.remove(), 800);
 
+            // Auto-start music
             if (audio.paused && !audio.played.length) togglePlay();
         }
 
@@ -193,9 +211,13 @@
             const h = new Date().getHours();
             const msg = document.getElementById('love-msg');
             let g = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
-            msg.innerText = "Selamat " + g + " Sayang, jangan lupa sholat ❤️";
+            msg.innerText = "Selamat " + g + " Virya, jangan lupa sholat ❤️";
             msg.style.opacity = "1";
-            setTimeout(() => msg.style.opacity = "0", 4000);
+            msg.style.transform = "translateX(0)";
+            setTimeout(() => {
+                msg.style.opacity = "0";
+                msg.style.transform = "translateX(16px)";
+            }, 4000);
         }
     </script>
 </body>
