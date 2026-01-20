@@ -5,140 +5,185 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>A Private Letter — Elfrida</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Tenor+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Tenor+Sans&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #c4a47c; --green: #52b788; }
+        :root { --neon-blue: #00d2ff; --neon-glow: rgba(0, 210, 255, 0.5); --accent: #c4a47c; }
         
-        /* Proteksi Dasar: Mencegah Klik Kanan & Seleksi Teks */
-        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
-        
-        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; cursor: crosshair; transition: filter 0.5s ease; }
-        
-        /* ANTI-SCREENSHOT/RECORD BLUR */
-        body.protected { filter: blur(40px) grayscale(1); pointer-events: none; }
+        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
+        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow: hidden; }
 
-        .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5; background: radial-gradient(circle at 50% 10%, #1a1b3a 0%, #050505 100%); }
-        .stars-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -4; background-image: radial-gradient(white, rgba(255,255,255,.1) 1px, transparent 20px); background-size: 80px 80px; opacity: 0.15; }
+        /* --- LOGIN SCREEN --- */
+        #login-screen {
+            position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
+            background: radial-gradient(circle at center, #0a192f 0%, #000 100%); transition: transform 1s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        /* Quotes Decoration di Sudut */
+        .quote-bg {
+            position: absolute; font-size: 8px; color: rgba(0, 210, 255, 0.15); font-family: 'Tenor Sans';
+            letter-spacing: 2px; text-transform: uppercase; width: 150px; pointer-events: none;
+        }
+
+        /* Neon Glowing Box */
+        .login-box {
+            position: relative; width: 320px; padding: 40px; background: rgba(0,0,0,0.8);
+            border: 1px solid rgba(0, 210, 255, 0.2); backdrop-filter: blur(20px);
+            box-shadow: 0 0 50px rgba(0, 210, 255, 0.1); border-radius: 2px;
+        }
+
+        .login-box::before {
+            content: ''; position: absolute; inset: -1px;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+            height: 1px; animation: scanLine 3s linear infinite;
+        }
+
+        @keyframes scanLine { 0% { left: -100%; } 100% { left: 100%; } }
+
+        input {
+            width: 100%; background: rgba(255,255,255,0.03); border: none; border-bottom: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 12px 5px; color: white; font-size: 12px; letter-spacing: 2px; margin-bottom: 25px; outline: none; transition: 0.3s;
+        }
+        input:focus { border-bottom-color: var(--neon-blue); box-shadow: 0 5px 15px -10px var(--neon-blue); }
+
+        .login-btn {
+            width: 100%; padding: 15px; background: #001a2c; border: 1px solid var(--neon-blue);
+            color: var(--neon-blue); font-family: 'Orbitron', sans-serif; font-size: 10px; letter-spacing: 4px;
+            position: relative; overflow: hidden; transition: 0.4s; cursor: pointer;
+        }
+        .login-btn:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 20px var(--neon-blue); }
+
+        /* --- MAIN CONTENT (Initially Hidden) --- */
+        #main-content { opacity: 0; pointer-events: none; transition: 2s ease; height: 100vh; overflow-y: auto; }
+        body.unlocked #login-screen { transform: translateY(-100%); }
+        body.unlocked #main-content { opacity: 1; pointer-events: auto; }
+
+        /* Reuse Styles from Previous */
+        .bg-gradient { position: fixed; inset: 0; z-index: -5; background: radial-gradient(circle at 50% 10%, #1a1b3a 0%, #050505 100%); }
         .moon { position: fixed; top: 15%; right: 10%; width: 100px; height: 100px; background: #fff; border-radius: 50%; z-index: -3; box-shadow: 0 0 60px 10px rgba(255, 255, 255, 0.1); opacity: 0.8; }
-        
-        .rain { position: fixed; background: rgba(255,255,255,0.4); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
+        .rain { position: fixed; background: rgba(255,255,255,0.4); width: 1px; height: 50px; z-index: -2; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
-        
-        .butterfly { position: fixed; width: 4px; height: 4px; background: var(--accent); z-index: -1; border-radius: 50%; opacity: 0; box-shadow: 0 0 12px 2px var(--accent); animation: fly linear forwards; }
-        @keyframes fly { 0% { transform: translate(0,0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translate(var(--x), var(--y)); opacity: 0; } }
-        
         .ripple { position: absolute; border: 0.5px solid rgba(255,255,255,0.5); border-radius: 50%; pointer-events: none; z-index: 9999; animation: ripple-out 0.8s forwards; }
         @keyframes ripple-out { from { width: 0; height: 0; opacity: 0.8; transform: translate(-50%, -50%); } to { width: 150px; height: 150px; opacity: 0; transform: translate(-50%, -50%); } }
-        
-        .love-btn { position: relative; width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
-        .love-btn::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, transparent, transparent, #fff); animation: rotateGlow 3s linear infinite; z-index: -1; }
+        .love-btn::after { content: ''; position: absolute; inset: -50%; background: conic-gradient(transparent, transparent, #fff); animation: rotateGlow 3s linear infinite; z-index: -1; }
         @keyframes rotateGlow { to { transform: rotate(360deg); } }
-        
-        .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 1001; animation: bloomFade 2s forwards; }
-        @keyframes bloomFade { 0% { transform: scale(0); opacity: 0; } 50% { opacity: 1; transform: scale(1.2); } 100% { transform: translateY(-50px); opacity: 0; } }
-        
         .f-serif { font-family: 'Cormorant Garamond', serif; }
         .f-tenor { font-family: 'Tenor Sans', sans-serif; }
-        .main-wrapper { max-width: 550px; margin: 0 auto; padding: 120px 24px; z-index: 10; position: relative; }
-        .btn-ui { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
     </style>
 </head>
-<body oncontextmenu="return false" onkeydown="return false" onclick="handleInteraction(event)">
-    <div class="bg-gradient"></div>
-    <div class="stars-overlay"></div>
-    <div class="moon"></div>
-    <div id="rain-layer"></div>
-    <div id="butterfly-layer"></div>
+<body oncontextmenu="return false" onclick="handleInteraction(event)">
 
-    <div class="fixed top-8 left-8 z-[100] btn-ui px-4 py-2 rounded-full">
-        <span class="text-[9px] font-light tracking-[4px] text-gray-400 uppercase" id="clock">00:00:00</span>
-    </div>
-    
-    <div class="fixed top-8 right-8 z-[100] flex flex-col items-center gap-2">
-        <button class="love-btn" onclick="triggerLove(event)">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--green)" class="relative z-10">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
-        </button>
-        <span class="text-[8px] tracking-[2px] text-white/50 uppercase animate-pulse">Click Me</span>
-        <div id="love-msg" class="opacity-0 transition-all duration-700 text-[10px] bg-black/80 px-4 py-2 rounded-lg border border-white/10 text-green-400 mt-2"></div>
-    </div>
-
-    <main class="main-wrapper text-center">
-        <header class="mb-20 space-y-2">
-            <p class="text-[9px] tracking-[6px] text-[#c4a47c] uppercase opacity-70">Journal Entry — 2026</p>
-            <h1 class="f-serif text-5xl text-white italic">For Elfrida</h1>
-        </header>
-
-        <div class="image-container mb-24 rounded-sm overflow-hidden">
-            <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-70 grayscale" alt="Protected">
-        </div>
-
-        <div class="text-left space-y-10">
-            <p class="f-serif text-2xl italic text-white/90 leading-snug">
-                Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
-            </p>
-            <div class="font-light text-[14px] text-gray-400 space-y-8 leading-relaxed">
-                <p>Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.</p>
-                <p class="f-serif text-3xl text-white py-10 border-y border-white/10 text-center italic leading-tight">
-                    "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
-                </p>
-                <p>Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.</p>
-                <p>Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang, dan menjadi pundak yang selalu ada kapanpun kamu merasa lelah.</p>
+    <div id="login-screen">
+        <div class="quote-bg top-10 left-10">"Sebab bagiku, kamu bukan sekadar pilihan."</div>
+        <div class="quote-bg bottom-10 right-10">"Menjadi rumah tempatmu pulang."</div>
+        <div class="quote-bg top-40 right-5 text-right">"Setiap lika-liku bersamamu adalah cerita."</div>
+        
+        <div class="text-center">
+            <h2 class="font-['Orbitron'] text-blue-400 text-[10px] tracking-[10px] uppercase mb-2 opacity-50">Authorized Only</h2>
+            <h1 class="font-['Orbitron'] text-white text-4xl tracking-[5px] mb-12">WELCOME</h1>
+            
+            <div class="login-box">
+                <p class="text-[9px] tracking-[4px] text-blue-300 mb-8 uppercase">Identification Required</p>
+                <input type="text" id="username" placeholder="USERNAME" autocomplete="off">
+                <input type="password" id="password" placeholder="PASSWORD" autocomplete="off">
+                <button class="login-btn" onclick="validateLogin()">INITIATE</button>
+                <p id="error-msg" class="text-[8px] text-red-500 mt-4 tracking-widest opacity-0">ACCESS DENIED</p>
             </div>
         </div>
+    </div>
 
-        <button onclick="togglePlay()" class="mt-24 w-full py-5 btn-ui text-[10px] tracking-[6px] uppercase text-gray-400">
-            <span id="audio-stat">Enable Ambiance</span>
-        </button>
+    <div id="main-content">
+        <div class="bg-gradient"></div>
+        <div class="moon"></div>
+        <div id="rain-layer"></div>
+        <div id="butterfly-layer"></div>
 
-        <footer class="mt-32">
-            <p class="f-tenor text-3xl tracking-[8px] text-white/90 uppercase">Himam Aby Maulana</p>
-            <p class="text-[8px] tracking-[4px] mt-4 opacity-30 uppercase">© Forever Virya Archive</p>
-        </footer>
-    </main>
+        <div class="fixed top-8 left-8 z-[100] bg-black/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+            <span class="text-[9px] font-light tracking-[4px] text-gray-400 uppercase" id="clock">00:00:00</span>
+        </div>
+        
+        <div class="fixed top-8 right-8 z-[100] flex flex-col items-center gap-2">
+            <button class="love-btn relative w-11 h-11 rounded-full bg-black/60 flex items-center justify-center border border-white/10 overflow-hidden" onclick="triggerLove(event)">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#52b788" class="relative z-10"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </button>
+            <div id="love-msg" class="opacity-0 transition-all duration-700 text-[10px] bg-black/80 px-4 py-2 rounded-lg border border-white/10 text-green-400 mt-2"></div>
+        </div>
+
+        <main class="max-w-[500px] mx-auto px-6 py-32 text-center relative z-10">
+            <header class="mb-20">
+                <p class="text-[9px] tracking-[6px] text-[#c4a47c] uppercase opacity-70">Journal Entry — 2026</p>
+                <h1 class="f-serif text-5xl text-white italic mt-2">For Elfrida</h1>
+            </header>
+
+            <div class="border border-white/10 p-2 bg-white/5 backdrop-blur-sm mb-24">
+                <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-70 grayscale hover:grayscale-0 transition-all duration-[3s]">
+            </div>
+
+            <div class="text-left space-y-10">
+                <p class="f-serif text-2xl italic text-white/90 leading-snug">
+                    Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
+                </p>
+                <div class="font-light text-[14px] text-gray-400 space-y-8 leading-relaxed">
+                    <p>Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.</p>
+                    <p class="f-serif text-3xl text-white py-10 border-y border-white/10 text-center italic leading-tight">
+                        "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
+                    </p>
+                    <p>Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.</p>
+                    <p>Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang.</p>
+                </div>
+            </div>
+
+            <button onclick="togglePlay()" class="mt-24 w-full py-5 bg-white/5 border border-white/10 text-[10px] tracking-[6px] uppercase text-gray-400">
+                <span id="audio-stat">Enable Ambiance</span>
+            </button>
+
+            <footer class="mt-32">
+                <p class="f-tenor text-3xl tracking-[8px] text-white/90 uppercase">Himam Aby Maulana</p>
+                <p class="text-[8px] tracking-[4px] mt-4 opacity-30 uppercase">© Forever Virya Archive</p>
+            </footer>
+        </main>
+    </div>
 
     <audio id="player" src="Ed Sheeran - Perfect.mp3" loop></audio>
 
     <script>
-        // ANTI-RECORDING SCRIPT
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) { document.body.classList.add('protected'); }
-            else { document.body.classList.remove('protected'); }
-        });
+        function validateLogin() {
+            const pass = document.getElementById('password').value;
+            const error = document.getElementById('error-msg');
+            
+            if (pass.toUpperCase() === "FLAFOUR") {
+                document.body.classList.add('unlocked');
+                setTimeout(() => {
+                    document.getElementById('login-screen').style.display = 'none';
+                    if (audio.paused) togglePlay();
+                }, 1000);
+            } else {
+                error.style.opacity = "1";
+                setTimeout(() => { error.style.opacity = "0"; }, 2000);
+            }
+        }
 
-        window.onblur = function() { document.body.classList.add('protected'); };
-        window.onfocus = function() { document.body.classList.remove('protected'); };
-
-        // Expiry Logic
-        const tanggalExpired = new Date("2026-01-22T00:00:00");
-        const sekarang = new Date();
-        if (sekarang > tanggalExpired) { document.body.innerHTML = ""; window.location.href = "https://google.com"; }
-
-        // Clock & Visuals
+        // Clock
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
+
+        // Rain
         setInterval(() => {
-            const drop = document.createElement('div'); drop.className = 'rain';
-            drop.style.left = Math.random() * 100 + 'vw'; drop.style.animationDuration = (Math.random() * 0.4 + 0.3) + 's';
+            if(!document.body.classList.contains('unlocked')) return;
+            const drop = document.createElement('div');
+            drop.className = 'rain';
+            drop.style.left = Math.random() * 100 + 'vw';
+            drop.style.animationDuration = (Math.random() * 0.4 + 0.3) + 's';
             document.getElementById('rain-layer').appendChild(drop);
             setTimeout(() => drop.remove(), 800);
         }, 40);
 
-        setInterval(() => {
-            const b = document.createElement('div'); b.className = 'butterfly';
-            b.style.left = Math.random() * 100 + 'vw'; b.style.top = Math.random() * 100 + 'vh';
-            b.style.setProperty('--x', (Math.random() * 300 - 150) + 'px'); b.style.setProperty('--y', (Math.random() * -300 - 100) + 'px');
-            b.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            document.getElementById('butterfly-layer').appendChild(b);
-            setTimeout(() => b.remove(), 10000);
-        }, 1500);
-
         function handleInteraction(e) {
-            if(e.target.closest('button')) return;
-            const rip = document.createElement('div'); rip.className = 'ripple';
-            rip.style.left = e.pageX + 'px'; rip.style.top = e.pageY + 'px';
-            document.body.appendChild(rip); setTimeout(() => rip.remove(), 800);
-            if (audio.paused && !audio.played.length) togglePlay();
+            if(!document.body.classList.contains('unlocked')) return;
+            const rip = document.createElement('div');
+            rip.className = 'ripple';
+            rip.style.left = e.pageX + 'px';
+            rip.style.top = e.pageY + 'px';
+            document.body.appendChild(rip);
+            setTimeout(() => rip.remove(), 800);
         }
 
         function triggerLove(e) {
@@ -146,17 +191,22 @@
             const flowers = ['🌸', '✨', '🌷', '🤍', '🌺'];
             for(let i=0; i<12; i++) {
                 setTimeout(() => {
-                    const f = document.createElement('div'); f.className = 'flower';
+                    const f = document.createElement('div');
+                    f.style.position = 'fixed';
                     f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-                    f.style.left = (e.clientX + (Math.random() * 100 - 50)) + 'px';
-                    f.style.top = (e.clientY + (Math.random() * 100 - 50)) + 'px';
-                    document.body.appendChild(f); setTimeout(() => f.remove(), 2000);
+                    f.style.left = (e.clientX + (Math.random() * 60 - 30)) + 'px';
+                    f.style.top = (e.clientY + (Math.random() * 60 - 30)) + 'px';
+                    f.style.transition = '2s';
+                    f.style.pointerEvents = 'none';
+                    document.body.appendChild(f);
+                    setTimeout(() => { f.style.transform = 'translateY(-100px)'; f.style.opacity = '0'; }, 10);
+                    setTimeout(() => f.remove(), 2000);
                 }, i * 100);
             }
             const msg = document.getElementById('love-msg');
-            msg.innerText = "Selamat " + (new Date().getHours() < 11 ? "Pagi" : new Date().getHours() < 15 ? "Siang" : new Date().getHours() < 18 ? "Sore" : "Malam") + " Virya, jangan lupa sholat ❤️";
-            msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 5000);
-            if (audio.paused) togglePlay();
+            msg.innerText = "Selamat " + (new Date().getHours() < 11 ? "Pagi" : "Malam") + " Virya ❤️";
+            msg.style.opacity = "1";
+            setTimeout(() => { msg.style.opacity = "0"; }, 4000);
         }
 
         const audio = document.getElementById('player');
