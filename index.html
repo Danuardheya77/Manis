@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Private Journal — Elfrida</title>
+    <title>A Private Letter — Elfrida</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Tenor+Sans&display=swap" rel="stylesheet">
     <style>
@@ -57,18 +57,28 @@
         </header>
 
         <div class="image-container mb-24 rounded-sm overflow-hidden">
-            <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-70 grayscale hover:grayscale-0 transition-all duration-[3s]">
+            <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-70 grayscale hover:grayscale-0 transition-all duration-[3s]" alt="Elfrida">
         </div>
 
         <div class="text-left space-y-10">
-            <p class="f-serif text-2xl italic text-white/90 leading-snug">Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku...</p>
+            <p class="f-serif text-2xl italic text-white/90 leading-snug">
+                Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
+            </p>
+
             <div class="font-light text-[14px] text-gray-400 space-y-8 leading-relaxed">
                 <p>Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.</p>
-                <p class="f-serif text-3xl text-white py-10 border-y border-white/10 text-center italic leading-tight">"Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."</p>
+                
+                <p class="f-serif text-3xl text-white py-10 border-y border-white/10 text-center italic leading-tight">
+                    "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
+                </p>
+
+                <p>Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.</p>
+                
+                <p>Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang, dan menjadi pundak yang selalu ada kapanpun kamu merasa lelah.</p>
             </div>
         </div>
 
-        <button onclick="togglePlay()" class="mt-24 w-full py-5 btn-ui text-[10px] tracking-[6px] uppercase text-gray-400 transition-all">
+        <button onclick="togglePlay()" class="mt-24 w-full py-5 btn-ui text-[10px] tracking-[6px] uppercase text-gray-400 hover:text-white transition-all">
             <span id="audio-stat">Enable Ambiance</span>
         </button>
 
@@ -81,7 +91,7 @@
     <audio id="player" src="Ed Sheeran - Perfect.mp3" loop></audio>
 
     <script>
-        // Self-Destruct Logic
+        // Self-Destruct Timer (22 Jan 2026)
         const tanggalExpired = new Date("2026-01-22T00:00:00");
         const sekarang = new Date();
         if (sekarang > tanggalExpired) {
@@ -89,8 +99,10 @@
             window.location.href = "https://google.com";
         }
 
+        // Clock
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
 
+        // Rain
         setInterval(() => {
             const drop = document.createElement('div');
             drop.className = 'rain';
@@ -100,6 +112,7 @@
             setTimeout(() => drop.remove(), 800);
         }, 40);
 
+        // Butterfly
         setInterval(() => {
             const b = document.createElement('div');
             b.className = 'butterfly';
@@ -112,6 +125,7 @@
             setTimeout(() => b.remove(), 10000);
         }, 1500);
 
+        // Ripple Effect
         function handleInteraction(e) {
             if(e.target.closest('button')) return;
             const rip = document.createElement('div');
@@ -123,6 +137,7 @@
             if (audio.paused && !audio.played.length) togglePlay();
         }
 
+        // Love & Flower Trigger
         function triggerLove(e) {
             e.stopPropagation();
             const flowers = ['🌸', '✨', '🌷', '🤍', '🌺'];
