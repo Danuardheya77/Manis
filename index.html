@@ -14,39 +14,26 @@
         /* SILENT PROTECTION */
         body.protected { filter: blur(80px) brightness(0); pointer-events: none; }
 
-        /* --- PRE-START OVERLAY --- */
-        #start-overlay {
+        /* --- OVERLAY PAKSA (INTERAKSI PERTAMA) --- */
+        #force-start {
             position: fixed; inset: 0; z-index: 10000; background: #000;
-            display: flex; align-items: center; justify-content: center; transition: 1s;
+            display: flex; align-items: center; justify-content: center; transition: 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .start-circle {
-            width: 100px; height: 100px; border: 1px solid rgba(255,255,255,0.3);
+        .start-btn {
+            width: 130px; height: 130px; border: 1px solid rgba(255,255,255,0.4);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.5s; position: relative;
+            cursor: pointer; background: transparent; color: white;
+            font-size: 9px; letter-spacing: 5px; text-indent: 5px; transition: 0.4s;
+            animation: breathe 3s infinite ease-in-out;
         }
-        .start-circle:hover { border-color: white; transform: scale(1.1); }
-        .start-circle::after {
-            content: 'OPEN'; font-size: 8px; letter-spacing: 4px; color: white;
-        }
+        @keyframes breathe { 0%, 100% { transform: scale(1); border-color: rgba(255,255,255,0.2); } 50% { transform: scale(1.05); border-color: rgba(255,255,255,0.8); } }
 
         /* --- LOGIN SCREEN --- */
         #login-screen {
             position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(45deg, #ff00cc, #3333ff, #ff0066, #ff8c00);
             background-size: 400% 400%; animation: meshFlow 8s ease-in-out infinite;
-            transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1);
         }
-        #login-screen::before {
-            content: ''; position: absolute; inset: 0;
-            background: url('https://www.transparenttextures.com/patterns/leaf.png');
-            opacity: 0.2; pointer-events: none;
-        }
-        .neon-text {
-            color: #fff; text-shadow: 0 0 10px #fff, 0 0 20px #fff;
-            animation: neonPulse 1.5s ease-in-out infinite alternate;
-        }
-        @keyframes neonPulse { from { opacity: 0.7; } to { opacity: 1; } }
-
         .login-box {
             position: relative; width: 340px; padding: 50px 40px; 
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(25px); 
@@ -69,39 +56,39 @@
         }
         @keyframes meshFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        body.unlocked #login-screen { transform: translateY(-100%); opacity: 0; }
+        body.unlocked #login-screen { transform: translateY(-100%); opacity: 0; transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1); }
         body.unlocked #main-content { opacity: 1; pointer-events: auto; }
 
         .reveal-p { opacity: 0; transform: translateY(30px); transition: all 1.5s ease; filter: blur(10px); margin-bottom: 4rem; }
         .reveal-p.active { opacity: 1; transform: translateY(0); filter: blur(0); }
 
-        /* RAIN EFFECT */
         .rain { position: fixed; background: rgba(255,255,255,0.2); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
         
-        .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 1001; animation: bloomFade 2.5s forwards; }
-        @keyframes bloomFade { 0% { transform: scale(0); opacity: 0; } 100% { transform: translateY(-100px); opacity: 0; } }
-
         .f-serif { font-family: 'Cormorant Garamond', serif; }
         .f-tenor { font-family: 'Tenor Sans', sans-serif; }
     </style>
 </head>
 <body>
 
-    <div id="start-overlay" onclick="beginExperience()">
-        <div class="start-circle"></div>
+    <div id="force-start">
+        <div class="start-btn" onclick="startEverything()">OPEN</div>
     </div>
 
-    <audio id="audioWelcome" src="Shania Twain.mp3" loop preload="auto"></audio>
-    <audio id="audioPerfect" src="Ed Sheeran - Perfect.mp3" loop preload="auto"></audio>
+    <audio id="audioWelcome" loop preload="auto">
+        <source src="Shania Twain.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="audioPerfect" loop preload="auto">
+        <source src="Ed Sheeran - Perfect.mp3" type="audio/mpeg">
+    </audio>
 
     <div id="login-screen">
         <div class="flex flex-col items-center">
-            <h1 class="f-tenor text-white text-3xl tracking-[10px] mb-2 neon-text">WELCOME</h1>
+            <h1 class="f-tenor text-white text-3xl tracking-[10px] mb-2">WELCOME</h1>
             <h2 class="f-tenor text-white text-xl tracking-[5px] mb-12 opacity-90">VIRYA RAHMAWATI</h2>
             <div class="login-box">
                 <input type="text" id="username" placeholder="NAMA" autocomplete="off">
-                <input type="password" id="password" placeholder="PASWORD" autocomplete="off">
+                <input type="password" id="password" placeholder="PASSWORD" autocomplete="off">
                 <div class="login-btn" onclick="validateLogin()">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="black"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
                 </div>
@@ -112,59 +99,46 @@
     <div id="main-content">
         <div class="mesh-gradient-bg"></div>
         <div id="rain-layer"></div>
-
         <div class="fixed top-8 left-8 z-[100] bg-black/40 backdrop-blur-md px-4 py-1 rounded-full border border-white/5">
             <span class="text-[8px] font-light tracking-[3px] text-gray-400 uppercase" id="clock">00:00:00</span>
         </div>
-
         <main class="max-w-[500px] mx-auto px-8 py-32 text-center relative z-10">
             <header class="mb-32 reveal-p">
                 <p class="text-[9px] tracking-[6px] text-[#c4a47c] uppercase opacity-70">Journal Entry — 2026</p>
                 <h1 class="f-serif text-5xl text-white italic mt-3">For Elfrida</h1>
             </header>
-
             <div class="border border-white/5 p-2 bg-white/5 backdrop-blur-sm mb-32 reveal-p">
                 <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-60 grayscale">
             </div>
-
             <div class="text-left space-y-24">
                 <p class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p">
-                    Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
+                    Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku.
                 </p>
-                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
-                    Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.
-                </p>
-                <p class="f-serif text-3xl text-white py-12 border-y border-white/10 text-center italic leading-snug reveal-p">
-                    "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
-                </p>
-                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
-                    Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.
-                </p>
-                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
-                    Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang.
-                </p>
-            </div>
-
-            <footer class="mt-40 reveal-p">
-                <p class="f-tenor text-2xl tracking-[10px] text-white/80 uppercase">Himam Aby Maulana</p>
-                <p class="text-[7px] tracking-[4px] mt-4 opacity-30 uppercase">© Forever Virya Archive</p>
-            </footer>
+                </div>
         </main>
     </div>
 
     <script>
-        const audioWelcome = document.getElementById('audioWelcome');
-        const audioPerfect = document.getElementById('audioPerfect');
+        const audioW = document.getElementById('audioWelcome');
+        const audioP = document.getElementById('audioPerfect');
+        let audioActive = false;
 
-        // FUNGSI UNTUK MEMULAI SEMUANYA
-        function beginExperience() {
-            // Putar audio Shania Twain secara paksa lewat klik user
-            audioWelcome.play().catch(e => console.log("Audio Error:", e));
-            
-            // Hilangkan overlay awal
-            document.getElementById('start-overlay').style.opacity = '0';
+        // FUNGSI INI WAJIB JALAN SAAT KLIK 'OPEN'
+        function startEverything() {
+            // PAKSA PLAY
+            audioW.play().then(() => {
+                audioActive = true;
+                console.log("Shania Twain started.");
+            }).catch(e => {
+                // Jika masih gagal, pancing dengan volume
+                audioW.volume = 1.0;
+                audioW.play();
+            });
+
+            // Hilangkan Overlay
+            document.getElementById('force-start').style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('start-overlay').style.display = 'none';
+                document.getElementById('force-start').style.display = 'none';
             }, 1000);
         }
 
@@ -173,13 +147,11 @@
             if (pass.toUpperCase() === "FLAFOUR") {
                 document.body.classList.add('unlocked');
                 
-                // Transisi Musik
-                audioWelcome.pause();
-                audioPerfect.play();
+                // Ganti Musik: Matikan Shania, Hidupkan Perfect
+                audioW.pause();
+                audioW.currentTime = 0;
+                audioP.play();
 
-                for(let i=0; i<30; i++) {
-                    setTimeout(() => createFlower(Math.random() * window.innerWidth, Math.random() * window.innerHeight), i * 100);
-                }
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
                     startNaskahReveal();
@@ -197,19 +169,9 @@
             });
         }
 
-        function createFlower(x, y) {
-            const flowers = ['🌸', '✨', '🌷', '🤍', '🌺', '🌼'];
-            const f = document.createElement('div');
-            f.className = 'flower';
-            f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-            f.style.left = x + 'px'; f.style.top = y + 'px';
-            document.body.appendChild(f);
-            setTimeout(() => f.remove(), 2500);
-        }
-
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
         
-        // EFEK GERIMIS
+        // EFEK GERIMIS (Hanya muncul setelah login)
         setInterval(() => {
             if(!document.body.classList.contains('unlocked')) return;
             const drop = document.createElement('div');
@@ -220,10 +182,9 @@
             setTimeout(() => drop.remove(), 800);
         }, 50);
 
-        function secure() { document.body.classList.add('protected'); }
-        function release() { document.body.classList.remove('protected'); }
-        window.addEventListener('blur', secure);
-        window.addEventListener('focus', release);
+        // PROTEKSI BLUR
+        window.addEventListener('blur', () => document.body.classList.add('protected'));
+        window.addEventListener('focus', () => document.body.classList.remove('protected'));
     </script>
 </body>
 </html>
