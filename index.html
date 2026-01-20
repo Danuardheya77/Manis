@@ -5,106 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>A Private Letter — Elfrida</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Tenor+Sans&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Tenor+Sans&display=swap" rel="stylesheet">
     <style>
         :root { --neon-blue: #00d2ff; --green: #52b788; }
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
-        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; transition: filter 0.4s ease; }
+        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
 
-        /* SILENT PROTECTION */
+        /* SILENT PROTECTION - JANGAN DIRUBA */
         body.protected { filter: blur(80px) brightness(0); pointer-events: none; }
-        @media print { body { display: none; } }
 
-        /* --- LOGIN SCREEN --- */
+        /* LOGIN SCREEN - DARK AESTHETIC GRADIENT */
         #login-screen {
             position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(135deg, #000000, #1e1b4b, #4c1d95, #831843, #000000);
-            background-size: 400% 400%;
-            animation: meshFlow 12s ease-in-out infinite;
-            transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1);
+            background-size: 400% 400%; animation: meshFlow 12s ease-in-out infinite; transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1);
         }
         #login-screen::before {
-            content: ''; position: absolute; inset: 0;
-            backdrop-filter: blur(15px);
+            content: ''; position: absolute; inset: 0; backdrop-filter: blur(15px);
             -webkit-mask-image: radial-gradient(circle, transparent 20%, black 80%);
-            mask-image: radial_gradient(circle, transparent 20%, black 80%);
-            pointer-events: none;
+            mask-image: radial-gradient(circle, transparent 20%, black 80%);
         }
         .login-box {
-            position: relative; width: 320px; padding: 50px 40px; 
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); 
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; 
-            text-align: center; z-index: 10;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            position: relative; width: 320px; padding: 50px 40px; background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; text-align: center;
         }
         input {
             width: 100%; background: transparent; border: none; border-bottom: 0.5px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 2px; color: white; font-size: 9px; letter-spacing: 5px; margin-bottom: 25px; 
-            outline: none; text-align: center; text-transform: uppercase; transition: 0.5s;
+            padding: 12px 2px; color: white; font-size: 9px; letter-spacing: 5px; margin-bottom: 25px; outline: none; text-align: center; text-transform: uppercase;
         }
-        input:focus { border-bottom-color: white; letter-spacing: 7px; }
         .login-btn {
-            width: 55px; height: 55px; margin: 15px auto 0; background: white; 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; transition: 0.5s; box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            width: 55px; height: 55px; margin: 15px auto 0; background: white; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
         }
-        .login-btn svg { fill: black; width: 22px; height: 22px; }
-        .login-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255,255,255,0.4); }
 
-        /* --- MAIN CONTENT BG & ANIMATIONS --- */
-        .mesh-gradient-bg {
-            position: fixed; inset: 0; z-index: -5;
-            background: linear-gradient(125deg, #0f172a 0%, #3b0764 25%, #701a75 50%, #db2777 75%, #1e1b4b 100%);
-            background-size: 400% 400%;
-            animation: meshFlow 15s ease-in-out infinite;
-        }
-        @keyframes meshFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
+        /* MAIN CONTENT */
         #main-content { opacity: 0; pointer-events: none; transition: 2s ease; height: 100vh; overflow-y: auto; scroll-behavior: smooth; }
         body.unlocked #login-screen { transform: scale(1.2); opacity: 0; pointer-events: none; }
         body.unlocked #main-content { opacity: 1; pointer-events: auto; }
 
+        /* NASKAH REVEAL */
         .reveal-p { opacity: 0; transform: translateY(30px); transition: all 1.5s ease; filter: blur(10px); margin-bottom: 4rem; }
         .reveal-p.active { opacity: 1; transform: translateY(0); filter: blur(0); }
 
-        .rain { position: fixed; background: rgba(255,255,255,0.2); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
-        @keyframes fall { to { transform: translateY(110vh); } }
-        
+        /* BICYCLE GOWES ANIMATION */
+        .bicycle-wrapper { position: fixed; bottom: 18vh; z-index: 1002; display: flex; flex-direction: column; align-items: center; font-size: 55px; pointer-events: none; }
+        .gowes-motion { animation: gowesEffect 0.6s infinite alternate ease-in-out; display: flex; flex-direction: column; align-items: center; }
+        .couple-icons { display: flex; gap: -8px; margin-bottom: -15px; }
+
+        @keyframes gowesEffect {
+            0% { transform: translateY(0) rotate(-2deg); }
+            100% { transform: translateY(-10px) rotate(3deg); }
+        }
+        @keyframes rideLtoR {
+            0% { left: -200px; opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { left: 110vw; opacity: 0; }
+        }
+        @keyframes rideRtoL {
+            0% { right: -200px; opacity: 0; transform: scaleX(-1); }
+            15% { opacity: 1; transform: scaleX(-1); }
+            85% { opacity: 1; transform: scaleX(-1); }
+            100% { right: 110vw; opacity: 0; transform: scaleX(-1); }
+        }
+
+        /* AMBIANCE FX */
+        .mesh-gradient-bg {
+            position: fixed; inset: 0; z-index: -5;
+            background: linear-gradient(125deg, #0f172a 0%, #3b0764 25%, #701a75 50%, #db2777 75%, #1e1b4b 100%);
+            background-size: 400% 400%; animation: meshFlow 15s ease-in-out infinite;
+        }
+        @keyframes meshFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 1001; animation: bloomFade 2.5s forwards; }
-        @keyframes bloomFade { 0% { transform: scale(0) rotate(0); opacity: 0; } 30% { opacity: 1; transform: scale(1.5) rotate(45deg); } 100% { transform: translateY(-100px) rotate(90deg); opacity: 0; } }
-
-        /* NEW: Bicycle Animation */
-        .bicycle-ontel {
-            position: fixed;
-            bottom: 15vh; /* Sesuaikan ketinggian sepeda */
-            height: 100px; /* Tinggi gambar sepeda */
-            opacity: 0;
-            z-index: 1002;
-            transition: opacity 0.5s;
-        }
-
-        .bicycle-ontel.left-to-right {
-            left: -300px; /* Mulai dari kiri luar layar */
-            animation: rideLeftToRight 8s linear forwards;
-        }
-        .bicycle-ontel.right-to-left {
-            right: -300px; /* Mulai dari kanan luar layar */
-            animation: rideRightToLeft 8s linear forwards;
-            transform: scaleX(-1); /* Balik gambar untuk arah kanan ke kiri */
-        }
-
-        @keyframes rideLeftToRight {
-            0% { transform: translateX(-300px); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateX(calc(100vw + 300px)); opacity: 0; }
-        }
-        @keyframes rideRightToLeft {
-            0% { transform: translateX(300px) scaleX(-1); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateX(calc(-100vw - 300px)) scaleX(-1); opacity: 0; }
-        }
+        @keyframes bloomFade { 0% { transform: scale(0); opacity: 0; } 30% { opacity: 1; transform: scale(1.5); } 100% { transform: translateY(-100px); opacity: 0; } }
+        .rain { position: fixed; background: rgba(255,255,255,0.2); width: 1px; height: 50px; z-index: -2; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(110vh); } }
 
         .f-serif { font-family: 'Cormorant Garamond', serif; }
         .f-tenor { font-family: 'Tenor Sans', sans-serif; }
@@ -114,13 +89,13 @@
 
     <div id="login-screen">
         <div class="flex flex-col items-center">
-            <h1 class="f-tenor text-white text-5xl tracking-[18px] mb-2 opacity-100 drop-shadow-2xl">WELCOME</h1>
+            <h1 class="f-tenor text-white text-5xl tracking-[18px] mb-2 drop-shadow-2xl">WELCOME</h1>
             <p class="text-[8px] text-white/40 tracking-[6px] uppercase mb-12">Access Private Journal</p>
             <div class="login-box">
                 <input type="text" id="username" placeholder="IDENTITAS" autocomplete="off">
                 <input type="password" id="password" placeholder="KATA SANDI" autocomplete="off">
                 <div class="login-btn" onclick="validateLogin()">
-                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                    <svg viewBox="0 0 24 24" width="22" fill="black"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
                 </div>
             </div>
         </div>
@@ -134,14 +109,6 @@
             <span class="text-[8px] font-light tracking-[3px] text-gray-400 uppercase" id="clock">00:00:00</span>
         </div>
 
-        <div class="fixed top-8 right-8 z-[100] flex flex-col items-center gap-2">
-            <button class="relative w-11 h-11 rounded-full bg-black/60 flex items-center justify-center border border-white/10" onclick="triggerLove(event)">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--green)"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            </button>
-            <span class="text-[7px] tracking-[2px] text-white/40 uppercase animate-pulse">Click Me</span>
-            <div id="love-msg" class="opacity-0 transition-all duration-700 text-[10px] bg-black/80 px-4 py-2 rounded-lg border border-white/10 text-green-400 mt-2"></div>
-        </div>
-        
         <main class="max-w-[500px] mx-auto px-8 py-32 text-center relative z-10">
             <header class="mb-32 reveal-p">
                 <p class="text-[9px] tracking-[6px] text-[#c4a47c] uppercase opacity-70">Journal Entry — 2026</p>
@@ -152,7 +119,7 @@
                 <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-60 grayscale">
             </div>
 
-            <div class="text-left space-y-24" id="naskah-container">
+            <div class="text-left space-y-24">
                 <p class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p">
                     Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
                 </p>
@@ -180,6 +147,7 @@
     <audio id="player" src="Ed Sheeran - Perfect.mp3" loop></audio>
 
     <script>
+        // PROTECTION LOGIC
         function secure() { document.body.classList.add('protected'); }
         function release() { document.body.classList.remove('protected'); }
         window.addEventListener('blur', secure);
@@ -189,16 +157,13 @@
             const pass = document.getElementById('password').value;
             if (pass.toUpperCase() === "FLAFOUR") {
                 document.body.classList.add('unlocked');
-                for(let i=0; i<40; i++) {
-                    setTimeout(() => {
-                        createFlower(Math.random() * window.innerWidth, Math.random() * window.innerHeight, 'flower');
-                    }, i * 70);
-                }
+                // Explosion of flowers
+                for(let i=0; i<35; i++) setTimeout(() => createFlower(Math.random()*window.innerWidth, Math.random()*window.innerHeight), i*70);
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
-                    if (audio.paused) audio.play();
+                    document.getElementById('player').play();
                     startNaskahReveal();
-                }, 2000);
+                }, 1500);
             }
         }
 
@@ -206,66 +171,47 @@
             const paragraphs = document.querySelectorAll('.reveal-p');
             paragraphs.forEach((p, index) => {
                 setTimeout(() => {
-                    // Create bicycle animation first
-                    createBicycle(index % 2 === 0 ? 'left-to-right' : 'right-to-left', () => {
-                        // After bicycle animation finishes, reveal the paragraph
+                    const isEven = index % 2 !== 0;
+                    animateBicycle(isEven); // Bicycle goes out first
+                    
+                    setTimeout(() => {
                         p.classList.add('active');
                         p.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    });
-                }, index * 8000); // Increased delay for bicycle animation (8s total animation)
+                    }, 6500); // Wait for bike to pass before showing text
+                }, index * 9000); 
             });
         }
 
-        function createFlower(x, y, className) {
-            const flowers = ['🌸', '✨', '🌷', '🤍', '🌺', '🌼', '🌹'];
-            const f = document.createElement('div');
-            f.className = className;
-            f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-            f.style.left = x + 'px';
-            f.style.top = y + 'px';
-            f.style.fontSize = (Math.random() * 10 + 10) + 'px';
+        function animateBicycle(isRightToLeft) {
+            const bike = document.createElement('div');
+            bike.className = 'bicycle-wrapper';
+            bike.innerHTML = `
+                <div class="gowes-motion">
+                    <div class="couple-icons"><span>👨‍💼</span><span>👩‍💼</span></div>
+                    <div style="font-size: 65px; margin-top: -5px;">🚲</div>
+                </div>
+            `;
+            bike.style.animation = isRightToLeft ? 'rideRtoL 8s linear forwards' : 'rideLtoR 8s linear forwards';
+            document.body.appendChild(bike);
+            setTimeout(() => bike.remove(), 8000);
+        }
+
+        function createFlower(x, y) {
+            const f = document.createElement('div'); f.className = 'flower';
+            f.innerText = ['🌸', '✨', '🌷', '🤍', '🌺', '🌼'][Math.floor(Math.random()*6)];
+            f.style.left = x + 'px'; f.style.top = y + 'px';
             document.body.appendChild(f);
-            setTimeout(() => f.remove(), 3000);
-        }
-        
-        function createBicycle(direction, callback) {
-            const bicycle = document.createElement('img');
-            bicycle.src = 'boncengan-ontel-happy-couple.png'; // Pastikan nama file ini ada
-            bicycle.className = 'bicycle-ontel ' + direction;
-            document.body.appendChild(bicycle);
-
-            // Trigger opacity to make it visible
-            setTimeout(() => { bicycle.style.opacity = '1'; }, 100); 
-
-            // Remove after animation + call callback
-            bicycle.addEventListener('animationend', () => {
-                bicycle.remove();
-                if (callback) callback();
-            });
-        }
-
-        function triggerLove(e) {
-            for(let i=0; i<15; i++) createFlower(e.clientX, e.clientY, 'flower');
-            const h = new Date().getHours();
-            const msg = document.getElementById('love-msg');
-            let greet = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
-            msg.innerText = "Selamat " + greet + " Virya ❤️";
-            msg.style.opacity = "1";
-            setTimeout(() => msg.style.opacity = "0", 5000);
+            setTimeout(() => f.remove(), 2500);
         }
 
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
         setInterval(() => {
             if(!document.body.classList.contains('unlocked')) return;
-            const drop = document.createElement('div');
-            drop.className = 'rain';
+            const drop = document.createElement('div'); drop.className = 'rain';
             drop.style.left = Math.random() * 100 + 'vw';
-            drop.style.animationDuration = (Math.random() * 0.4 + 0.3) + 's';
             document.getElementById('rain-layer').appendChild(drop);
             setTimeout(() => drop.remove(), 800);
         }, 50);
-
-        const audio = document.getElementById('player');
     </script>
 </body>
 </html>
