@@ -3,108 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>A Private Letter — Elfrida</title>
+    <title>A Private Letter — Virya Rahmawati</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Indie+Flower&family=Itim&display=swap" rel="stylesheet">
     
     <style>
-        :root { --ghibli-green: #84a59d; --ghibli-brown: #5d4037; --ghibli-cream: #fdf5e6; }
-        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
-        body { background: var(--ghibli-cream); color: var(--ghibli-brown); font-family: 'Gaegu', cursive; margin: 0; overflow-x: hidden; }
+        :root { 
+            --ghibli-green: #84a59d; 
+            --ghibli-brown: #5d4037; 
+            --ghibli-cream: #fdf5e6;
+        }
 
-        /* PRIVACY PROTECTION */
+        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
+        
+        body { 
+            background: var(--ghibli-cream); 
+            color: var(--ghibli-brown); 
+            font-family: 'Gaegu', cursive; 
+            margin: 0; 
+            overflow-x: hidden;
+        }
+
+        /* PROTECTION (No Blur, Only Black) */
         body.protected { filter: brightness(0); pointer-events: none; }
 
-        /* BG UTAMA - PASTIKAN TAJAM & TANPA BLUR */
+        /* --- BACKGROUND UTAMA (TOTORO 8K SHARP) --- */
         .ghibli-bg {
             position: fixed; inset: 0; z-index: -5;
             background-image: url('https://images.wallpapersden.com/image/download/my-neighbor-totoro-art_a2puZ2mUmZqaraWkpJRmbmdlrWZlbWU.jpg');
-            background-size: cover; background-position: center; opacity: 1; filter: none !important;
+            background-size: cover;
+            background-position: center;
+            opacity: 1;
+            filter: none !important; /* Memastikan tidak ada blur */
         }
 
-        /* LOGIN SCREEN - TEMA TOTORO SKETSA */
+        /* --- WELCOME SCREEN (ANIMATED SKETCH) --- */
         #login-screen {
             position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
-            background: #a8dadc; transition: 1.2s cubic-bezier(0.8, 0, 0.2, 1);
+            background: #e0f2f1 url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            transition: 1.2s cubic-bezier(0.8, 0, 0.2, 1);
         }
 
-        .totoro-welcome-icon {
-            position: absolute; width: 150px; animation: bounceGhibli 4s ease-in-out infinite; z-index: 5;
+        .totoro-anim {
+            position: absolute; width: 140px; animation: bounceGhibli 4s ease-in-out infinite; z-index: 5;
+            filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.1));
         }
-        @keyframes bounceGhibli { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-20px) rotate(5deg); } }
+        @keyframes bounceGhibli { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-20px) rotate(3deg); } }
 
         .login-box {
             position: relative; width: 340px; padding: 40px; 
-            background: rgba(255, 255, 255, 0.95); border: 4px solid var(--ghibli-brown); 
-            border-radius: 50px 15px; text-align: center; z-index: 10;
-            box-shadow: 10px 10px 0px var(--ghibli-green);
+            background: rgba(255, 255, 255, 0.9); border: 3px solid var(--ghibli-brown); 
+            border-radius: 50px 20px; text-align: center; z-index: 10;
+            box-shadow: 12px 12px 0px var(--ghibli-green);
         }
 
-        .login-box h1 { font-size: 2.2rem; color: var(--ghibli-brown); margin-bottom: 25px; line-height: 1; }
+        .login-box h1 { font-size: 2.2rem; color: var(--ghibli-brown); margin-bottom: 25px; line-height: 1.1; font-weight: 700; }
+
+        .input-group { position: relative; margin-bottom: 15px; }
+        .input-group span { position: absolute; left: 15px; top: 12px; font-size: 18px; }
         
         input {
             width: 100%; background: #fff; border: 2px solid var(--ghibli-brown);
-            padding: 12px; color: var(--ghibli-brown); font-size: 16px; margin-bottom: 15px;
-            border-radius: 15px; outline: none; font-family: 'Itim', cursive; text-align: center;
+            padding: 12px 12px 12px 45px; color: var(--ghibli-brown); font-size: 16px; 
+            border-radius: 15px; outline: none; font-family: 'Itim', cursive;
         }
 
         .login-btn {
-            width: 65px; height: 65px; margin: 10px auto 0; background: #fb8500;
+            width: 60px; height: 60px; margin: 15px auto 0; background: #fb8500;
             border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; border: 3px solid var(--ghibli-brown);
+            cursor: pointer; border: 3px solid var(--ghibli-brown); transition: 0.3s;
+            box-shadow: 0 4px 0 var(--ghibli-brown);
+        }
+        .login-btn:active { transform: translateY(3px); box-shadow: 0 0 0; }
+
+        /* --- WEATHER & TOOLBAR --- */
+        .weather-container {
+            background: rgba(255, 255, 255, 0.85); border: 2px dashed var(--ghibli-brown);
+            border-radius: 25px; padding: 20px; margin-bottom: 30px; text-align: left;
         }
 
-        /* WEATHER WIDGET */
-        .weather-card {
-            background: rgba(255, 255, 255, 0.9); border: 2px dashed var(--ghibli-brown);
-            border-radius: 20px; padding: 15px; margin: 25px 0; text-align: left;
-        }
-
-        /* MAIN CONTENT */
-        #main-content { opacity: 0; transition: 1.5s; height: 100vh; overflow-y: auto; }
+        /* --- MAIN CONTENT & STORYTELLING --- */
+        #main-content { opacity: 0; transition: 2s ease; height: 100vh; overflow-y: auto; }
         body.unlocked #main-content { opacity: 1; }
 
-        /* STORY SYSTEM */
         .reveal-p { 
             opacity: 0; transform: translateY(20px); transition: 1.2s ease; 
             margin-bottom: 5rem; position: relative; padding: 25px;
             background: rgba(255, 255, 255, 0.85); border-radius: 20px;
-            border: 1px solid var(--ghibli-brown); font-size: 1.2rem;
+            border: 1.5px solid var(--ghibli-brown); font-size: 1.25rem; line-height: 1.6;
         }
         .reveal-p.active { opacity: 1; transform: translateY(0); }
 
         .pull-rope {
-            position: absolute; right: -15px; top: 40%; width: 40px; height: 40px;
+            position: absolute; right: -15px; top: 40%; width: 45px; height: 45px;
             background: url('https://cdn-icons-png.flaticon.com/512/1041/1041916.png') no-repeat center;
             background-size: contain; cursor: pointer; animation: swing 3s infinite;
         }
         @keyframes swing { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
 
-        /* PHOTO FRAME (POLAROID) */
+        /* --- PHOTO POLAROID (NO BLUR) --- */
         #photo-frame {
             position: relative; background: white; padding: 15px 15px 60px 15px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1); transform: rotate(-2deg);
-            filter: brightness(0.1) grayscale(1); transition: 2s;
-            margin: 0 auto; max-width: 320px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform: rotate(-2deg);
+            filter: brightness(0.1) grayscale(1); transition: 2.5s;
+            margin: 0 auto; max-width: 320px; border: 1px solid #ddd;
         }
         #photo-frame.lit { filter: brightness(1) grayscale(0); }
+        
+        .lamp-switch {
+            position: absolute; right: -50px; top: 45%; cursor: pointer; text-align: center;
+        }
 
-        /* DECORATIONS */
-        .rain { position: fixed; background: #8ecae6; width: 2px; height: 15px; z-index: -1; animation: fall linear infinite; }
+        /* --- FX --- */
+        .rain { position: fixed; background: #8ecae6; width: 2px; height: 15px; z-index: -1; animation: fall linear infinite; opacity: 0.5; }
         @keyframes fall { to { transform: translateY(110vh); } }
     </style>
 </head>
 <body oncontextmenu="return false">
 
     <div id="login-screen">
-        <img src="https://www.pngplay.com/wp-content/uploads/12/My-Neighbor-Totoro-PNG-Clipart-Background.png" class="totoro-welcome-icon" style="top:15%;">
+        <img src="https://www.pngplay.com/wp-content/uploads/12/My-Neighbor-Totoro-PNG-Clipart-Background.png" class="totoro-anim" style="top:10%; left:10%;">
+        <img src="https://assets.stickpng.com/images/584c305a1fc21103bb375ea0.png" class="totoro-anim" style="bottom:10%; right:10%; animation-delay: 2s;">
         
         <div class="login-box">
-            <h1 class="f-serif">Welcome,<br>Virya Rahmawati</h1>
-            <input type="text" id="username" placeholder="🍃 Nama Kamu">
-            <input type="password" id="password" placeholder="🔑 Sandi Rahasia">
+            <h1>Welcome,<br>Virya Rahmawati</h1>
+            <div class="input-group">
+                <span>🍃</span>
+                <input type="text" id="username" placeholder="Identitas">
+            </div>
+            <div class="input-group">
+                <span>🔑</span>
+                <input type="password" id="password" placeholder="Kata Sandi">
+            </div>
             <div class="login-btn" onclick="validateLogin()">
-                <img src="https://cdn-icons-png.flaticon.com/512/826/826908.png" width="40">
+                <img src="https://cdn-icons-png.flaticon.com/512/826/826908.png" width="35">
             </div>
         </div>
     </div>
@@ -113,29 +145,35 @@
         <div class="ghibli-bg"></div>
         <div id="rain-layer"></div>
 
-        <div class="fixed top-5 left-5 z-[100] bg-white/90 border-2 border-amber-900 px-4 py-1 rounded-full shadow-md font-bold text-amber-900" id="clock">00:00:00</div>
-        <div class="fixed top-5 right-5 z-[100] flex flex-col items-center">
-            <button class="w-12 h-12 bg-white rounded-full border-2 border-amber-900 flex items-center justify-center shadow-md" onclick="triggerLove(event)">🍂</button>
+        <div class="fixed top-6 left-6 z-[100] bg-white/90 border-2 border-amber-900 px-4 py-1 rounded-full shadow-sm">
+            <span class="text-[10px] font-bold text-amber-900 tracking-widest" id="clock">00:00:00</span>
         </div>
 
-        <main class="max-w-[450px] mx-auto px-6 py-20 text-center relative z-10">
-            <header class="mb-12">
+        <div class="fixed top-6 right-6 z-[100]">
+            <button class="w-12 h-12 bg-white rounded-full border-2 border-amber-900 shadow-sm flex items-center justify-center text-xl" onclick="triggerLove(event)">🍂</button>
+        </div>
+
+        <main class="max-w-[460px] mx-auto px-6 py-20 text-center relative z-10">
+            <header class="mb-16">
                 <img src="https://assets.stickpng.com/images/584c30651fc21103bb375ea1.png" class="w-32 mx-auto mb-4">
                 <h1 class="f-serif text-4xl italic text-amber-950">Untuk Elfrida</h1>
                 
-                <div class="weather-card">
+                <div class="weather-container mt-8 shadow-sm">
                     <div class="flex justify-between items-center">
-                        <div><p class="text-[10px] font-bold text-amber-800 uppercase">Kabar Langit</p><p class="text-lg">Hutan Totoro</p></div>
-                        <div class="text-4xl" id="main-temp">19°</div>
+                        <div>
+                            <p class="text-[10px] font-bold text-amber-800 uppercase tracking-widest">Kabar Langit</p>
+                            <p id="loc-text" class="text-lg">Hutan Totoro</p>
+                        </div>
+                        <div class="text-4xl" id="main-temp">--°</div>
                     </div>
                     <div class="flex overflow-x-auto gap-4 mt-3" id="hourly-list"></div>
                 </div>
             </header>
 
-            <div class="relative mb-24">
-                <div id="switch" class="absolute -right-10 top-1/2 z-50 cursor-pointer text-center" onclick="ignitePhoto()">
-                    <div class="bg-yellow-400 p-3 rounded-full border-2 border-amber-900 shadow-lg text-xl">💡</div>
-                    <p class="text-[8px] font-bold mt-1">NYALAKAN</p>
+            <div class="relative mb-28">
+                <div id="switch" class="lamp-switch" onclick="ignitePhoto()">
+                    <div class="bg-yellow-400 p-3 rounded-full border-2 border-amber-900 shadow-lg text-2xl">💡</div>
+                    <p class="text-[8px] font-bold mt-1 uppercase">Nyalakan</p>
                 </div>
                 <div id="photo-frame">
                     <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full h-auto" onerror="this.src='https://via.placeholder.com/300x400?text=Foto+Elfrida'">
@@ -145,11 +183,11 @@
 
             <div class="text-left space-y-16">
                 <div class="reveal-p active">
-                    Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan...
+                    Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
                     <span class="pull-rope" onclick="revealNext(this)"></span>
                 </div>
                 <div class="reveal-p">
-                    Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu...
+                    Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu...
                     <span class="pull-rope" onclick="revealNext(this)"></span>
                 </div>
                 <div class="f-serif text-2xl text-amber-900 py-10 border-y-2 border-dashed border-amber-900/30 text-center italic reveal-p">
@@ -157,12 +195,13 @@
                     <span class="pull-rope" onclick="revealNext(this)"></span>
                 </div>
                 <div class="reveal-p">
-                    Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu...
+                    Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. 
                 </div>
             </div>
 
             <footer class="mt-40 pb-20">
                 <p class="text-2xl tracking-[5px] text-amber-950 uppercase font-bold">Himam Aby Maulana</p>
+                <p class="text-[8px] tracking-[3px] opacity-40 mt-2">© VIRYA RAHMAWATI ARCHIVE</p>
             </footer>
         </main>
     </div>
@@ -178,24 +217,28 @@
                 document.body.classList.add('unlocked');
                 document.getElementById('login-screen').style.transform = 'translateY(-100%)';
                 document.getElementById('player').play();
-                startGhibliFX();
+                getWeather();
+                startRain();
             }
         }
 
-        function startGhibliFX() {
+        function startRain() {
             setInterval(() => {
                 const d = document.createElement('div'); d.className = 'rain';
                 d.style.left = Math.random() * 100 + 'vw';
                 d.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
                 document.getElementById('rain-layer').appendChild(d);
                 setTimeout(() => d.remove(), 1000);
-            }, 500);
+            }, 400);
         }
 
         function revealNext(rope) {
             const next = rope.parentElement.nextElementSibling;
             rope.style.display = 'none';
-            if(next) next.classList.add('active');
+            if(next) {
+                next.classList.add('active');
+                next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
 
         function ignitePhoto() {
@@ -203,9 +246,34 @@
             document.getElementById('photo-frame').classList.add('lit');
         }
 
+        async function getWeather() {
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&hourly=temperature_2m&current_weather=true&timezone=auto`);
+                const data = await res.json();
+                document.getElementById('main-temp').innerText = Math.round(data.current_weather.temperature) + '°';
+                
+                let html = '';
+                for(let i=0; i<8; i++) {
+                    html += `<div class="text-center min-w-[45px]"><div class="text-[9px] opacity-50">${i*3}.00</div><div class="text-xs font-bold">${Math.round(data.hourly.temperature_2m[i*3])}°</div></div>`;
+                }
+                document.getElementById('hourly-list').innerHTML = html;
+            });
+        }
+
         setInterval(() => {
             document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB');
         }, 1000);
+
+        function triggerLove(e) {
+            const icons = ['🍃', '🌸', '🍂'];
+            for(let i=0; i<6; i++) {
+                const f = document.createElement('div');
+                f.style.cssText = `position:fixed; left:${e.clientX}px; top:${e.clientY}px; font-size:20px; pointer-events:none; z-index:1000; animation: bloomFade 2s forwards;`;
+                f.innerText = icons[Math.floor(Math.random()*3)];
+                document.body.appendChild(f);
+                setTimeout(() => f.remove(), 2000);
+            }
+        }
     </script>
 </body>
 </html>
