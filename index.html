@@ -7,15 +7,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Tenor+Sans&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --neon-blue: #00d2ff; }
+        :root { --neon-blue: #00d2ff; --green: #52b788; }
         
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
-        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow: hidden; }
+        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
 
-        /* --- LOGIN SCREEN (SMOOTH MESH GRADIENT) --- */
+        /* --- LOGIN SCREEN (CINEMATIC MESH) --- */
         #login-screen {
             position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
-            /* Perpaduan warna gradasi yang lebih halus & cinematic */
             background: linear-gradient(45deg, #0f172a, #3b0764, #701a75, #4c1d95, #0f172a);
             background-size: 400% 400%;
             animation: ultraGradient 12s ease-in-out infinite;
@@ -30,38 +29,24 @@
 
         .login-box {
             position: relative; width: 320px; padding: 40px; 
-            background: rgba(0, 0, 0, 0.2); /* Sangat transparan */
-            backdrop-filter: blur(25px); 
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 2px;
+            background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(25px); 
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 2px;
             text-align: center;
         }
 
-        .quote-bg {
-            position: absolute; font-size: 7px; color: rgba(255, 255, 255, 0.2); 
-            font-family: 'Tenor Sans'; letter-spacing: 3px; text-transform: uppercase;
-        }
-
-        /* Input Styling: Kecil & Simpel */
         input {
             width: 100%; background: transparent; border: none; 
             border-bottom: 0.5px solid rgba(255, 255, 255, 0.2);
-            padding: 10px 2px; color: white; 
-            font-size: 9px; /* Sangat kecil & estetik */
-            letter-spacing: 4px; 
-            margin-bottom: 25px; outline: none; transition: 0.5s;
-            text-align: center;
-            text-transform: uppercase;
+            padding: 10px 2px; color: white; font-size: 9px;
+            letter-spacing: 4px; margin-bottom: 25px; outline: none; 
+            transition: 0.5s; text-align: center; text-transform: uppercase;
         }
-        input:focus { border-bottom-color: white; letter-spacing: 6px; }
-        input::placeholder { color: rgba(255, 255, 255, 0.3); font-size: 8px; letter-spacing: 2px; }
+        input:focus { border-bottom-color: white; }
 
         .login-btn {
             width: 50px; height: 50px; margin: 10px auto 0;
-            background: rgba(255, 255, 255, 0.05); 
-            border: 0.5px solid rgba(255, 255, 255, 0.2); 
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, 0.05); border: 0.5px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: 0.5s;
         }
         .login-btn:hover { background: white; }
@@ -72,10 +57,14 @@
         body.unlocked #login-screen { transform: scale(1.1); opacity: 0; pointer-events: none; }
         body.unlocked #main-content { opacity: 1; pointer-events: auto; }
 
-        /* Common Elements */
+        /* Decor & FX */
         .bg-gradient-main { position: fixed; inset: 0; z-index: -5; background: radial-gradient(circle at 50% 10%, #1a1b3a 0%, #050505 100%); }
         .rain { position: fixed; background: rgba(255,255,255,0.4); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
+        
+        .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 1001; animation: bloomFade 2s ease-out forwards; }
+        @keyframes bloomFade { 0% { transform: scale(0) rotate(0); opacity: 0; } 50% { opacity: 1; transform: scale(1.2) rotate(20deg); } 100% { transform: scale(1) translateY(-50px) rotate(45deg); opacity: 0; } }
+
         .f-serif { font-family: 'Cormorant Garamond', serif; }
         .f-tenor { font-family: 'Tenor Sans', sans-serif; }
     </style>
@@ -83,9 +72,6 @@
 <body oncontextmenu="return false">
 
     <div id="login-screen">
-        <div class="quote-bg top-10 left-10">Archive Locked</div>
-        <div class="quote-bg bottom-10 right-10">Himam Archive 2026</div>
-        
         <div class="flex flex-col items-center">
             <h1 class="f-tenor text-white text-5xl tracking-[18px] mb-2 opacity-90">WELCOME</h1>
             <p class="text-[8px] text-white/30 tracking-[6px] uppercase mb-12">Accessing Private Journal</p>
@@ -93,13 +79,9 @@
             <div class="login-box">
                 <input type="text" id="username" placeholder="IDENTITAS" autocomplete="off">
                 <input type="password" id="password" placeholder="KATA SANDI" autocomplete="off">
-                
                 <div class="login-btn" onclick="validateLogin()">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="white" transition="0.4s">
-                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
                 </div>
-                <p id="error-msg" class="text-[7px] text-white/40 mt-6 tracking-[3px] opacity-0 transition-opacity uppercase">Unauthorized</p>
             </div>
         </div>
     </div>
@@ -110,6 +92,16 @@
 
         <div class="fixed top-8 left-8 z-[100] bg-black/40 backdrop-blur-md px-4 py-1 rounded-full border border-white/5">
             <span class="text-[8px] font-light tracking-[3px] text-gray-400 uppercase" id="clock">00:00:00</span>
+        </div>
+
+        <div class="fixed top-8 right-8 z-[100] flex flex-col items-center gap-2">
+            <button class="relative w-11 h-11 rounded-full bg-black/60 flex items-center justify-center border border-white/10 overflow-hidden" onclick="triggerLove(event)">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--green)" class="relative z-10">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </button>
+            <span class="text-[7px] tracking-[2px] text-white/40 uppercase animate-pulse">Click Me</span>
+            <div id="love-msg" class="opacity-0 transition-all duration-700 text-[10px] bg-black/80 px-4 py-2 rounded-lg border border-white/10 text-green-400 mt-2"></div>
         </div>
         
         <main class="max-w-[500px] mx-auto px-8 py-32 text-center relative z-10">
@@ -131,7 +123,6 @@
                     <p class="f-serif text-3xl text-white py-12 border-y border-white/10 text-center italic leading-snug">
                         "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
                     </p>
-                    <p>Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai.</p>
                 </div>
             </div>
 
@@ -157,15 +148,37 @@
                     document.getElementById('login-screen').style.display = 'none';
                     if (audio.paused) togglePlay();
                 }, 1200);
-            } else {
-                const err = document.getElementById('error-msg');
-                err.style.opacity = "1";
-                setTimeout(() => err.style.opacity = "0", 2000);
             }
         }
 
+        // Clock
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
 
+        // Love & Flower Trigger
+        function triggerLove(e) {
+            e.stopPropagation();
+            const flowers = ['🌸', '✨', '🌷', '🤍', '🌺'];
+            for(let i=0; i<12; i++) {
+                setTimeout(() => {
+                    const f = document.createElement('div');
+                    f.className = 'flower';
+                    f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+                    f.style.left = (e.clientX + (Math.random() * 80 - 40)) + 'px';
+                    f.style.top = (e.clientY + (Math.random() * 80 - 40)) + 'px';
+                    document.body.appendChild(f);
+                    setTimeout(() => f.remove(), 2000);
+                }, i * 100);
+            }
+            
+            const h = new Date().getHours();
+            const msg = document.getElementById('love-msg');
+            let greeting = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
+            msg.innerText = "Selamat " + greeting + " Virya, jangan lupa sholat ❤️";
+            msg.style.opacity = "1";
+            setTimeout(() => { msg.style.opacity = "0"; }, 5000);
+        }
+
+        // Rain
         setInterval(() => {
             if(!document.body.classList.contains('unlocked')) return;
             const drop = document.createElement('div');
