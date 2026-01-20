@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Elfrida Virya Rahmawati</title>
+    <title>Untuk Ratu Hatiku - Elfrida</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&family=Playfair+Display:italic,wght@700&display=swap" rel="stylesheet">
     <style>
         body { background-color: #020305; color: white; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
         .mesh-bg {
@@ -17,16 +17,17 @@
         .gradient-text { background: linear-gradient(to right, #60a5fa, #c084fc, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .falling-item { position: fixed; top: -20px; z-index: 10; pointer-events: none; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+        .serif { font-family: 'Playfair Display', serif; }
     </style>
 </head>
 <body class="p-6" onclick="startMusic()">
     <div class="mesh-bg"></div>
 
-    <main class="max-w-md mx-auto space-y-16">
+    <main class="max-w-md mx-auto space-y-12">
         
-        <section class="pt-10 text-center space-y-10">
+        <section class="pt-10 text-center space-y-8">
             <div class="space-y-3">
-                <p class="text-blue-500 font-bold tracking-[0.5em] uppercase text-[10px]">Special Presentation</p>
+                <p class="text-blue-500 font-bold tracking-[0.5em] uppercase text-[10px]">A Message From My Heart</p>
                 <h1 class="text-5xl font-extrabold tracking-tighter uppercase leading-none">
                     FOR <br> <span class="gradient-text italic">ELFRIDA.</span>
                 </h1>
@@ -37,39 +38,45 @@
                     <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full h-full object-cover opacity-90 transition duration-700" alt="Elfrida">
                 </div>
                 <div class="absolute -bottom-4 -right-4 bg-blue-600 px-6 py-2 rounded-2xl font-black text-[10px] tracking-widest uppercase shadow-xl">
-                    Gift Received ❤️
+                    My Queen ❤️
                 </div>
             </div>
-            
-            <p class="text-gray-400 text-sm font-light leading-relaxed px-4 italic">
-                "Setiap momen bersama adalah kenangan yang tidak akan pernah pudar."
-            </p>
         </section>
 
-        <section class="space-y-6 pb-20">
-            <div class="flex items-center justify-between px-2">
-                <h3 class="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em]">Our Song</h3>
-                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+        <section class="space-y-8">
+            <div class="glass-card p-8 space-y-6 leading-relaxed text-gray-200">
+                <p class="text-sm">
+                    Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
+                </p>
+                <p class="text-sm">
+                    Tapi ketahuilah, hijab itu aku pilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku, dan kirimkan hasilnya padaku. Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu.
+                </p>
+                <p class="serif text-xl text-white italic">
+                    "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
+                </p>
+                <p class="text-sm">
+                    Aku tidak hanya ingin memujimu, aku ingin memuliakanmu. Menjadikanmu ratu di istana yang sedang aku bangun dengan kerja keras dan doa. Jika dunia ini terasa berat, biarkan pundakku menjadi rumahmu, dan biarkan akad menjadi tujuan akhir dari rasa kagumku.
+                </p>
+                <p class="text-sm font-bold gradient-text italic">
+                    Maukah kamu terus berjalan di sampingku, sampai hari di mana aku tak lagi memanggilmu dengan namamu, melainkan dengan sebutan istriku?
+                </p>
             </div>
 
             <div onclick="togglePlay()" class="glass-card p-6 flex items-center justify-between cursor-pointer hover:bg-white/5 transition group">
                 <div class="flex items-center gap-5 text-left">
-                    <span id="musicNumber" class="text-blue-500 font-extrabold text-xs">01</span>
+                    <span id="musicNumber" class="text-blue-500 font-extrabold text-xs animate-pulse">PLAYING</span>
                     <div>
                         <p class="text-sm font-bold tracking-tight">Perfect</p>
                         <p class="text-[10px] text-gray-500 uppercase tracking-widest">Ed Sheeran</p>
                     </div>
                 </div>
                 <div id="playIcon" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center transition">
-                    <span class="text-blue-400 text-[10px]">▶</span>
+                    <span class="text-blue-400 text-[10px]">||</span>
                 </div>
             </div>
 
-            <div class="glass-card p-8 border-t border-white/10 text-center">
-                <p class="text-gray-300 text-sm leading-relaxed italic mb-4">
-                    "Terima kasih sudah menjadi bagian dari hidupku. Setiap detik bersamamu adalah hadiah yang tak ternilai."
-                </p>
-                <p class="text-[10px] font-black tracking-widest text-gray-600 uppercase">Endless Memory &bull; 2024</p>
+            <div class="text-center pb-20">
+                <p class="text-[10px] font-black tracking-widest text-gray-600 uppercase">Forever Yours, Danuardheya</p>
             </div>
         </section>
 
@@ -81,17 +88,14 @@
         const playIcon = document.getElementById('playIcon');
         let hasStarted = false;
 
-        // Fungsi untuk memulai musik saat layar disentuh pertama kali
         function startMusic() {
             if (!hasStarted) {
                 audio.play().then(() => {
                     hasStarted = true;
-                    playIcon.innerHTML = '<span class="text-blue-400">||</span>';
-                }).catch(e => console.log("Menunggu interaksi user..."));
+                }).catch(e => console.log("Waiting for interaction..."));
             }
         }
 
-        // Fungsi untuk Pause/Play manual
         function togglePlay() {
             if (audio.paused) {
                 audio.play();
@@ -102,7 +106,6 @@
             }
         }
 
-        // Animasi Elemen Jatuh
         function createFalling() {
             const el = document.createElement('div');
             el.className = 'falling-item';
