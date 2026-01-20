@@ -70,11 +70,11 @@
         .rain { position: fixed; background: rgba(255,255,255,0.2); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
         
-        /* General Flower (for love button and initial burst) */
+        /* General Flower */
         .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 1001; animation: bloomFade 2.5s forwards; }
         @keyframes bloomFade { 0% { transform: scale(0) rotate(0); opacity: 0; } 30% { opacity: 1; transform: scale(1.5) rotate(45deg); } 100% { transform: translateY(-100px) rotate(90deg); opacity: 0; } }
 
-        /* Specific Flower (for paragraph reveal) */
+        /* Specific Flower */
         .para-flower { position: fixed; font-size: 14px; pointer-events: none; z-index: 1001; animation: paraBloom 3s ease-out forwards; opacity: 0; }
         @keyframes paraBloom { 0% { transform: scale(0) rotate(0); opacity: 0; } 20% { opacity: 1; transform: scale(1.2) rotate(20deg); } 100% { transform: scale(0.8) translateY(100px) rotate(60deg); opacity: 0; } }
 
@@ -98,6 +98,30 @@
 
         .f-serif { font-family: 'Cormorant Garamond', serif; }
         .f-tenor { font-family: 'Tenor Sans', sans-serif; }
+
+        /* WEATHER STYLES */
+        .weather-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 50px;
+        }
+        .weather-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+        .weather-scroll::-webkit-scrollbar { display: none; }
+        .weather-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
     </style>
 </head>
 <body oncontextmenu="return false">
@@ -160,6 +184,49 @@
                 </p>
             </div>
 
+            <div class="reveal-p mt-32 text-left">
+                <p class="text-[10px] tracking-[4px] text-white/50 uppercase mb-4 ml-2">Prakiraan Cuaca Per Jam</p>
+                <div class="weather-card">
+                    <div class="weather-scroll">
+                        <div class="weather-item">
+                            <span class="text-[11px] text-white/80 mb-2">Sekarang</span>
+                            <span class="text-2xl">☁️</span>
+                            <span class="text-[14px] font-medium mt-2">19°</span>
+                        </div>
+                        <div class="weather-item">
+                            <span class="text-[11px] text-white/60 mb-2">05.00</span>
+                            <span class="text-2xl">☁️</span>
+                            <span class="text-[14px] font-medium mt-2">19°</span>
+                        </div>
+                        <div class="weather-item">
+                            <span class="text-[11px] text-white/60 mb-2">06.00</span>
+                            <span class="text-2xl">☁️</span>
+                            <span class="text-[14px] font-medium mt-2">19°</span>
+                        </div>
+                        <div class="weather-item">
+                            <span class="text-[11px] text-white/60 mb-2">07.00</span>
+                            <span class="text-2xl">☁️</span>
+                            <span class="text-[14px] font-medium mt-2">19°</span>
+                        </div>
+                        <div class="weather-item">
+                            <span class="text-[11px] text-white/60 mb-2">08.00</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-[8px] text-blue-400">30%</span>
+                                <span class="text-2xl">🌧️</span>
+                            </div>
+                            <span class="text-[14px] font-medium mt-1">21°</span>
+                        </div>
+                        <div class="weather-item">
+                            <span class="text-[11px] text-white/60 mb-2">09.00</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-[8px] text-blue-400">40%</span>
+                                <span class="text-2xl">🌧️</span>
+                            </div>
+                            <span class="text-[14px] font-medium mt-1">21°</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <footer class="mt-40 reveal-p">
                 <p class="f-tenor text-2xl tracking-[10px] text-white/80 uppercase">Himam Aby Maulana</p>
                 <p class="text-[7px] tracking-[4px] mt-4 opacity-30 uppercase">© Forever Virya Archive</p>
@@ -179,8 +246,7 @@
             const pass = document.getElementById('password').value;
             if (pass.toUpperCase() === "FLAFOUR") {
                 document.body.classList.add('unlocked');
-                // Initial flower burst (after login)
-                for(let i=0; i<40; i++) { // Lebih banyak bunga untuk pembukaan
+                for(let i=0; i<40; i++) {
                     setTimeout(() => {
                         createFlower(Math.random() * window.innerWidth, Math.random() * window.innerHeight, 'flower');
                     }, i * 70);
@@ -189,7 +255,7 @@
                     document.getElementById('login-screen').style.display = 'none';
                     if (audio.paused) audio.play();
                     startNaskahReveal();
-                }, 2000); // Jeda lebih lama untuk efek bunga pembuka
+                }, 2000);
             }
         }
 
@@ -197,19 +263,15 @@
             const paragraphs = document.querySelectorAll('.reveal-p');
             paragraphs.forEach((p, index) => {
                 setTimeout(() => {
-                    // Trigger butterflies and small flowers BEFORE paragraph reveals
-                    for(let i=0; i<Math.random() * 5 + 3; i++) { // 3-7 butterflies
-                        createButterfly();
-                    }
-                    for(let i=0; i<Math.random() * 10 + 5; i++) { // 5-15 small flowers
+                    for(let i=0; i<Math.random() * 5 + 3; i++) { createButterfly(); }
+                    for(let i=0; i<Math.random() * 10 + 5; i++) {
                         createFlower(p.getBoundingClientRect().left + Math.random() * p.offsetWidth, p.getBoundingClientRect().top + Math.random() * p.offsetHeight, 'para-flower');
                     }
-                    
-                    setTimeout(() => { // Then reveal the paragraph
+                    setTimeout(() => {
                         p.classList.add('active');
                         p.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 1000); // Jeda 1 detik setelah bunga/kupu muncul
-                }, index * 6000); // Jeda 6 detik per paragraf (termasuk animasi kupu/bunga)
+                    }, 1000);
+                }, index * 6000);
             });
         }
 
@@ -220,19 +282,18 @@
             f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
             f.style.left = x + 'px';
             f.style.top = y + 'px';
-            f.style.fontSize = (Math.random() * 10 + 10) + 'px'; // Ukuran bervariasi
+            f.style.fontSize = (Math.random() * 10 + 10) + 'px';
             document.body.appendChild(f);
             setTimeout(() => f.remove(), 3000);
         }
 
         function createButterfly() {
-            const butterflies = ['🦋', '💙', '💖', '💜', '🧡']; // Icons for butterflies
+            const butterflies = ['🦋', '💙', '💖', '💜', '🧡'];
             const b = document.createElement('div');
             b.className = 'butterfly';
             b.innerText = butterflies[Math.floor(Math.random() * butterflies.length)];
-            // Randomize start position
             b.style.left = Math.random() * 10 + 'vw';
-            b.style.top = Math.random() * 10 + 90 + 'vh'; // Start from bottom
+            b.style.top = Math.random() * 10 + 90 + 'vh';
             document.body.appendChild(b);
             setTimeout(() => b.remove(), 8000);
         }
@@ -262,4 +323,3 @@
     </script>
 </body>
 </html>
-
