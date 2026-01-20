@@ -14,7 +14,49 @@
         /* SILENT PROTECTION */
         body.protected { filter: blur(80px) brightness(0); pointer-events: none; }
 
-        /* MESH GRADIENT UTAMA */
+        /* --- LOGIN SCREEN (UPDATED) --- */
+        #login-screen {
+            position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
+            /* Mesh Gradient: Hitam, Biru, Ungu, Pink */
+            background: linear-gradient(135deg, #000000, #1e1b4b, #4c1d95, #831843, #000000);
+            background-size: 400% 400%;
+            animation: meshFlow 12s ease-in-out infinite;
+            transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+        
+        /* Masking Blur Efek agar Fokus ke Tengah */
+        #login-screen::before {
+            content: ''; position: absolute; inset: 0;
+            backdrop-filter: blur(15px);
+            -webkit-mask-image: radial-gradient(circle, transparent 20%, black 80%);
+            mask-image: radial-gradient(circle, transparent 20%, black 80%);
+            pointer-events: none;
+        }
+
+        .login-box {
+            position: relative; width: 320px; padding: 50px 40px; 
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); 
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; 
+            text-align: center; z-index: 10;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        }
+
+        input {
+            width: 100%; background: transparent; border: none; border-bottom: 0.5px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 2px; color: white; font-size: 9px; letter-spacing: 5px; margin-bottom: 25px; 
+            outline: none; text-align: center; text-transform: uppercase; transition: 0.5s;
+        }
+        input:focus { border-bottom-color: white; letter-spacing: 7px; }
+
+        .login-btn {
+            width: 55px; height: 55px; margin: 15px auto 0; background: white; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; transition: 0.5s; box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+        .login-btn svg { fill: black; width: 22px; height: 22px; }
+        .login-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255,255,255,0.4); }
+
+        /* MESH GRADIENT MAIN CONTENT */
         .mesh-gradient-bg {
             position: fixed; inset: 0; z-index: -5;
             background: linear-gradient(125deg, #0f172a 0%, #3b0764 25%, #701a75 50%, #db2777 75%, #1e1b4b 100%);
@@ -23,33 +65,11 @@
         }
         @keyframes meshFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* LOGIN SCREEN */
-        #login-screen {
-            position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(45deg, #020617, #1e1b4b, #312e81);
-            transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-        .login-box {
-            position: relative; width: 320px; padding: 40px; 
-            background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(25px); 
-            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 2px; text-align: center;
-        }
-        input {
-            width: 100%; background: transparent; border: none; border-bottom: 0.5px solid rgba(255, 255, 255, 0.2);
-            padding: 10px 2px; color: white; font-size: 9px; letter-spacing: 4px; margin-bottom: 25px; 
-            outline: none; text-align: center; text-transform: uppercase; transition: 0.4s;
-        }
-        .login-btn {
-            width: 50px; height: 50px; margin: 10px auto 0; background: rgba(255, 255, 255, 0.05); 
-            border: 0.5px solid rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
-        }
-
         /* MAIN CONTENT */
         #main-content { opacity: 0; pointer-events: none; transition: 2s ease; height: 100vh; overflow-y: auto; scroll-behavior: smooth; }
-        body.unlocked #login-screen { transform: translateY(-100%); opacity: 0; }
+        body.unlocked #login-screen { transform: scale(1.2); opacity: 0; pointer-events: none; }
         body.unlocked #main-content { opacity: 1; pointer-events: auto; }
 
-        /* NASKAH ANIMATION */
         .reveal-p { opacity: 0; transform: translateY(30px); transition: all 1.5s ease; filter: blur(10px); margin-bottom: 4rem; }
         .reveal-p.active { opacity: 1; transform: translateY(0); filter: blur(0); }
 
@@ -66,13 +86,13 @@
 
     <div id="login-screen">
         <div class="flex flex-col items-center">
-            <h1 class="f-tenor text-white text-5xl tracking-[18px] mb-2 opacity-90">WELCOME</h1>
-            <p class="text-[8px] text-white/30 tracking-[6px] uppercase mb-12">Private Archive Access</p>
+            <h1 class="f-tenor text-white text-5xl tracking-[18px] mb-2 opacity-100 drop-shadow-2xl">WELCOME</h1>
+            <p class="text-[8px] text-white/40 tracking-[6px] uppercase mb-12">Access Private Journal</p>
             <div class="login-box">
                 <input type="text" id="username" placeholder="IDENTITAS" autocomplete="off">
                 <input type="password" id="password" placeholder="KATA SANDI" autocomplete="off">
                 <div class="login-btn" onclick="validateLogin()">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
                 </div>
             </div>
         </div>
@@ -101,26 +121,22 @@
             </header>
 
             <div class="border border-white/5 p-2 bg-white/5 backdrop-blur-sm mb-32 reveal-p">
-                <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-60 grayscale" id="main-photo">
+                <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-60 grayscale">
             </div>
 
             <div class="text-left space-y-24">
                 <p class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p">
                     Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
                 </p>
-                
                 <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
                     Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.
                 </p>
-                
                 <p class="f-serif text-3xl text-white py-12 border-y border-white/10 text-center italic leading-snug reveal-p">
                     "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
                 </p>
-                
                 <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
                     Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.
                 </p>
-                
                 <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
                     Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang.
                 </p>
@@ -145,7 +161,6 @@
             const pass = document.getElementById('password').value;
             if (pass.toUpperCase() === "FLAFOUR") {
                 document.body.classList.add('unlocked');
-                // Efek Bunga Pembuka
                 for(let i=0; i<30; i++) {
                     setTimeout(() => {
                         createFlower(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
@@ -165,7 +180,7 @@
                 setTimeout(() => {
                     p.classList.add('active');
                     p.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, index * 5000); // Jeda 5 detik tiap paragraf
+                }, index * 5000);
             });
         }
 
