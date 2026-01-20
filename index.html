@@ -10,99 +10,94 @@
         :root { --warm-gold: #ceb392; --soft-green: #4ade80; }
         
         body { 
-            background-color: #030405; 
-            color: #d1d5db; 
-            font-family: 'Inter', sans-serif; 
-            overflow-x: hidden; 
-            margin: 0;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #4c1d95 100%);
+            color: #d1d5db; font-family: 'Inter', sans-serif; 
+            overflow-x: hidden; margin: 0; line-height: 1.6;
         }
 
-        /* Langit Malam Cinematic */
-        .night-sky {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3;
-            background: linear-gradient(to bottom, #020107 0%, #1a1a3a 50%, #3b1c5a 100%);
-        }
-
-        /* Bulan Purnama */
-        .moon {
-            position: fixed; top: 50px; right: 10%; width: 100px; height: 100px;
-            background: #fffce0; border-radius: 50%;
-            box-shadow: 0 0 60px 20px rgba(255, 252, 224, 0.4);
-            z-index: -2;
-        }
-
-        /* Bintang-bintang */
-        .stars {
+        /* Langit & Bintang */
+        .stars-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2; background-image: 
-                radial-gradient(1px 1px at 25px 35px, white, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 50px 100px, white, rgba(0,0,0,0)),
-                radial-gradient(1.5px 1.5px at 150px 200px, #ffd6a5, rgba(0,0,0,0));
-            background-size: 250px 250px;
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px; opacity: 0.3; z-index: -3;
         }
 
-        /* Kupu-kupu Putih & Glitter */
+        .moon {
+            position: fixed; top: 80px; right: 10%; width: 100px; height: 100px;
+            background: #fff9e6; border-radius: 50%; z-index: -2;
+            box-shadow: 0 0 60px 20px rgba(255, 249, 230, 0.3);
+        }
+
+        /* Kupu-kupu & Glitter */
         .butterfly {
-            position: fixed; width: 12px; height: 12px;
-            z-index: 50; pointer-events: none;
-            transition: top 5s ease-in-out, left 5s ease-in-out;
+            position: fixed; width: 40px; height: 30px; z-index: 50;
+            pointer-events: none; transition: top 3s ease-in-out, left 3s ease-in-out;
         }
         .wing {
-            position: absolute; width: 10px; height: 15px;
-            background: rgba(255, 255, 255, 0.9); border-radius: 50% 50% 0 50%;
-            animation: flap 0.2s infinite alternate;
-            box-shadow: 0 0 10px white;
+            position: absolute; width: 20px; height: 30px;
+            background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255,255,255,0.6);
+            border-radius: 50% 50% 0 50%;
+            animation: flap 0.3s alternate infinite;
         }
-        .wing.right { left: 10px; border-radius: 50% 50% 50% 0; animation-delay: 0.1s; }
-
+        .wing-right { left: 20px; border-radius: 50% 50% 50% 0; transform-origin: left; }
+        .wing-left { transform-origin: right; }
+        
         @keyframes flap {
             from { transform: rotateY(0deg); }
             to { transform: rotateY(70deg); }
         }
 
         .glitter {
-            position: absolute; width: 3px; height: 3px;
-            border-radius: 50%; pointer-events: none;
-            animation: fall-glitter 1s linear forwards;
+            position: absolute; width: 4px; height: 4px; border-radius: 50%;
+            pointer-events: none; animation: fadeOut 1.5s forwards; z-index: 49;
+        }
+        @keyframes fadeOut {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
         }
 
-        @keyframes fall-glitter {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(20px) scale(0); opacity: 0; }
-        }
-
-        /* Selebihnya Tetap Sesuai Permintaan */
+        /* Tipografi & UI (Tetap seperti sebelumnya) */
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-script { font-family: 'Pinyon Script', cursive; }
-
-        #rain-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .rain-streak { position: absolute; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.4)); width: 1.5px; height: 80px; animation: fall linear infinite; }
-        @keyframes fall { from { transform: translateY(-120px); } to { transform: translateY(110vh); } }
-
-        .ripple { position: absolute; border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50%; pointer-events: none; animation: ripple-effect 0.8s ease-out forwards; z-index: 1000; }
-        @keyframes ripple-effect { from { width: 0; height: 0; opacity: 0.8; transform: translate(-50%, -50%); } to { width: 100px; height: 100px; opacity: 0; transform: translate(-50%, -50%); } }
-
-        .digital-clock { position: fixed; top: 25px; left: 25px; z-index: 100; font-weight: 300; color: var(--warm-gold); font-size: 11px; letter-spacing: 3px; padding: 8px 15px; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); border-left: 2px solid var(--warm-gold); }
+        .digital-clock {
+            position: fixed; top: 25px; left: 25px; z-index: 100;
+            font-weight: 300; color: var(--warm-gold); font-size: 11px;
+            letter-spacing: 3px; padding: 8px 15px; border-left: 2px solid var(--warm-gold);
+            background: rgba(0,0,0,0.2); backdrop-filter: blur(10px);
+        }
         .love-container { position: fixed; top: 25px; right: 25px; z-index: 100; text-align: right; }
-        .love-btn { width: 45px; height: 45px; border: 1px solid var(--soft-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; background: rgba(0,0,0,0.4); box-shadow: 0 0 15px rgba(74, 222, 128, 0.2); }
-        #love-message { margin-top: 10px; font-size: 10px; color: var(--soft-green); background: rgba(0,0,0,0.5); padding: 5px 12px; border-radius: 4px; opacity: 0; transition: 0.5s; backdrop-filter: blur(5px); }
+        .love-btn {
+            width: 45px; height: 45px; border: 1px solid var(--soft-green); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; background: rgba(0,0,0,0.4);
+        }
+        #love-message {
+            margin-top: 10px; font-size: 10px; color: var(--soft-green);
+            background: rgba(0,0,0,0.5); padding: 5px 12px; border-radius: 4px;
+            opacity: 0; transition: 0.5s;
+        }
 
+        /* Layout (Tetap) */
         .main-container { max-width: 550px; margin: 0 auto; padding: 120px 25px; position: relative; z-index: 10; }
         .title-small { font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color: var(--warm-gold); opacity: 0.8; }
-        .title-large { font-size: 50px; margin-top: 5px; margin-bottom: 50px; }
         .image-frame { border: 1px solid rgba(255,255,255,0.1); padding: 10px; background: rgba(255,255,255,0.02); margin-bottom: 60px; }
-        .story-text { font-size: 1.05rem; color: #cbd5e1; font-weight: 300; }
         .quote-box { font-size: 1.6rem; color: #ffffff; padding: 40px 0; margin: 40px 0; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        .btn-audio { margin-top: 50px; width: 100%; border: 1px solid rgba(255,255,255,0.1); padding: 18px; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; transition: 0.4s; color: var(--warm-gold); background: rgba(255,255,255,0.02); }
+        .btn-audio { margin-top: 50px; width: 100%; border: 1px solid rgba(255,255,255,0.1); padding: 18px; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--warm-gold); }
     </style>
 </head>
 <body onclick="handleInteraction(event)">
     
-    <div class="night-sky"></div>
+    <div class="stars-overlay"></div>
     <div class="moon"></div>
-    <div class="stars"></div>
-    <div id="rain-container"></div>
+
+    <div id="bf1" class="butterfly">
+        <div class="wing wing-left"></div>
+        <div class="wing wing-right"></div>
+    </div>
+    <div id="bf2" class="butterfly">
+        <div class="wing wing-left"></div>
+        <div class="wing wing-right"></div>
+    </div>
 
     <div class="digital-clock" id="clock">00:00:00</div>
     
@@ -118,87 +113,69 @@
     <main class="main-container text-center">
         <header class="mb-16">
             <p class="title-small">For My Beloved</p>
-            <h1 class="font-script title-large text-white">Elfrida</h1>
+            <h1 class="font-script text-6xl text-white mt-2">Elfrida</h1>
         </header>
 
         <div class="image-frame">
             <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full grayscale opacity-80" alt="Elfrida">
         </div>
 
-        <div class="text-left space-y-8">
-            <p class="story-text">Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...</p>
-            <p class="story-text">Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.</p>
-            <div class="quote-box font-serif italic">"Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."</div>
-            <p class="story-text">Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.</p>
-            <p class="story-text">Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang, dan menjadi pundak yang selalu ada kapanpun kamu merasa lelah.</p>
+        <div class="text-left space-y-8 font-light text-slate-300">
+            <p>Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...</p>
+            <p>Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.</p>
+            <div class="quote-box font-serif italic text-white">"Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."</div>
+            <p>Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.</p>
+            <p>Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan.</p>
         </div>
 
-        <button onclick="togglePlay()" class="btn-audio"><span id="status">Play Ambiance</span></button>
+        <button onclick="togglePlay()" class="btn-audio">
+            <span id="status">Play Ambiance</span>
+        </button>
 
         <footer class="mt-28">
             <p class="font-script text-5xl text-white">Himam Aby M</p>
             <p class="title-small mt-4 opacity-40">Forever Yours | 2026</p>
         </footer>
+
         <audio id="audioPlayer" src="Ed Sheeran - Perfect.mp3" loop></audio>
     </main>
 
     <script>
-        function updateClock() { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', { hour12: false }); }
-        setInterval(updateClock, 1000); updateClock();
-
-        // Rain Effect
-        function createRain() {
-            const container = document.getElementById('rain-container');
-            const streak = document.createElement('div');
-            streak.className = 'rain-streak';
-            streak.style.left = Math.random() * 100 + 'vw';
-            streak.style.animationDuration = (Math.random() * 0.4 + 0.3) + 's';
-            streak.style.opacity = (Math.random() * 0.3 + 0.1);
-            container.appendChild(streak);
-            setTimeout(() => streak.remove(), 800);
+        function updateClock() {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB', { hour12: false });
         }
-        setInterval(createRain, 40);
+        setInterval(updateClock, 1000);
 
-        // Interactive Ripple
+        // Pergerakan Kupu-kupu & Glitter
+        function moveButterfly(id) {
+            const bf = document.getElementById(id);
+            const x = Math.random() * (window.innerWidth - 50);
+            const y = Math.random() * (window.innerHeight - 50);
+            bf.style.left = x + 'px';
+            bf.style.top = y + 'px';
+            
+            // Buat ekor glitter warna-warni
+            for(let i=0; i<5; i++) {
+                createGlitter(x + 20, y + 15);
+            }
+        }
+
+        function createGlitter(x, y) {
+            const g = document.createElement('div');
+            g.className = 'glitter';
+            const colors = ['#FFD700', '#FF69B4', '#00FFFF', '#ADFF2F', '#FF4500'];
+            g.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            g.style.left = x + 'px';
+            g.style.top = y + 'px';
+            document.body.appendChild(g);
+            setTimeout(() => g.remove(), 1500);
+        }
+
+        setInterval(() => { moveButterfly('bf1'); moveButterfly('bf2'); }, 3000);
+
         function handleInteraction(e) {
-            if(e.target.closest('button')) return;
-            const ripple = document.createElement('div');
-            ripple.className = 'ripple';
-            ripple.style.left = `${e.clientX}px`; ripple.style.top = `${e.clientY}px`;
-            document.body.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 800);
             if (audio.paused && !audio.played.length) togglePlay();
         }
-
-        // Butterflies & Glitter
-        const colors = ['#FFD700', '#FF69B4', '#00FFFF', '#ADFF2F', '#FF4500'];
-        function createButterfly() {
-            const b = document.createElement('div');
-            b.className = 'butterfly';
-            b.innerHTML = '<div class="wing"></div><div class="wing right"></div>';
-            document.body.appendChild(b);
-            
-            let x = Math.random() * window.innerWidth;
-            let y = Math.random() * window.innerHeight;
-            b.style.left = x + 'px'; b.style.top = y + 'px';
-
-            setInterval(() => {
-                x += (Math.random() - 0.5) * 200;
-                y += (Math.random() - 0.5) * 200;
-                b.style.left = Math.max(0, Math.min(window.innerWidth - 20, x)) + 'px';
-                b.style.top = Math.max(0, Math.min(window.innerHeight - 20, y)) + 'px';
-                
-                // Create Glitter
-                const g = document.createElement('div');
-                g.className = 'glitter';
-                g.style.left = (parseFloat(b.style.left) + 5) + 'px';
-                g.style.top = (parseFloat(b.style.top) + 5) + 'px';
-                g.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-                document.body.appendChild(g);
-                setTimeout(() => g.remove(), 1000);
-            }, 3000);
-        }
-        for(let i=0; i<5; i++) createButterfly();
 
         function sayHello() {
             const h = new Date().getHours();
