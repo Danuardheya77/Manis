@@ -9,10 +9,8 @@
     <style>
         body { background-color: #05070a; color: white; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; margin: 0; }
         
-        /* Judul Gaya Undangan Pernikahan */
         .wedding-font { font-family: 'Pinyon Script', cursive; }
 
-        /* Background Utama */
         .bg-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3;
             background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
@@ -20,7 +18,6 @@
             background-size: cover; background-position: center;
         }
 
-        /* Overlay Video Efek Air Estetik (Green Screen Style) */
         .video-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -2; object-fit: cover; opacity: 0.5; pointer-events: none;
@@ -32,17 +29,16 @@
             backdrop-filter: blur(5px); background: rgba(255, 255, 255, 0.01);
         }
 
-        /* Jam Digital Warm Glow */
+        /* TOOLBAR JAM (POJOK KIRI ATAS) */
         .digital-clock {
             position: fixed; top: 20px; left: 20px; z-index: 100;
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
             padding: 8px 15px; border-radius: 12px; border: 1px solid rgba(255, 214, 165, 0.2);
             font-weight: 800; color: #ffd6a5; font-size: 13px;
-            box-shadow: 0 0 15px rgba(255, 214, 165, 0.1);
             text-shadow: 0 0 5px rgba(255, 214, 165, 0.8);
         }
 
-        /* Tombol Love Hijau Accessibility */
+        /* TOOLBAR LOVE (POJOK KANAN ATAS) */
         .love-container { position: fixed; top: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
         
         .love-btn {
@@ -50,17 +46,15 @@
             display: flex; align-items: center; justify-content: center;
             border-radius: 50%; cursor: pointer; backdrop-filter: blur(5px);
             border: 2px solid rgba(255, 214, 165, 0.4);
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
             animation: pulse-love 2s infinite;
         }
 
-        /* Pop-up Pesan Cinta Transparan */
         #love-message {
             background: rgba(34, 197, 94, 0.15); backdrop-filter: blur(12px);
             border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 15px;
             padding: 10px 15px; color: #dcfce7; font-size: 12px; font-weight: 600;
             max-width: 180px; text-align: right; opacity: 0; transition: 0.5s;
-            pointer-events: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            pointer-events: none;
         }
 
         @keyframes pulse-love {
@@ -75,6 +69,7 @@
         }
 
         .gradient-text { background: linear-gradient(to right, #93c5fd, #c084fc, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .serif { font-family: 'Playfair Display', serif; }
     </style>
 </head>
 <body class="p-6" onclick="startAll()">
@@ -100,26 +95,34 @@
         <section class="pt-24 text-center space-y-4">
             <div class="space-y-1">
                 <p class="text-blue-400 font-bold tracking-[0.4em] uppercase text-[9px] opacity-70">A Message From My Heart</p>
-                <h1 class="wedding-font text-6xl gradient-text leading-tight pt-2">
-                    For Elfrida
-                </h1>
+                <h1 class="wedding-font text-6xl gradient-text leading-tight pt-2">For Elfrida</h1>
             </div>
 
             <div class="glass-card p-4 relative shadow-2xl mt-6">
                 <div class="aspect-[3/4] w-full bg-gray-900 rounded-[2rem] overflow-hidden border border-white/5">
                     <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full h-full object-cover opacity-80" alt="Elfrida">
                 </div>
-                <div class="absolute -bottom-4 -right-2 bg-blue-600/60 backdrop-blur-lg px-6 py-2 rounded-2xl font-black text-[10px] tracking-widest uppercase border border-white/10">
-                    My Queen ❤️
-                </div>
+                <div class="absolute -bottom-4 -right-2 bg-blue-600/60 backdrop-blur-lg px-6 py-2 rounded-2xl font-black text-[10px] tracking-widest uppercase border border-white/10">My Queen ❤️</div>
             </div>
         </section>
 
         <section class="space-y-8">
-            <div class="glass-card p-8 space-y-6 leading-relaxed text-gray-300">
-                <p class="text-sm italic">Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku...</p>
-                <p class="serif text-2xl text-white italic leading-snug">"Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."</p>
-                <p class="text-sm font-bold gradient-text italic tracking-wide">Tetaplah berjalan bersamaku di sini. Kita nikmati setiap detiknya, kita lalui setiap jalannya...</p>
+            <div class="glass-card p-8 space-y-6 leading-relaxed text-gray-200">
+                <p class="text-sm">
+                    Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
+                </p>
+                <p class="text-sm">
+                    Tapi ketahuilah, hijab itu aku pilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku, dan kirimkan hasilnya padaku. Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu.
+                </p>
+                <p class="serif text-xl text-white italic">
+                    "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
+                </p>
+                <p class="text-sm">
+                    Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang, dan menjadi pundak yang selalu ada kapanpun kamu merasa lelah.
+                </p>
+                <p class="text-sm font-bold gradient-text italic tracking-wide leading-relaxed">
+                    Tetaplah berjalan bersamaku di sini. Kita nikmati setiap detiknya, kita lalui setiap jalannya, dan biarkan waktu yang menjadi saksi bagaimana doa-doaku tentangmu perlahan menjadi nyata.
+                </p>
             </div>
 
             <div onclick="togglePlay()" class="glass-card p-6 flex items-center justify-between cursor-pointer active:scale-95 transition">
@@ -154,10 +157,8 @@
             const h = new Date().getHours();
             const msgEl = document.getElementById('love-message');
             let greet = h < 11 ? "Selamat Pagi" : h < 15 ? "Selamat Siang" : h < 18 ? "Selamat Sore" : "Selamat Malam";
-            
             msgEl.innerText = greet + " Sayangkuuu, jangan lupa sholat yaa! ❤️";
             msgEl.style.opacity = "1";
-            
             setTimeout(() => { msgEl.style.opacity = "0"; }, 4000);
         }
 
