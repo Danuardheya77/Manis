@@ -3,67 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Special for You</title>
+    <title>Website Kenangan - Untuk Kamu</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #ffe5ec; overflow: hidden; }
+        
+        /* Kontainer Slide */
+        .slide {
+            height: 100vh;
+            width: 100vw;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            background-color: #ffe5ec;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-        }
-        .container {
             text-align: center;
-            background: white;
-            padding: 30px;
+            padding: 20px;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .container { scroll-snap-type: y mandatory; overflow-y: scroll; height: 100vh; }
+        section { scroll-snap-align: start; }
+
+        h1 { color: #ff4d6d; font-size: 2.5rem; margin-bottom: 10px; }
+        p { color: #590d22; font-size: 1.1rem; max-width: 80%; }
+        
+        .image-box {
+            width: 250px;
+            height: 250px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(255, 75, 110, 0.2);
-            width: 80%;
-            max-width: 400px;
-            z-index: 1;
+            background: #fff;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        h1 { color: #ff4d6d; font-size: 24px; }
-        p { color: #590d22; line-height: 1.6; font-size: 16px; }
-        .hijab-photo {
-            width: 100%;
-            border-radius: 15px;
-            margin-bottom: 15px;
-        }
-        .heart {
-            position: absolute;
-            color: #ff4d6d;
-            font-size: 20px;
-            animation: fall linear infinite;
-        }
-        @keyframes fall {
-            to { transform: translateY(100vh); }
-        }
+
+        .image-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .song-list { background: white; padding: 15px; border-radius: 15px; width: 90%; max-width: 300px; text-align: left; }
+        .song-item { margin: 10px 0; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        
+        .footer-text { position: absolute; bottom: 30px; font-weight: bold; color: #ff4d6d; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=hijab" alt="Hijab" class="hijab-photo">
-        <h1>MasyaAllah...</h1>
-        <p>Terima kasih ya sudah mau menerima dan memakai hijab pemberianku.</p>
-        <p>Kamu terlihat jauh lebih cantik dan anggun. Semoga ini jadi awal yang baik dan membawa berkah untukmu.</p>
-        <p><b>Aku bangga sama kamu! ❤️</b></p>
-    </div>
 
-    <script>
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
-        }
-        setInterval(createHeart, 300);
-    </script>
+<div class="container">
+    <section class="slide">
+        <h1>Website Kenangan</h1>
+        <p>Untuk Kamu dan Dia.</p>
+        <p style="font-size: 0.9rem; margin-top: 10px;">Tempat menyimpan cerita, foto, dan lagu spesial kita.</p>
+        <div class="footer-text">Luky - Scroll ke bawah</div>
+    </section>
+
+    <section class="slide">
+        <h1>Our Playlist</h1>
+        <p>Lagu Favorit Kita</p>
+        <div class="song-list">
+            <div class="song-item"><b>A Thousand Years</b><br><small>Christina Perri</small></div>
+            <div class="song-item"><b>All of Me</b><br><small>John Legend</small></div>
+            <div class="song-item"><b>Perfect</b><br><small>Ed Sheeran</small></div>
+        </div>
+        <p style="margin-top: 15px; font-size: 0.8rem;">Setiap lagu punya cerita dan kenangan tersendiri.</p>
+    </section>
+
+    <section class="slide">
+        <div class="image-box">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=couple1" alt="Foto">
+        </div>
+        <h1>Cerita Kita</h1>
+        <p>Setiap momen bersama adalah kenangan yang tidak akan pernah pudar.</p>
+        <p><b>Pertama kali ketemu:</b> [Tulis di sini momenmu]</p>
+    </section>
+
+    <section class="slide">
+        <h1>First Date</h1>
+        <p>Tanggal yang tidak akan pernah aku lupakan saat kita menghabiskan waktu bersama.</p>
+        <div class="image-box" style="height: 100px; display: flex; align-items: center; justify-content: center;">
+            <h2 style="color: #ff4d6d;">DD-MM-YYYY</h2>
+        </div>
+        <p><i>"Tulis teks dari hati di sini"</i></p>
+    </section>
+
+    <section class="slide">
+        <h1>Walau Jauh...</h1>
+        <p>Aku tetap ngerasa kamu deket. Jarak hanya angka, yang penting hati selalu terhubung.</p>
+        <div style="margin: 20px; font-size: 1.2rem;">
+            <span>You - Di sana</span><br>
+            <span>❤️</span><br>
+            <span>Me - Di sini</span>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h1>Selamanya...</h1>
+        <p>Terima kasih sudah menjadi bagian dari hidupku. Setiap detik bersamamu adalah hadiah yang tak ternilai.</p>
+        <p style="margin-top: 20px;"><b>Setiap kenangan kita tersimpan di sini, selamanya.</b></p>
+    </div>
+</div>
+
 </body>
 </html>
