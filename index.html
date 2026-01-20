@@ -3,176 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>A Private Letter — Elfrida</title>
+    <title>A Private Letter</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Tenor+Sans&display=swap" rel="stylesheet">
     <style>
-        :root { --neon-blue: #00d2ff; --green: #52b788; }
-        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
-        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
-
-        /* SILENT PROTECTION */
-        body.protected { filter: blur(80px) brightness(0); pointer-events: none; }
-
-        /* OVERLAY OPEN */
-        #force-start {
-            position: fixed; inset: 0; z-index: 10000; background: #000;
-            display: flex; align-items: center; justify-content: center; transition: 1s;
-        }
-        .start-btn {
-            width: 120px; height: 120px; border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; color: white; font-size: 9px; letter-spacing: 4px;
-            animation: breathe 2s infinite ease-in-out;
-        }
-        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 1; } }
-
-        /* LOGIN SCREEN */
-        #login-screen {
-            position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(45deg, #ff00cc, #3333ff, #ff0066, #ff8c00);
-            background-size: 400% 400%; animation: meshFlow 8s ease-in-out infinite;
-        }
-        .login-box {
-            position: relative; width: 340px; padding: 50px 40px; 
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(25px); 
-            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; text-align: center;
-        }
-        input {
-            width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 2px; color: white; font-size: 10px; letter-spacing: 3px; margin-bottom: 25px; outline: none; text-align: center; text-transform: uppercase;
-        }
-        .login-btn {
-            width: 60px; height: 60px; margin: 15px auto 0; background: white; 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
-        }
-
-        /* MAIN CONTENT */
-        #main-content { opacity: 0; pointer-events: none; transition: 2s ease; height: 100vh; overflow-y: auto; scroll-behavior: smooth; }
-        .mesh-gradient-bg {
-            position: fixed; inset: 0; z-index: -5; background: linear-gradient(125deg, #0f172a, #3b0764, #701a75, #db2777, #1e1b4b);
-            background-size: 400% 400%; animation: meshFlow 15s ease-in-out infinite;
-        }
-        @keyframes meshFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        body.unlocked #login-screen { transform: translateY(-100%); opacity: 0; transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1); }
-        body.unlocked #main-content { opacity: 1; pointer-events: auto; }
-
-        .reveal-p { opacity: 0; transform: translateY(30px); transition: all 1.5s ease; filter: blur(10px); margin-bottom: 4rem; }
-        .reveal-p.active { opacity: 1; transform: translateY(0); filter: blur(0); }
-
-        .rain { position: fixed; background: rgba(255,255,255,0.2); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
-        @keyframes fall { to { transform: translateY(110vh); } }
+        body { background: #000; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
         
-        .f-serif { font-family: 'Cormorant Garamond', serif; }
-        .f-tenor { font-family: 'Tenor Sans', sans-serif; }
+        #gate {
+            width: 150px; height: 150px; border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.5s; position: relative;
+        }
+        
+        #status-text {
+            color: white; font-size: 8px; letter-spacing: 4px; font-family: sans-serif;
+            text-align: center; pointer-events: none;
+        }
+
+        /* Animasi saat file audio sudah siap */
+        .ready { border-color: #fff !important; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
     </style>
 </head>
 <body>
 
-    <div id="force-start" onclick="playShania()">
-        <div class="start-btn">OPEN</div>
-    </div>
+    <audio id="shania" src="Shania Twain.mp3" preload="auto"></audio>
 
-    <audio id="audioW" loop>
-        <source src="Shania Twain.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audioP" loop>
-        <source src="Ed Sheeran - Perfect.mp3" type="audio/mpeg">
-    </audio>
-
-    <div id="login-screen">
-        <div class="flex flex-col items-center">
-            <h1 class="f-tenor text-white text-3xl tracking-[10px] mb-2">WELCOME</h1>
-            <h2 class="f-tenor text-white text-xl tracking-[5px] mb-12 opacity-90">VIRYA RAHMAWATI</h2>
-            <div class="login-box">
-                <input type="text" id="username" placeholder="NAMA" autocomplete="off">
-                <input type="password" id="password" placeholder="PASSWORD" autocomplete="off">
-                <div class="login-btn" onclick="validateLogin()">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="black"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="main-content">
-        <div class="mesh-gradient-bg"></div>
-        <div id="rain-layer"></div>
-        <div class="fixed top-8 left-8 z-[100] bg-black/40 backdrop-blur-md px-4 py-1 rounded-full border border-white/5">
-            <span class="text-[8px] font-light tracking-[3px] text-gray-400 uppercase" id="clock">00:00:00</span>
-        </div>
-        <main class="max-w-[500px] mx-auto px-8 py-32 text-center relative z-10">
-            <header class="mb-32 reveal-p">
-                <p class="text-[9px] tracking-[6px] text-[#c4a47c] uppercase opacity-70">Journal Entry — 2026</p>
-                <h1 class="f-serif text-5xl text-white italic mt-3">For Elfrida</h1>
-            </header>
-            <div class="border border-white/5 p-2 bg-white/5 backdrop-blur-sm mb-32 reveal-p">
-                <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-60 grayscale">
-            </div>
-            <div class="text-left space-y-24">
-                <p class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p">
-                    Terima kasih banyak ya...
-                </p>
-                </div>
-        </main>
+    <div id="gate" onclick="gasMusik()">
+        <div id="status-text">LOADING...</div>
     </div>
 
     <script>
-        const sTwain = document.getElementById('audioW');
-        const sPerfect = document.getElementById('audioP');
+        const lagu = document.getElementById('shania');
+        const tombol = document.getElementById('gate');
+        const tulisan = document.getElementById('status-text');
 
-        // Fungsi yang dipicu saat tombol OPEN diklik
-        function playShania() {
-            // PAKSA PLAY DENGAN VOLUME PENUH
-            sTwain.volume = 1.0;
-            sTwain.play().then(() => {
-                console.log("Berhasil putar Shania");
+        // Cek apakah file Shania Twain.mp3 berhasil ditemukan oleh browser
+        lagu.addEventListener('canplaythrough', () => {
+            tombol.classList.add('ready');
+            tulisan.innerText = "OPEN";
+        });
+
+        // Jika file tidak ditemukan (salah nama/format)
+        lagu.addEventListener('error', () => {
+            tulisan.innerText = "FILE TIDAK ADA";
+            tulisan.style.color = "red";
+        });
+
+        function gasMusik() {
+            lagu.play().then(() => {
+                tulisan.innerText = "PLAYING...";
+                tombol.style.transform = "scale(0)";
+                tombol.style.opacity = "0";
+                
+                // Di sini nanti kita sambungkan ke bagian Welcome/Login
+                setTimeout(() => {
+                    alert("Musik Berhasil! Sekarang lanjut ke bagian utama?");
+                }, 1000);
+
             }).catch(e => {
-                alert("Klik lagi sekali untuk aktifkan suara");
-            });
-
-            document.getElementById('force-start').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('force-start').style.display = 'none';
-            }, 1000);
-        }
-
-        function validateLogin() {
-            const pass = document.getElementById('password').value;
-            if (pass.toUpperCase() === "FLAFOUR") {
-                document.body.classList.add('unlocked');
-                sTwain.pause();
-                sPerfect.play();
-                setTimeout(() => {
-                    document.getElementById('login-screen').style.display = 'none';
-                    startNaskahReveal();
-                }, 1500);
-            }
-        }
-
-        function startNaskahReveal() {
-            const paragraphs = document.querySelectorAll('.reveal-p');
-            paragraphs.forEach((p, index) => {
-                setTimeout(() => {
-                    p.classList.add('active');
-                    p.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, index * 5000);
+                alert("Klik sekali lagi atau pastikan volume HP menyala");
             });
         }
-
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
-        
-        setInterval(() => {
-            if(!document.body.classList.contains('unlocked')) return;
-            const drop = document.createElement('div');
-            drop.className = 'rain';
-            drop.style.left = Math.random() * 100 + 'vw';
-            document.getElementById('rain-layer').appendChild(drop);
-            setTimeout(() => drop.remove(), 800);
-        }, 50);
-
-        window.addEventListener('blur', () => document.body.classList.add('protected'));
-        window.addEventListener('focus', () => document.body.classList.remove('protected'));
     </script>
 </body>
 </html>
