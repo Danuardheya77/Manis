@@ -3,101 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Private Letter - Elfrida</title>
+    <title>A Celestial Letter - Elfrida</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;500&family=Inter:wght@100;300;400&family=Pinyon+Script&display=swap" rel="stylesheet">
     <style>
-        :root { --warm-gold: #ceb392; --soft-green: #4ade80; }
+        :root { --warm-gold: #ffd700; --soft-green: #4ade80; }
         
         body { 
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #4c1d95 100%);
-            color: #d1d5db; font-family: 'Inter', sans-serif; 
-            overflow-x: hidden; margin: 0; line-height: 1.6;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e, #0f3460);
+            color: #d1d5db; 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden; 
+            margin: 0;
+            line-height: 1.6;
         }
 
-        /* Langit & Bintang */
-        .stars-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(white 1px, transparent 1px);
-            background-size: 50px 50px; opacity: 0.3; z-index: -3;
+        /* Langit Malam, Bulan & Bintang */
+        .night-sky {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
         }
 
         .moon {
-            position: fixed; top: 80px; right: 10%; width: 100px; height: 100px;
-            background: #fff9e6; border-radius: 50%; z-index: -2;
-            box-shadow: 0 0 60px 20px rgba(255, 249, 230, 0.3);
+            position: fixed; top: 80px; right: 50px; width: 100px; height: 100px;
+            background: #fff5e6; border-radius: 50%; z-index: -2;
+            box-shadow: 0 0 50px 10px rgba(255, 245, 230, 0.4);
         }
 
-        /* Kupu-kupu & Glitter */
+        .stars {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px);
+            background-size: 100px 100px; opacity: 0.3;
+        }
+
+        /* EFEK KUPU-KUPU EMAS */
         .butterfly {
-            position: fixed; width: 40px; height: 30px; z-index: 50;
-            pointer-events: none; transition: top 3s ease-in-out, left 3s ease-in-out;
-        }
-        .wing {
-            position: absolute; width: 20px; height: 30px;
-            background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255,255,255,0.6);
-            border-radius: 50% 50% 0 50%;
-            animation: flap 0.3s alternate infinite;
-        }
-        .wing-right { left: 20px; border-radius: 50% 50% 50% 0; transform-origin: left; }
-        .wing-left { transform-origin: right; }
-        
-        @keyframes flap {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(70deg); }
+            position: fixed; pointer-events: none; z-index: -1;
+            width: 30px; height: 30px;
+            filter: drop-shadow(0 0 10px var(--warm-gold));
+            animation: fly linear infinite;
         }
 
-        .glitter {
-            position: absolute; width: 4px; height: 4px; border-radius: 50%;
-            pointer-events: none; animation: fadeOut 1.5s forwards; z-index: 49;
-        }
-        @keyframes fadeOut {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
+        @keyframes fly {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
         }
 
-        /* Tipografi & UI (Tetap seperti sebelumnya) */
+        /* EFEK GERIMIS */
+        .rain-streak {
+            position: fixed; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.4));
+            width: 1.5px; height: 100px; z-index: -1; pointer-events: none;
+            animation: fall linear infinite;
+        }
+        @keyframes fall { to { transform: translateY(110vh); } }
+
+        /* Font Styles */
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-script { font-family: 'Pinyon Script', cursive; }
+
+        /* UI Toolbar */
         .digital-clock {
             position: fixed; top: 25px; left: 25px; z-index: 100;
             font-weight: 300; color: var(--warm-gold); font-size: 11px;
-            letter-spacing: 3px; padding: 8px 15px; border-left: 2px solid var(--warm-gold);
-            background: rgba(0,0,0,0.2); backdrop-filter: blur(10px);
+            letter-spacing: 3px; padding: 8px 15px;
+            background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);
+            border-left: 2px solid var(--warm-gold);
         }
+
         .love-container { position: fixed; top: 25px; right: 25px; z-index: 100; text-align: right; }
         .love-btn {
             width: 45px; height: 45px; border: 1px solid var(--soft-green); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; background: rgba(0,0,0,0.4);
+            cursor: pointer; transition: 0.5s; background: rgba(0,0,0,0.4);
         }
-        #love-message {
-            margin-top: 10px; font-size: 10px; color: var(--soft-green);
-            background: rgba(0,0,0,0.5); padding: 5px 12px; border-radius: 4px;
-            opacity: 0; transition: 0.5s;
-        }
+        #love-message { margin-top: 10px; font-size: 10px; color: var(--soft-green); opacity: 0; transition: 0.5s; }
 
-        /* Layout (Tetap) */
+        /* Content Layout */
         .main-container { max-width: 550px; margin: 0 auto; padding: 120px 25px; position: relative; z-index: 10; }
-        .title-small { font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color: var(--warm-gold); opacity: 0.8; }
-        .image-frame { border: 1px solid rgba(255,255,255,0.1); padding: 10px; background: rgba(255,255,255,0.02); margin-bottom: 60px; }
-        .quote-box { font-size: 1.6rem; color: #ffffff; padding: 40px 0; margin: 40px 0; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        .btn-audio { margin-top: 50px; width: 100%; border: 1px solid rgba(255,255,255,0.1); padding: 18px; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--warm-gold); }
+        .image-frame { border: 1px solid rgba(255,255,255,0.1); padding: 10px; background: rgba(0,0,0,0.3); margin-bottom: 60px; }
+        .quote-box { font-size: 1.6rem; color: #ffffff; padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
+        .btn-audio { margin-top: 50px; width: 100%; border: 1px solid rgba(255,255,255,0.1); padding: 18px; font-size: 10px; color: var(--warm-gold); letter-spacing: 4px; }
     </style>
 </head>
 <body onclick="handleInteraction(event)">
     
-    <div class="stars-overlay"></div>
+    <div class="night-sky"></div>
     <div class="moon"></div>
-
-    <div id="bf1" class="butterfly">
-        <div class="wing wing-left"></div>
-        <div class="wing wing-right"></div>
-    </div>
-    <div id="bf2" class="butterfly">
-        <div class="wing wing-left"></div>
-        <div class="wing wing-right"></div>
-    </div>
+    <div class="stars"></div>
+    <div id="rain-container"></div>
+    <div id="butterfly-container"></div>
 
     <div class="digital-clock" id="clock">00:00:00</div>
     
@@ -107,34 +103,38 @@
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
         </button>
-        <div id="love-message">Message incoming...</div>
+        <div id="love-message">Message...</div>
     </div>
 
     <main class="main-container text-center">
         <header class="mb-16">
-            <p class="title-small">For My Beloved</p>
-            <h1 class="font-script text-6xl text-white mt-2">Elfrida</h1>
+            <p class="text-[10px] tracking-[5px] uppercase text-yellow-500 opacity-80">Under the Moonlight</p>
+            <h1 class="font-script text-6xl text-white mt-2">For Elfrida</h1>
         </header>
 
         <div class="image-frame">
-            <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full grayscale opacity-80" alt="Elfrida">
+            <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-90 shadow-2xl" alt="Elfrida">
         </div>
 
-        <div class="text-left space-y-8 font-light text-slate-300">
+        <div class="text-left space-y-8 font-serif text-lg leading-relaxed text-blue-100">
             <p>Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...</p>
             <p>Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.</p>
-            <div class="quote-box font-serif italic text-white">"Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."</div>
+            
+            <div class="quote-box text-2xl font-serif italic text-white">
+                "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
+            </div>
+
             <p>Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.</p>
             <p>Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan.</p>
         </div>
 
         <button onclick="togglePlay()" class="btn-audio">
-            <span id="status">Play Ambiance</span>
+            <span id="status">Play Moonlight Ambiance</span>
         </button>
 
         <footer class="mt-28">
             <p class="font-script text-5xl text-white">Himam Aby M</p>
-            <p class="title-small mt-4 opacity-40">Forever Yours | 2026</p>
+            <p class="text-[9px] tracking-[5px] opacity-40 mt-4">2026 • Forever Archive</p>
         </footer>
 
         <audio id="audioPlayer" src="Ed Sheeran - Perfect.mp3" loop></audio>
@@ -146,32 +146,34 @@
         }
         setInterval(updateClock, 1000);
 
-        // Pergerakan Kupu-kupu & Glitter
-        function moveButterfly(id) {
-            const bf = document.getElementById(id);
-            const x = Math.random() * (window.innerWidth - 50);
-            const y = Math.random() * (window.innerHeight - 50);
-            bf.style.left = x + 'px';
-            bf.style.top = y + 'px';
-            
-            // Buat ekor glitter warna-warni
-            for(let i=0; i<5; i++) {
-                createGlitter(x + 20, y + 15);
-            }
+        // Efek Gerimis
+        function createRain() {
+            const streak = document.createElement('div');
+            streak.className = 'rain-streak';
+            streak.style.left = Math.random() * 100 + 'vw';
+            streak.style.animationDuration = (Math.random() * 0.3 + 0.3) + 's';
+            document.getElementById('rain-container').appendChild(streak);
+            setTimeout(() => streak.remove(), 800);
         }
+        setInterval(createRain, 40);
 
-        function createGlitter(x, y) {
-            const g = document.createElement('div');
-            g.className = 'glitter';
-            const colors = ['#FFD700', '#FF69B4', '#00FFFF', '#ADFF2F', '#FF4500'];
-            g.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            g.style.left = x + 'px';
-            g.style.top = y + 'px';
-            document.body.appendChild(g);
-            setTimeout(() => g.remove(), 1500);
+        // Efek Kupu-kupu Terbang
+        function createButterfly() {
+            const b = document.createElement('img');
+            b.src = 'https://www.pngall.com/wp-content/uploads/2016/04/Butterfly-PNG-Image.png'; // Golden/White Butterfly
+            b.className = 'butterfly';
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 100;
+            b.style.left = startX + 'vw';
+            b.style.top = startY + 'vh';
+            b.style.setProperty('--x', (Math.random() * 40 - 20) + 'vw');
+            b.style.setProperty('--y', (Math.random() * -40 - 10) + 'vh');
+            b.style.setProperty('--r', (Math.random() * 360) + 'deg');
+            b.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            document.getElementById('butterfly-container').appendChild(b);
+            setTimeout(() => b.remove(), 8000);
         }
-
-        setInterval(() => { moveButterfly('bf1'); moveButterfly('bf2'); }, 3000);
+        setInterval(createButterfly, 1500);
 
         function handleInteraction(e) {
             if (audio.paused && !audio.played.length) togglePlay();
@@ -180,8 +182,8 @@
         function sayHello() {
             const h = new Date().getHours();
             const msgEl = document.getElementById('love-message');
-            let greet = h < 11 ? "Selamat Pagi" : h < 15 ? "Selamat Siang" : h < 18 ? "Selamat Sore" : "Selamat Malam";
-            msgEl.innerText = greet + " Sayangku, jangan lupa sholat ya ❤️";
+            let greet = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
+            msgEl.innerText = "Selamat " + greet + " Sayangku, jangan lupa sholat ya ❤️";
             msgEl.style.opacity = "1";
             setTimeout(() => msgEl.style.opacity = "0", 4000);
         }
