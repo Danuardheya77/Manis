@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Private Journal — Elfrida</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Tenor+Sans&display=swap" rel="stylesheet">
     <style>
         :root { --accent: #c4a47c; --green: #52b788; }
         
@@ -18,7 +18,7 @@
             cursor: crosshair;
         }
 
-        /* Cinematic Background Layers */
+        /* Background Dramatis */
         .bg-gradient {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5;
             background: radial-gradient(circle at 50% 10%, #1a1b3a 0%, #050505 100%);
@@ -30,21 +30,20 @@
             background-size: 80px 80px; opacity: 0.15;
         }
 
-        .moon-cinematic {
-            position: fixed; top: 15%; right: 10%; width: 120px; height: 120px;
+        .moon {
+            position: fixed; top: 15%; right: 10%; width: 100px; height: 100px;
             background: #fff; border-radius: 50%; z-index: -3;
-            filter: blur(1px); box-shadow: 0 0 60px 10px rgba(255, 255, 255, 0.15);
-            opacity: 0.8;
+            box-shadow: 0 0 60px 10px rgba(255, 255, 255, 0.1); opacity: 0.8;
         }
 
-        /* Rain Streaks */
+        /* Efek Gerimis */
         .rain {
             position: fixed; background: rgba(255,255,255,0.4); width: 1px; height: 50px;
             z-index: -2; pointer-events: none; animation: fall linear infinite;
         }
         @keyframes fall { to { transform: translateY(110vh); } }
 
-        /* Butterfly - Emas & Elegan */
+        /* Kupu-kupu Emas */
         .butterfly {
             position: fixed; width: 4px; height: 4px; background: var(--accent);
             z-index: -1; border-radius: 50%; opacity: 0;
@@ -57,20 +56,20 @@
             100% { transform: translate(var(--x), var(--y)); opacity: 0; }
         }
 
-        /* Ripple Effect (Tetesan Air) */
+        /* Efek Tetesan Air (Ripple) - DIPERBAIKI */
         .ripple {
-            position: absolute; border: 0.5px solid rgba(255,255,255,0.4);
-            border-radius: 50%; pointer-events: none; z-index: 1000;
+            position: absolute; border: 0.5px solid rgba(255,255,255,0.5);
+            border-radius: 50%; pointer-events: none; z-index: 9999;
             animation: ripple-out 0.8s cubic-bezier(0, 0.2, 0.8, 1) forwards;
         }
         @keyframes ripple-out {
-            from { width: 0; height: 0; opacity: 0.6; transform: translate(-50%, -50%); }
-            to { width: 120px; height: 120px; opacity: 0; transform: translate(-50%, -50%); }
+            from { width: 0; height: 0; opacity: 0.8; transform: translate(-50%, -50%); }
+            to { width: 150px; height: 150px; opacity: 0; transform: translate(-50%, -50%); }
         }
 
-        /* Typography & Layout */
+        /* Font Styles */
         .f-serif { font-family: 'Cormorant Garamond', serif; }
-        .f-script { font-family: 'Pinyon Script', cursive; }
+        .f-tenor { font-family: 'Tenor Sans', sans-serif; } /* Font untuk nama Himam */
         
         .main-wrapper { max-width: 550px; margin: 0 auto; padding: 120px 24px; z-index: 10; position: relative; }
         
@@ -84,18 +83,13 @@
             background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(10px); transition: 0.4s;
         }
-
-        .love-btn {
-            width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(82, 183, 136, 0.3);
-            display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.5);
-        }
     </style>
 </head>
 <body onclick="handleInteraction(event)">
     
     <div class="bg-gradient"></div>
     <div class="stars-overlay"></div>
-    <div class="moon-cinematic"></div>
+    <div class="moon"></div>
     <div id="rain-layer"></div>
     <div id="butterfly-layer"></div>
 
@@ -104,16 +98,16 @@
     </div>
     
     <div class="fixed top-8 right-8 z-[100] flex flex-col items-end gap-3">
-        <button class="love-btn active:scale-90 transition-transform" onclick="sayHello(event)">
+        <button class="w-11 h-11 rounded-full border border-green-500/30 flex items-center justify-center bg-black/50" onclick="sayHello(event)">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--green)"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
         </button>
-        <div id="love-msg" class="opacity-0 transition-all duration-700 translate-x-4 text-[10px] bg-black/60 px-4 py-2 rounded-lg border border-white/5 text-green-400 tracking-wide"></div>
+        <div id="love-msg" class="opacity-0 transition-all duration-700 text-[10px] bg-black/60 px-4 py-2 rounded-lg border border-white/5 text-green-400 tracking-wide"></div>
     </div>
 
     <main class="main-wrapper text-center">
         <header class="mb-20 space-y-2">
             <p class="text-[9px] tracking-[6px] text-[#c4a47c] uppercase opacity-70">Journal Entry — 2026</p>
-            <h1 class="f-script text-6xl text-white">For Elfrida</h1>
+            <h1 class="f-serif text-5xl text-white italic">For Elfrida</h1>
         </header>
 
         <div class="image-container mb-24">
@@ -122,7 +116,7 @@
 
         <div class="text-left space-y-10">
             <p class="f-serif text-2xl italic text-white/90 leading-snug">
-                Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
+                Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku...
             </p>
 
             <div class="font-light text-[14px] text-gray-400 space-y-8 leading-relaxed">
@@ -143,7 +137,7 @@
         </button>
 
         <footer class="mt-32">
-            <p class="f-script text-5xl text-white/80">Himam Aby M</p>
+            <p class="f-tenor text-3xl tracking-[8px] text-white/90 uppercase">Himam Aby Maulana</p>
             <p class="text-[8px] tracking-[4px] mt-4 opacity-30 uppercase">© Forever Virya Archive</p>
         </footer>
     </main>
@@ -151,12 +145,12 @@
     <audio id="player" src="Ed Sheeran - Perfect.mp3" loop></audio>
 
     <script>
-        // Clock
+        // Jam Digital
         setInterval(() => {
             document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB');
         }, 1000);
 
-        // Rain System
+        // Hujan
         setInterval(() => {
             const drop = document.createElement('div');
             drop.className = 'rain';
@@ -166,7 +160,7 @@
             setTimeout(() => drop.remove(), 800);
         }, 40);
 
-        // Butterfly System
+        // Kupu-kupu
         setInterval(() => {
             const b = document.createElement('div');
             b.className = 'butterfly';
@@ -179,11 +173,11 @@
             setTimeout(() => b.remove(), 10000);
         }, 1500);
 
-        // Interaction Handler
+        // Efek Tetesan Air & Audio
         function handleInteraction(e) {
             if(e.target.closest('button')) return;
 
-            // Ripple
+            // Ripple (Tetesan)
             const rip = document.createElement('div');
             rip.className = 'ripple';
             rip.style.left = e.pageX + 'px';
@@ -191,7 +185,7 @@
             document.body.appendChild(rip);
             setTimeout(() => rip.remove(), 800);
 
-            // Auto-start music
+            // Musik
             if (audio.paused && !audio.played.length) togglePlay();
         }
 
@@ -213,11 +207,7 @@
             let g = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
             msg.innerText = "Selamat " + g + " Virya, jangan lupa sholat ❤️";
             msg.style.opacity = "1";
-            msg.style.transform = "translateX(0)";
-            setTimeout(() => {
-                msg.style.opacity = "0";
-                msg.style.transform = "translateX(16px)";
-            }, 4000);
+            setTimeout(() => { msg.style.opacity = "0"; }, 4000);
         }
     </script>
 </body>
