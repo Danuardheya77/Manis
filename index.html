@@ -9,80 +9,79 @@
     <style>
         :root { --neon-blue: #00d2ff; --green: #52b788; }
         
-        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
-        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        /* PROTEKSI TOTAL */
+        * { 
+            -webkit-touch-callout: none; 
+            -webkit-user-select: none; 
+            user-select: none; 
+            box-sizing: border-box; 
+        }
+        
+        @media print { body { display: none; } } /* Mencegah Print ke PDF */
 
-        /* ANTI-SCREENSHOT/RECORD BLUR */
-        body.protected { filter: blur(40px) grayscale(1); pointer-events: none; }
+        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; transition: filter 0.3s ease; }
 
-        /* --- BACKGROUND MESH GRADIENT (MAIN CONCEPT) --- */
+        /* GHOST GUARD (Watermark Bergerak) */
+        .watermark-layer {
+            position: fixed; inset: 0; z-index: 1000; pointer-events: none;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            opacity: 0.08; font-size: 10px; color: white; transform: rotate(-25deg);
+        }
+
+        /* BLUR SAAT REKAM/PINDAH APPS */
+        body.protected { filter: blur(60px) brightness(0); }
+
+        /* MESH GRADIENT MAIN */
         .mesh-gradient-bg {
             position: fixed; inset: 0; z-index: -5;
-            /* Perpaduan Ungu, Pink, dan Biru Tua */
             background: linear-gradient(125deg, #0f172a 0%, #3b0764 25%, #701a75 50%, #db2777 75%, #1e1b4b 100%);
             background-size: 400% 400%;
             animation: meshFlow 15s ease-in-out infinite;
         }
+        @keyframes meshFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        @keyframes meshFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* --- LOGIN SCREEN --- */
+        /* LOGIN SCREEN */
         #login-screen {
             position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(45deg, #020617, #1e1b4b, #312e81);
             transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
         }
-
         .login-box {
             position: relative; width: 320px; padding: 40px; 
             background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(25px); 
-            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 2px;
-            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 2px; text-align: center;
         }
-
         input {
-            width: 100%; background: transparent; border: none; 
-            border-bottom: 0.5px solid rgba(255, 255, 255, 0.2);
-            padding: 10px 2px; color: white; font-size: 9px;
-            letter-spacing: 4px; margin-bottom: 25px; outline: none; 
-            transition: 0.5s; text-align: center; text-transform: uppercase;
+            width: 100%; background: transparent; border: none; border-bottom: 0.5px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 2px; color: white; font-size: 9px; letter-spacing: 4px; margin-bottom: 25px; 
+            outline: none; text-align: center; text-transform: uppercase;
         }
-        input:focus { border-bottom-color: white; }
-
         .login-btn {
-            width: 50px; height: 50px; margin: 10px auto 0;
-            background: rgba(255, 255, 255, 0.05); border: 0.5px solid rgba(255, 255, 255, 0.2); 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.5s;
+            width: 50px; height: 50px; margin: 10px auto 0; background: rgba(255, 255, 255, 0.05); 
+            border: 0.5px solid rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
         }
-        .login-btn:hover { background: white; }
-        .login-btn:hover svg { fill: black; }
 
-        /* --- MAIN CONTENT LOGIC --- */
+        /* MAIN CONTENT */
         #main-content { opacity: 0; pointer-events: none; transition: 2s ease; height: 100vh; overflow-y: auto; }
         body.unlocked #login-screen { transform: scale(1.1); opacity: 0; pointer-events: none; }
         body.unlocked #main-content { opacity: 1; pointer-events: auto; }
 
-        .rain { position: fixed; background: rgba(255,255,255,0.2); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
+        .rain { position: fixed; background: rgba(255,255,255,0.2); width: 1px; height: 50px; z-index: -2; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
-        
         .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 1001; animation: bloomFade 2s forwards; }
         @keyframes bloomFade { 0% { transform: scale(0); opacity: 0; } 50% { opacity: 1; transform: scale(1.2); } 100% { transform: translateY(-50px); opacity: 0; } }
-
         .f-serif { font-family: 'Cormorant Garamond', serif; }
         .f-tenor { font-family: 'Tenor Sans', sans-serif; }
     </style>
 </head>
-<body oncontextmenu="return false">
+<body oncontextmenu="return false" onkeydown="return (event.keyCode != 44)">
+
+    <div class="watermark-layer" id="wm"></div>
 
     <div id="login-screen">
         <div class="flex flex-col items-center">
             <h1 class="f-tenor text-white text-5xl tracking-[18px] mb-2 opacity-90">WELCOME</h1>
-            <p class="text-[8px] text-white/30 tracking-[6px] uppercase mb-12">Private Archive Access</p>
+            <p class="text-[8px] text-white/30 tracking-[6px] uppercase mb-12">Protected Private Archive</p>
             <div class="login-box">
                 <input type="text" id="username" placeholder="IDENTITAS" autocomplete="off">
                 <input type="password" id="password" placeholder="KATA SANDI" autocomplete="off">
@@ -116,43 +115,45 @@
             </header>
 
             <div class="border border-white/5 p-2 bg-white/5 backdrop-blur-sm mb-24">
-                <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-60 grayscale transition-all duration-[3s]">
+                <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-60 grayscale transition-all">
             </div>
 
             <div class="text-left space-y-12">
-                <p class="f-serif text-2xl italic text-white/90 leading-relaxed">
-                    Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
-                </p>
-                <div class="font-light text-[13px] text-gray-400 space-y-8 leading-relaxed">
-                    <p>Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.</p>
-                    <p class="f-serif text-3xl text-white py-12 border-y border-white/10 text-center italic leading-snug">
-                        "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
-                    </p>
-                    <p>Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.</p>
-                    <p>Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan.</p>
+                <p class="f-serif text-2xl italic text-white/90 leading-relaxed">Terima kasih banyak ya...</p>
+                <div class="font-light text-[13px] text-gray-400 space-y-8">
+                    <p>Naskah surat pribadimu di sini...</p>
+                    <p class="f-serif text-3xl text-white py-12 border-y border-white/10 text-center italic">"Sebab bagiku, kamu bukan sekadar pilihan..."</p>
                 </div>
             </div>
 
             <button onclick="togglePlay()" class="mt-28 w-full py-5 bg-white/5 border border-white/10 text-[9px] tracking-[6px] uppercase text-gray-500 hover:text-white transition-all">
                 <span id="audio-stat">Enable Ambiance</span>
             </button>
-
-            <footer class="mt-32">
-                <p class="f-tenor text-2xl tracking-[10px] text-white/80 uppercase">Himam Aby Maulana</p>
-                <p class="text-[7px] tracking-[4px] mt-4 opacity-30 uppercase">© Forever Virya Archive</p>
-            </footer>
         </main>
     </div>
 
     <audio id="player" src="Ed Sheeran - Perfect.mp3" loop></audio>
 
     <script>
-        // Anti-Record Blur
+        // GENERATE WATERMARK
+        const wm = document.getElementById('wm');
+        for(let i=0; i<100; i++) {
+            const span = document.createElement('span');
+            span.innerText = "PRIVATE FOR ELFRIDA";
+            wm.appendChild(span);
+        }
+
+        // ANTI-RECORD SCRIPT
+        function protect() { document.body.classList.add('protected'); }
+        function unprotect() { document.body.classList.remove('protected'); }
+
+        window.addEventListener('blur', protect);
+        window.addEventListener('focus', unprotect);
         document.addEventListener('visibilitychange', () => {
-            if (document.hidden) document.body.classList.add('protected');
-            else document.body.classList.remove('protected');
+            if (document.hidden) protect(); else unprotect();
         });
 
+        // LOGIN LOGIC
         function validateLogin() {
             const pass = document.getElementById('password').value;
             if (pass.toUpperCase() === "FLAFOUR") {
@@ -164,15 +165,13 @@
             }
         }
 
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
-
+        // TOOLBAR LOVE & FLOWERS
         function triggerLove(e) {
             e.stopPropagation();
             const flowers = ['🌸', '✨', '🌷', '🤍', '🌺'];
             for(let i=0; i<12; i++) {
                 setTimeout(() => {
-                    const f = document.createElement('div');
-                    f.className = 'flower';
+                    const f = document.createElement('div'); f.className = 'flower';
                     f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
                     f.style.left = (e.clientX + (Math.random() * 80 - 40)) + 'px';
                     f.style.top = (e.clientY + (Math.random() * 80 - 40)) + 'px';
@@ -182,27 +181,14 @@
             }
             const h = new Date().getHours();
             const msg = document.getElementById('love-msg');
-            let greeting = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
-            msg.innerText = "Selamat " + greeting + " Virya, jangan lupa sholat ❤️";
+            msg.innerText = "Selamat " + (h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam") + " Virya ❤️";
             msg.style.opacity = "1";
-            setTimeout(() => { msg.style.opacity = "0"; }, 5000);
+            setTimeout(() => msg.style.opacity = "0", 5000);
         }
 
-        setInterval(() => {
-            if(!document.body.classList.contains('unlocked')) return;
-            const drop = document.createElement('div');
-            drop.className = 'rain';
-            drop.style.left = Math.random() * 100 + 'vw';
-            drop.style.animationDuration = (Math.random() * 0.4 + 0.3) + 's';
-            document.getElementById('rain-layer').appendChild(drop);
-            setTimeout(() => drop.remove(), 800);
-        }, 40);
-
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
         const audio = document.getElementById('player');
-        function togglePlay() {
-            if (audio.paused) { audio.play(); document.getElementById('audio-stat').innerText = "Ambiance Active"; }
-            else { audio.pause(); document.getElementById('audio-stat').innerText = "Ambiance Paused"; }
-        }
+        function togglePlay() { audio.play(); document.getElementById('audio-stat').innerText = "Ambiance Active"; }
     </script>
 </body>
 </html>
