@@ -11,7 +11,7 @@
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
         body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
 
-        /* SILENT PROTECTION - JANGAN DIRUBA */
+        /* SILENT PROTECTION */
         body.protected { filter: blur(80px) brightness(0); pointer-events: none; }
 
         /* LOGIN SCREEN - DARK AESTHETIC GRADIENT */
@@ -47,23 +47,23 @@
         .reveal-p { opacity: 0; transform: translateY(30px); transition: all 1.5s ease; filter: blur(10px); margin-bottom: 4rem; }
         .reveal-p.active { opacity: 1; transform: translateY(0); filter: blur(0); }
 
-        /* BICYCLE GOWES ANIMATION */
-        .bicycle-wrapper { position: fixed; bottom: 18vh; z-index: 1002; display: flex; flex-direction: column; align-items: center; font-size: 55px; pointer-events: none; }
-        .gowes-motion { animation: gowesEffect 0.6s infinite alternate ease-in-out; display: flex; flex-direction: column; align-items: center; }
-        .couple-icons { display: flex; gap: -8px; margin-bottom: -15px; }
+        /* BICYCLE GOWES ANIMATION (PNG VERSION) */
+        .bicycle-wrapper { position: fixed; bottom: 18vh; z-index: 1002; width: 180px; pointer-events: none; }
+        .gowes-motion { animation: gowesEffect 0.6s infinite alternate ease-in-out; }
+        .gowes-motion img { width: 100%; height: auto; }
 
         @keyframes gowesEffect {
             0% { transform: translateY(0) rotate(-2deg); }
-            100% { transform: translateY(-10px) rotate(3deg); }
+            100% { transform: translateY(-12px) rotate(3deg); }
         }
         @keyframes rideLtoR {
-            0% { left: -200px; opacity: 0; }
+            0% { left: -250px; opacity: 0; }
             15% { opacity: 1; }
             85% { opacity: 1; }
             100% { left: 110vw; opacity: 0; }
         }
         @keyframes rideRtoL {
-            0% { right: -200px; opacity: 0; transform: scaleX(-1); }
+            0% { right: -250px; opacity: 0; transform: scaleX(-1); }
             15% { opacity: 1; transform: scaleX(-1); }
             85% { opacity: 1; transform: scaleX(-1); }
             100% { right: 110vw; opacity: 0; transform: scaleX(-1); }
@@ -147,7 +147,6 @@
     <audio id="player" src="Ed Sheeran - Perfect.mp3" loop></audio>
 
     <script>
-        // PROTECTION LOGIC
         function secure() { document.body.classList.add('protected'); }
         function release() { document.body.classList.remove('protected'); }
         window.addEventListener('blur', secure);
@@ -157,8 +156,7 @@
             const pass = document.getElementById('password').value;
             if (pass.toUpperCase() === "FLAFOUR") {
                 document.body.classList.add('unlocked');
-                // Explosion of flowers
-                for(let i=0; i<35; i++) setTimeout(() => createFlower(Math.random()*window.innerWidth, Math.random()*window.innerHeight), i*70);
+                for(let i=0; i<30; i++) setTimeout(() => createFlower(Math.random()*window.innerWidth, Math.random()*window.innerHeight), i*70);
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('player').play();
@@ -172,12 +170,11 @@
             paragraphs.forEach((p, index) => {
                 setTimeout(() => {
                     const isEven = index % 2 !== 0;
-                    animateBicycle(isEven); // Bicycle goes out first
-                    
+                    animateBicycle(isEven);
                     setTimeout(() => {
                         p.classList.add('active');
                         p.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 6500); // Wait for bike to pass before showing text
+                    }, 6500); 
                 }, index * 9000); 
             });
         }
@@ -185,10 +182,12 @@
         function animateBicycle(isRightToLeft) {
             const bike = document.createElement('div');
             bike.className = 'bicycle-wrapper';
+            // PENTING: Ganti URL di bawah dengan link 'RAW' GitHub kamu
+            const imgUrl = "https://raw.githubusercontent.com/username/repo/main/namafile.png"; 
+            
             bike.innerHTML = `
                 <div class="gowes-motion">
-                    <div class="couple-icons"><span>👨‍💼</span><span>👩‍💼</span></div>
-                    <div style="font-size: 65px; margin-top: -5px;">🚲</div>
+                    <img src="boncengan-ontel-happy-couple.png" alt="ontel">
                 </div>
             `;
             bike.style.animation = isRightToLeft ? 'rideRtoL 8s linear forwards' : 'rideLtoR 8s linear forwards';
