@@ -18,12 +18,11 @@
             line-height: 1.6;
         }
 
-        /* Tipografi Elegan & Simpel */
+        /* Tipografi Elegan */
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-script { font-family: 'Pinyon Script', cursive; }
-        .tracking-widest-plus { letter-spacing: 0.3em; }
 
-        /* Background & Efek Cinematic */
+        /* Background Cinematic */
         .cinematic-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3;
             background: radial-gradient(circle at center, rgba(10, 15, 25, 0.9) 0%, #030405 100%),
@@ -31,77 +30,86 @@
             background-size: cover; background-position: center;
         }
 
-        /* Efek Gerimis (Rain Streaks) */
-        .rain-drop {
-            position: fixed;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.2));
-            width: 1px;
-            height: 80px;
-            top: -100px;
-            z-index: -2;
+        /* EFEK GERIMIS YANG LEBIH NYATA */
+        #rain-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+
+        .rain-streak {
+            position: absolute;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.6));
+            width: 2px; /* Lebih tebal agar terlihat */
+            height: 100px;
             pointer-events: none;
             animation: fall linear infinite;
         }
 
         @keyframes fall {
+            from { transform: translateY(-120px); }
             to { transform: translateY(110vh); }
         }
 
-        /* Interaksi Tetesan Air Saat Sentuh */
+        /* Ripple Sentuhan */
         .ripple {
-            position: absolute; border: 0.5px solid rgba(255, 255, 255, 0.3);
+            position: absolute; border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 50%; pointer-events: none;
-            animation: ripple-effect 1s ease-out forwards;
+            animation: ripple-effect 0.8s ease-out forwards;
             z-index: 1000;
         }
         @keyframes ripple-effect {
-            from { width: 0; height: 0; opacity: 0.5; transform: translate(-50%, -50%); }
-            to { width: 120px; height: 120px; opacity: 0; transform: translate(-50%, -50%); }
+            from { width: 0; height: 0; opacity: 0.8; transform: translate(-50%, -50%); }
+            to { width: 100px; height: 100px; opacity: 0; transform: translate(-50%, -50%); }
         }
 
-        /* Toolbar UI Minimalis */
+        /* UI Toolbar */
         .digital-clock {
-            position: fixed; top: 30px; left: 30px; z-index: 100;
-            font-weight: 100; color: var(--warm-gold); font-size: 10px;
-            letter-spacing: 4px; padding: 10px;
-            border-left: 1px solid rgba(206, 179, 146, 0.3);
+            position: fixed; top: 25px; left: 25px; z-index: 100;
+            font-weight: 300; color: var(--warm-gold); font-size: 11px;
+            letter-spacing: 3px; padding: 8px 15px;
+            background: rgba(255,255,255,0.03); backdrop-filter: blur(10px);
+            border-left: 2px solid var(--warm-gold);
         }
 
-        .love-container { position: fixed; top: 30px; right: 30px; z-index: 100; text-align: right; }
+        .love-container { position: fixed; top: 25px; right: 25px; z-index: 100; text-align: right; }
         .love-btn {
-            width: 40px; height: 40px; border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 50%;
+            width: 45px; height: 45px; border: 1px solid var(--soft-green); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.5s; background: rgba(0,0,0,0.2);
+            cursor: pointer; transition: 0.5s; background: rgba(0,0,0,0.4);
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
         }
         #love-message {
-            margin-top: 10px; font-size: 9px; color: var(--soft-green);
-            letter-spacing: 2px; opacity: 0; transition: 0.8s; font-weight: 300;
+            margin-top: 10px; font-size: 10px; color: var(--soft-green);
+            background: rgba(0,0,0,0.5); padding: 5px 12px; border-radius: 4px;
+            opacity: 0; transition: 0.5s; backdrop-filter: blur(5px);
         }
 
-        /* Content Hierarki */
-        .main-container { max-width: 600px; margin: 0 auto; padding: 100px 24px; position: relative; z-index: 10; }
+        /* Layout */
+        .main-container { max-width: 550px; margin: 0 auto; padding: 120px 25px; position: relative; z-index: 10; }
         
-        .title-small { font-size: 10px; font-weight: 300; letter-spacing: 6px; text-transform: uppercase; color: var(--warm-gold); opacity: 0.7; }
-        .title-large { font-size: 64px; margin-top: 10px; margin-bottom: 40px; }
+        .title-small { font-size: 9px; letter-spacing: 5px; text-transform: uppercase; color: var(--warm-gold); opacity: 0.8; }
+        .title-large { font-size: 50px; margin-top: 5px; margin-bottom: 50px; }
 
         .image-frame {
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 8px; background: rgba(255,255,255,0.01);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px; background: rgba(255,255,255,0.02);
             margin-bottom: 60px;
         }
 
-        .story-text { font-size: 1.1rem; color: #9ca3af; font-weight: 300; }
-        .quote-text { 
-            font-size: 1.8rem; line-height: 1.3; color: #f3f4f6; 
-            padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
+        .story-text { font-size: 1.05rem; color: #cbd5e1; font-weight: 300; }
+        .quote-box { 
+            font-size: 1.6rem; color: #ffffff; 
+            padding: 40px 0; margin: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.1); 
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
         }
 
         .btn-audio {
-            margin-top: 40px; width: 100%; border: 1px solid rgba(255,255,255,0.1);
-            padding: 20px; font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
-            transition: 0.3s; color: var(--warm-gold);
+            margin-top: 50px; width: 100%; border: 1px solid rgba(255,255,255,0.1);
+            padding: 18px; font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+            transition: 0.4s; color: var(--warm-gold); background: rgba(255,255,255,0.02);
         }
-        .btn-audio:hover { background: rgba(255,255,255,0.03); border-color: var(--warm-gold); }
     </style>
 </head>
 <body onclick="handleInteraction(event)">
@@ -113,54 +121,53 @@
     
     <div class="love-container">
         <button class="love-btn" onclick="sayHello()">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--soft-green)" opacity="0.8">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--soft-green)">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
         </button>
-        <div id="love-message">Good Evening...</div>
+        <div id="love-message">Message incoming...</div>
     </div>
 
     <main class="main-container text-center">
         
-        <header class="mb-20">
-            <p class="title-small">Personal Correspondence</p>
-            <h1 class="font-script title-large text-white">For Elfrida</h1>
+        <header class="mb-16">
+            <p class="title-small">For My Beloved</p>
+            <h1 class="font-script title-large text-white">Elfrida</h1>
         </header>
 
         <div class="image-frame">
-            <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full grayscale opacity-70" alt="Elfrida">
+            <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full grayscale opacity-80" alt="Elfrida">
         </div>
 
-        <div class="space-y-12 text-left">
-            <p class="story-text font-serif italic text-2xl text-white/80">
+        <div class="text-left space-y-8">
+            <p class="story-text">
                 Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
             </p>
 
-            <div class="story-text space-y-6">
-                <p>
-                    Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.
-                </p>
-                <p class="quote-text font-serif italic">
-                    "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
-                </p>
-                <p>
-                    Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.
-                </p>
-                <p>
-                    Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang, dan menjadi pundak yang selalu ada kapanpun kamu merasa lelah.
-                </p>
+            <p class="story-text">
+                Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.
+            </p>
+
+            <div class="quote-box font-serif italic">
+                "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
             </div>
 
-            <p class="title-small text-center pt-10">Tetaplah berjalan bersamaku di sini.</p>
+            <p class="story-text">
+                Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.
+            </p>
+
+            <p class="story-text">
+                Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang, dan menjadi pundak yang selalu ada kapanpun kamu merasa lelah.
+            </p>
         </div>
 
         <button onclick="togglePlay()" class="btn-audio">
-            <span id="status">Activate Ambiance</span>
+            <span id="status">Play Ambiance</span>
         </button>
 
-        <footer class="mt-32">
-            <p class="font-script text-5xl text-white/90">Himam Aby M</p>
-            <p class="title-small mt-4 opacity-30">Archive 2026</p>
+        <footer class="mt-28">
+            <p class="font-script text-5xl text-white">Himam Aby M</p>
+            <p class="title-small mt-4 opacity-40">Forever Yours | 2026</p>
         </footer>
 
         <audio id="audioPlayer" src="Ed Sheeran - Perfect.mp3" loop></audio>
@@ -175,27 +182,32 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Efek Gerimis
+        // EFEK GERIMIS YANG LEBIH TERLIHAT
         function createRain() {
             const container = document.getElementById('rain-container');
-            const drop = document.createElement('div');
-            drop.className = 'rain-drop';
-            drop.style.left = Math.random() * 100 + 'vw';
-            drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
-            drop.style.opacity = Math.random() * 0.3;
-            container.appendChild(drop);
-            setTimeout(() => drop.remove(), 1000);
+            const streak = document.createElement('div');
+            streak.className = 'rain-streak';
+            
+            streak.style.left = Math.random() * 100 + 'vw';
+            streak.style.animationDuration = (Math.random() * 0.4 + 0.3) + 's';
+            streak.style.opacity = (Math.random() * 0.4 + 0.2);
+            
+            container.appendChild(streak);
+            setTimeout(() => streak.remove(), 800);
         }
-        setInterval(createRain, 50);
+        // Membuat hujan lebih rapat
+        setInterval(createRain, 30);
 
-        // Interaction Handler (Ripple & Music Start)
+        // Interaction Handler
         function handleInteraction(e) {
+            if(e.target.closest('button')) return;
+
             const ripple = document.createElement('div');
             ripple.className = 'ripple';
             document.body.appendChild(ripple);
             ripple.style.left = `${e.clientX}px`;
             ripple.style.top = `${e.clientY}px`;
-            setTimeout(() => ripple.remove(), 1000);
+            setTimeout(() => ripple.remove(), 800);
             
             if (audio.paused && !audio.played.length) {
                 audio.play();
