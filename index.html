@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>A Private Letter — Elfrida</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Tenor+Sans&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Tenor+Sans&display=swap" rel="stylesheet">
     <style>
         :root { --neon-blue: #00d2ff; --green: #52b788; }
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
@@ -14,7 +14,7 @@
         /* SILENT PROTECTION */
         body.protected { filter: blur(80px) brightness(0); pointer-events: none; }
 
-        /* --- LOGIN SCREEN --- */
+        /* --- LOGIN SCREEN (GRADIENT MEWAH) --- */
         #login-screen {
             position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(45deg, #ff00cc, #3333ff, #ff0066, #ff8c00);
@@ -58,7 +58,7 @@
             cursor: pointer; transition: 0.5s;
         }
 
-        /* MAIN CONTENT */
+        /* MAIN CONTENT BACKGROUND */
         .mesh-gradient-bg {
             position: fixed; inset: 0; z-index: -5;
             background: linear-gradient(125deg, #0f172a 0%, #3b0764 25%, #701a75 50%, #db2777 75%, #1e1b4b 100%);
@@ -74,6 +74,7 @@
         .reveal-p { opacity: 0; transform: translateY(30px); transition: all 1.5s ease; filter: blur(10px); margin-bottom: 4rem; }
         .reveal-p.active { opacity: 1; transform: translateY(0); filter: blur(0); }
 
+        /* RAIN EFFECT */
         .rain { position: fixed; background: rgba(255,255,255,0.2); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
         
@@ -86,8 +87,12 @@
 </head>
 <body oncontextmenu="return false">
 
-    <audio id="audio-welcome" src="Shania Twain.mp3" loop preload="auto"></audio>
-    <audio id="audio-perfect" src="Ed Sheeran - Perfect.mp3" loop preload="auto"></audio>
+    <audio id="audioWelcome" preload="auto" loop>
+        <source src="Shania Twain.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="audioPerfect" preload="auto" loop>
+        <source src="Ed Sheeran - Perfect.mp3" type="audio/mpeg">
+    </audio>
 
     <div id="login-screen">
         <div class="flex flex-col items-center">
@@ -99,7 +104,7 @@
                 <div class="login-btn" onclick="validateLogin()">
                     <svg viewBox="0 0 24 24" width="24" height="24" fill="black"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
                 </div>
-                <p id="audio-hint" class="text-[7px] text-white/50 mt-6 tracking-[3px] animate-pulse uppercase">Sentuh layar untuk musik</p>
+                <p id="hint" class="text-[7px] text-white/50 mt-8 tracking-[4px] animate-pulse uppercase">Sentuh layar untuk musik</p>
             </div>
         </div>
     </div>
@@ -156,33 +161,36 @@
     </div>
 
     <script>
-        const welcomeMusic = document.getElementById('audio-welcome');
-        const perfectMusic = document.getElementById('audio-perfect');
-        const audioHint = document.getElementById('audio-hint');
-        let audioStarted = false;
+        const audioWelcome = document.getElementById('audioWelcome');
+        const audioPerfect = document.getElementById('audioPerfect');
+        const hint = document.getElementById('hint');
+        let hasStarted = false;
 
-        // Logika Pemicu Suara: Jalan saat layar disentuh atau diklik
-        function startAudio() {
-            if (!audioStarted) {
-                welcomeMusic.play().then(() => {
-                    audioStarted = true;
-                    audioHint.style.opacity = "0"; // Hilangkan instruksi jika lagu sudah jalan
-                }).catch(e => console.log("Audio diblokir browser: ", e));
+        // Fungsi PAKSA untuk memulai audio saat ada interaksi pertama
+        function handleFirstInteraction() {
+            if (!hasStarted) {
+                audioWelcome.play().then(() => {
+                    hasStarted = true;
+                    hint.style.display = 'none'; // Sembunyikan petunjuk
+                }).catch(err => {
+                    console.log("Menunggu interaksi user...");
+                });
             }
         }
 
-        // Event listener untuk jari menyentuh layar (Mobile) dan Klik (Desktop)
-        document.addEventListener('touchstart', startAudio, { once: true });
-        document.addEventListener('mousedown', startAudio, { once: true });
+        // Jalankan saat layar disentuh (mobile) atau diklik (PC)
+        document.addEventListener('touchstart', handleFirstInteraction, { passive: false });
+        document.addEventListener('mousedown', handleFirstInteraction);
 
         function validateLogin() {
             const pass = document.getElementById('password').value;
             if (pass.toUpperCase() === "FLAFOUR") {
                 document.body.classList.add('unlocked');
                 
-                // Transisi Musik
-                welcomeMusic.pause();
-                perfectMusic.play();
+                // Transisi Lagu
+                audioWelcome.pause();
+                audioWelcome.currentTime = 0;
+                audioPerfect.play();
 
                 for(let i=0; i<30; i++) {
                     setTimeout(() => createFlower(Math.random() * window.innerWidth, Math.random() * window.innerHeight), i * 100);
@@ -191,6 +199,8 @@
                     document.getElementById('login-screen').style.display = 'none';
                     startNaskahReveal();
                 }, 1500);
+            } else {
+                alert("Identitas atau Pasword salah.");
             }
         }
 
@@ -225,7 +235,7 @@
 
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
         
-        // EFEK GERIMIS (RAIN) - TETAP AKTIF
+        // EFEK GERIMIS (RAIN)
         setInterval(() => {
             if(!document.body.classList.contains('unlocked')) return;
             const drop = document.createElement('div');
