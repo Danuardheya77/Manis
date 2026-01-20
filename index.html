@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Tenor+Sans&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --neon-blue: #00d2ff; --green: #52b788; --warm-light: #ffebbc; }
+        :root { --neon-blue: #00d2ff; --green: #52b788; }
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
         body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; transition: filter 0.4s ease; }
 
@@ -64,59 +64,59 @@
         body.unlocked #login-screen { transform: scale(1.2); opacity: 0; pointer-events: none; }
         body.unlocked #main-content { opacity: 1; pointer-events: auto; }
 
-        /* --- INTERACTIVE REVEAL (SLIDER) --- */
-        .reveal-container { margin-bottom: 6rem; position: relative; }
-        .slider-track {
-            width: 100%; height: 2px; background: rgba(255,255,255,0.1);
-            margin-bottom: 20px; position: relative; border-radius: 2px;
-        }
-        .slider-handle {
-            width: 40px; height: 40px; background: white; border-radius: 50%;
-            position: absolute; top: -19px; left: 0; cursor: grab;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 15px rgba(255,255,255,0.3); z-index: 20;
-        }
-        .slider-label { font-size: 8px; tracking: 3px; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 10px; display: block; }
-        
-        .reveal-p { opacity: 0; transform: translateY(20px); transition: all 1.5s ease; filter: blur(10px); pointer-events: none; }
-        .reveal-p.active { opacity: 1; transform: translateY(0); filter: blur(0); pointer-events: auto; }
-
-        /* --- DARK PHOTO EFFECT (LAMP PULL) --- */
-        .photo-section {
-            position: relative; width: 100%; min-height: 400px;
-            background: #050505; border: 1px solid rgba(255,255,255,0.05);
-            margin-bottom: 8rem; overflow: hidden; transition: 1.5s;
-        }
-        .photo-overlay {
-            position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 0%, black 100%);
-            z-index: 5; opacity: 1; transition: 1.5s;
-        }
-        .lamp-string {
-            position: absolute; right: 30px; top: -100px; width: 2px; height: 250px;
-            background: rgba(255,255,255,0.3); z-index: 10; cursor: ns-resize;
-            transition: transform 0.3s;
-        }
-        .lamp-handle {
-            position: absolute; bottom: 0; left: -9px; width: 20px; height: 20px;
-            background: #c4a47c; border-radius: 50%;
-        }
-        .photo-img { width: 100%; opacity: 0.1; filter: grayscale(100%) contrast(120%); transition: 2s; }
-        
-        .light-on .photo-img { opacity: 0.7; filter: grayscale(0%) sepia(0.2); }
-        .light-on .photo-overlay { background: radial-gradient(circle at center, rgba(255,235,188,0.15) 0%, black 90%); }
-        .light-on .photo-section { box-shadow: 0 0 50px rgba(196, 164, 124, 0.2); }
-
-        /* --- WEATHER WIDGET --- */
-        .weather-card {
-            background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 15px;
-            padding: 20px; margin-bottom: 40px; text-align: left;
-        }
-        .hourly-scroll { display: flex; overflow-x: auto; gap: 20px; padding-bottom: 10px; scrollbar-width: none; }
-        .hourly-item { flex: 0 0 auto; text-align: center; font-size: 11px; }
-
         .rain { position: fixed; background: rgba(255,255,255,0.2); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
+
+        /* --- WEATHER WIDGET --- */
+        .weather-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: left;
+        }
+        .weather-scroll {
+            display: flex; overflow-x: auto; gap: 15px; padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+        .weather-scroll::-webkit-scrollbar { display: none; }
+        .hour-item { text-align: center; min-width: 45px; }
+
+        /* --- INTERACTION SYSTEM (PULL STRING) --- */
+        .pull-container { position: relative; margin: 40px 0; min-height: 100px; display: flex; flex-direction: column; align-items: flex-end; }
+        .string { 
+            width: 2px; height: 80px; background: linear-gradient(to bottom, transparent, #fff); 
+            cursor: ns-resize; transition: 0.3s; position: relative;
+        }
+        .string::after {
+            content: ''; position: absolute; bottom: -10px; left: -4px;
+            width: 10px; height: 10px; background: #fff; border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+        }
+        .string.pulled { height: 120px; opacity: 0; pointer-events: none; }
+        .hint-text { font-size: 8px; tracking: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-right: 10px; }
+
+        .reveal-p { opacity: 0; transform: translateX(-30px); transition: all 1.5s ease; filter: blur(10px); display: none; }
+        .reveal-p.active { opacity: 1; transform: translateX(0); filter: blur(0); display: block; }
+
+        /* --- PHOTO SECTION --- */
+        .photo-frame { 
+            position: relative; overflow: hidden; background: #000; 
+            transition: 1.5s; filter: brightness(0);
+        }
+        .photo-frame.lit { filter: brightness(1) sepia(0.2); box-shadow: 0 0 50px rgba(255, 183, 77, 0.2); }
+        .firefly {
+            position: absolute; width: 4px; height: 4px; background: #ffeb3b;
+            border-radius: 50%; filter: blur(1px); box-shadow: 0 0 10px #ffeb3b;
+            pointer-events: none; opacity: 0;
+        }
+        @keyframes fireflyFly {
+            0% { transform: translate(0, 0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translate(var(--x), var(--y)); opacity: 0; }
+        }
 
         .f-serif { font-family: 'Cormorant Garamond', serif; }
         .f-tenor { font-family: 'Tenor Sans', sans-serif; }
@@ -126,7 +126,7 @@
 
     <div id="login-screen">
         <div class="flex flex-col items-center">
-            <h1 class="f-tenor text-white text-5xl tracking-[18px] mb-2 drop-shadow-2xl">WELCOME</h1>
+            <h1 class="f-tenor text-white text-5xl tracking-[18px] mb-2 opacity-100 drop-shadow-2xl">WELCOME</h1>
             <p class="text-[8px] text-white/40 tracking-[6px] uppercase mb-12">Access Private Journal</p>
             <div class="login-box">
                 <input type="text" id="username" placeholder="IDENTITAS" autocomplete="off">
@@ -146,82 +146,80 @@
             <span class="text-[8px] font-light tracking-[3px] text-gray-400 uppercase" id="clock">00:00:00</span>
         </div>
 
-        <div class="fixed top-8 right-8 z-[100] flex flex-col items-center gap-2">
-            <button class="relative w-11 h-11 rounded-full bg-black/60 flex items-center justify-center border border-white/10" onclick="triggerLove(event)">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="var(--green)"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            </button>
-            <span class="text-[7px] tracking-[2px] text-white/40 uppercase animate-pulse">Click Me</span>
-            <div id="love-msg" class="opacity-0 transition-all duration-700 text-[10px] bg-black/80 px-4 py-2 rounded-lg border border-white/10 text-green-400 mt-2"></div>
-        </div>
-
         <main class="max-w-[500px] mx-auto px-8 py-32 text-center relative z-10">
+            
+            <div class="weather-container">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <p id="weather-city" class="text-[10px] tracking-widest uppercase opacity-60">Memuat Lokasi...</p>
+                        <h2 id="weather-temp" class="text-4xl font-light">--°</h2>
+                        <p id="weather-desc" class="text-[10px] uppercase tracking-widest">--</p>
+                    </div>
+                    <div class="text-right">
+                        <p id="current-date" class="text-[10px] opacity-60">--</p>
+                    </div>
+                </div>
+                <div class="weather-scroll" id="hourly-forecast">
+                    </div>
+            </div>
+
             <header class="mb-32">
                 <p class="text-[9px] tracking-[6px] text-[#c4a47c] uppercase opacity-70">Journal Entry — 2026</p>
                 <h1 class="f-serif text-5xl text-white italic mt-3">For Elfrida</h1>
             </header>
 
-            <div class="photo-section" id="photo-container">
-                <div class="photo-overlay"></div>
-                <div class="lamp-string" id="lamp-pull">
-                    <div class="lamp-handle"></div>
+            <div class="pull-container" id="photo-pull-section">
+                <span class="hint-text">Tarik untuk nyalakan lampu foto</span>
+                <div class="string" onmousedown="pullString(this, 'photo')"></div>
+                <div id="photo-area" class="photo-frame border border-white/5 p-2 bg-white/5 backdrop-blur-sm mt-8 w-full opacity-0 transition-opacity duration-1000">
+                    <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full grayscale hover:grayscale-0 transition-all duration-1000">
+                    <div id="firefly-box" class="absolute inset-0 pointer-events-none"></div>
                 </div>
-                <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="photo-img" alt="Memory">
-                <p id="lamp-instruction" class="absolute bottom-10 w-full text-[8px] tracking-[4px] text-white/30 uppercase z-10">Tarik tali untuk menyalakan lampu</p>
             </div>
 
-            <div class="text-left space-y-12">
-                <div class="reveal-container">
-                    <span class="slider-label">Geser tali untuk membaca</span>
-                    <div class="slider-track"><div class="slider-handle" onmousedown="startSlide(this)" ontouchstart="startSlide(this)">→</div></div>
-                    <p class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p">
+            <div class="text-left space-y-12 mt-20" id="letter-body">
+                <div class="pull-container p-trigger">
+                    <span class="hint-text">Geser untuk membaca</span>
+                    <div class="string" onmousedown="pullString(this, 'p1')"></div>
+                    <p id="p1" class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p">
                         Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
                     </p>
                 </div>
 
-                <div class="reveal-container">
-                    <div class="slider-track"><div class="slider-handle" onmousedown="startSlide(this)" ontouchstart="startSlide(this)">→</div></div>
-                    <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
+                <div class="pull-container p-trigger" style="display:none">
+                    <span class="hint-text">Lanjut baca</span>
+                    <div class="string" onmousedown="pullString(this, 'p2')"></div>
+                    <p id="p2" class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
                         Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.
                     </p>
                 </div>
 
-                <div class="reveal-container">
-                    <div class="slider-track"><div class="slider-handle" onmousedown="startSlide(this)" ontouchstart="startSlide(this)">→</div></div>
-                    <p class="f-serif text-3xl text-white py-12 border-y border-white/10 text-center italic leading-snug reveal-p">
+                <div class="pull-container p-trigger" style="display:none">
+                    <span class="hint-text">Lanjut baca</span>
+                    <div class="string" onmousedown="pullString(this, 'p3')"></div>
+                    <p id="p3" class="f-serif text-3xl text-white py-12 border-y border-white/10 text-center italic leading-snug reveal-p">
                         "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
                     </p>
                 </div>
 
-                <div class="reveal-container">
-                    <div class="slider-track"><div class="slider-handle" onmousedown="startSlide(this)" ontouchstart="startSlide(this)">→</div></div>
-                    <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
+                <div class="pull-container p-trigger" style="display:none">
+                    <span class="hint-text">Lanjut baca</span>
+                    <div class="string" onmousedown="pullString(this, 'p4')"></div>
+                    <p id="p4" class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
                         Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.
                     </p>
                 </div>
 
-                <div class="reveal-container">
-                    <div class="slider-track"><div class="slider-handle" onmousedown="startSlide(this)" ontouchstart="startSlide(this)">→</div></div>
-                    <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
+                <div class="pull-container p-trigger" style="display:none">
+                    <span class="hint-text">Hampir selesai</span>
+                    <div class="string" onmousedown="pullString(this, 'p5')"></div>
+                    <p id="p5" class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
                         Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang.
                     </p>
                 </div>
             </div>
 
-            <footer class="mt-40">
-                <div id="weather-widget" class="weather-card">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <p id="w-city" class="text-[10px] tracking-widest text-white/50 uppercase">Detecting Location...</p>
-                            <h2 id="w-temp" class="text-4xl font-light">--°</h2>
-                            <p id="w-desc" class="text-[10px] text-white/60 mt-1">--</p>
-                            <p id="w-date" class="text-[9px] text-white/40 mt-4 uppercase">--</p>
-                        </div>
-                        <div id="w-icon" class="text-4xl">☁️</div>
-                    </div>
-                    <div class="hourly-scroll" id="w-hourly">
-                        </div>
-                </div>
-
+            <footer class="mt-40 opacity-0 transition-opacity duration-1000" id="final-footer">
                 <p class="f-tenor text-2xl tracking-[10px] text-white/80 uppercase">Himam Aby Maulana</p>
                 <p class="text-[7px] tracking-[4px] mt-4 opacity-30 uppercase">© Forever Virya Archive</p>
             </footer>
@@ -231,81 +229,8 @@
     <audio id="player" src="Ed Sheeran - Perfect.mp3" loop></audio>
 
     <script>
-        // --- LOGIN LOGIC ---
-        function validateLogin() {
-            const pass = document.getElementById('password').value;
-            if (pass.toUpperCase() === "FLAFOUR") {
-                document.body.classList.add('unlocked');
-                setTimeout(() => {
-                    document.getElementById('login-screen').style.display = 'none';
-                    if (audio.paused) audio.play();
-                    initWeather();
-                }, 1500);
-            }
-        }
-
-        // --- SLIDER REVEAL LOGIC ---
-        let isSliding = false;
-        function startSlide(handle) {
-            isSliding = true;
-            const track = handle.parentElement;
-            const container = track.parentElement;
-            const paragraph = container.querySelector('.reveal-p');
-            
-            const moveHandler = (e) => {
-                if (!isSliding) return;
-                let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-                let rect = track.getBoundingClientRect();
-                let pos = ((clientX - rect.left) / rect.width) * 100;
-                pos = Math.max(0, Math.min(pos, 90));
-                handle.style.left = pos + '%';
-                
-                if (pos > 85) {
-                    paragraph.classList.add('active');
-                    handle.style.left = '90%';
-                    handle.style.background = 'var(--green)';
-                    handle.innerHTML = '✓';
-                    stopSlide();
-                }
-            };
-
-            const stopSlide = () => {
-                isSliding = false;
-                window.removeEventListener('mousemove', moveHandler);
-                window.removeEventListener('touchmove', moveHandler);
-            };
-
-            window.addEventListener('mousemove', moveHandler);
-            window.addEventListener('touchmove', moveHandler);
-            window.addEventListener('mouseup', stopSlide);
-            window.addEventListener('touchend', stopSlide);
-        }
-
-        // --- LAMP PULL LOGIC ---
-        const pull = document.getElementById('lamp-pull');
-        const photoCont = document.getElementById('photo-container');
-        let isPulling = false;
-
-        pull.addEventListener('mousedown', () => isPulling = true);
-        pull.addEventListener('touchstart', () => isPulling = true);
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isPulling) return;
-            let moveY = e.movementY || 5;
-            pull.style.transform = `translateY(${moveY + 20}px)`;
-        });
-
-        window.addEventListener('mouseup', () => {
-            if (isPulling) {
-                isPulling = false;
-                pull.style.transform = `translateY(0px)`;
-                photoCont.classList.toggle('light-on');
-                document.getElementById('lamp-instruction').style.opacity = '0';
-            }
-        });
-        
-        // --- WEATHER LOGIC (Open-Meteo API - Free & No Key) ---
-        async function initWeather() {
+        // --- WEATHER LOGIC ---
+        async function fetchWeather() {
             try {
                 const pos = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej));
                 const lat = pos.coords.latitude;
@@ -313,42 +238,96 @@
                 
                 const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,weathercode&current_weather=true&timezone=auto`);
                 const data = await res.json();
+
+                document.getElementById('weather-temp').innerText = Math.round(data.current_weather.temperature) + '°';
+                document.getElementById('weather-desc').innerText = getWeatherDesc(data.current_weather.weathercode);
+                document.getElementById('weather-city').innerText = "Sekitar Lokasi Anda";
                 
-                document.getElementById('w-temp').innerText = Math.round(data.current_weather.temperature) + '°';
-                document.getElementById('w-city').innerText = "Your Current Location";
-                document.getElementById('w-date').innerText = new Date().toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long'});
-                
-                let hourlyHtml = '';
+                const forecastEl = document.getElementById('hourly-forecast');
+                forecastEl.innerHTML = '';
                 for(let i=0; i<24; i++) {
                     const time = new Date(data.hourly.time[i]).getHours();
-                    hourlyHtml += `
-                        <div class="hourly-item">
-                            <p class="opacity-40 mb-2">${time}:00</p>
-                            <p class="text-lg mb-1">☁️</p>
-                            <p>${Math.round(data.hourly.temperature_2m[i])}°</p>
+                    forecastEl.innerHTML += `
+                        <div class="hour-item">
+                            <p class="text-[8px] opacity-50">${time}:00</p>
+                            <p class="text-[12px] my-1">${Math.round(data.hourly.temperature_2m[i])}°</p>
+                            <p class="text-[10px]">${getWeatherEmoji(data.hourly.weathercode[i])}</p>
                         </div>
                     `;
                 }
-                document.getElementById('w-hourly').innerHTML = hourlyHtml;
             } catch (e) {
-                document.getElementById('w-city').innerText = "Boyolali, Jawa Tengah";
-                document.getElementById('w-temp').innerText = "22°";
+                document.getElementById('weather-city').innerText = "Akses Lokasi Ditolak";
             }
         }
 
-        // --- OTHERS ---
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
-        
-        function triggerLove(e) {
-            const h = new Date().getHours();
-            const msg = document.getElementById('love-msg');
-            let greet = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
-            msg.innerText = "Selamat " + greet + " Virya ❤️";
-            msg.style.opacity = "1";
-            setTimeout(() => msg.style.opacity = "0", 5000);
+        function getWeatherDesc(code) {
+            if (code <= 3) return "Cerah Berawan";
+            if (code <= 48) return "Berkabut";
+            if (code <= 67) return "Gerimis/Hujan";
+            return "Badai Petir";
+        }
+        function getWeatherEmoji(code) {
+            if (code <= 1) return "☀️";
+            if (code <= 3) return "☁️";
+            if (code <= 67) return "🌧️";
+            return "⛈️";
+        }
+
+        // --- INTERACTION LOGIC ---
+        function pullString(el, target) {
+            el.classList.add('pulled');
+            setTimeout(() => {
+                el.parentElement.style.display = 'none';
+                if(target === 'photo') {
+                    const area = document.getElementById('photo-area');
+                    area.classList.add('lit');
+                    area.style.opacity = "1";
+                    createFireflies();
+                } else {
+                    const p = document.getElementById(target);
+                    p.classList.add('active');
+                    // Show next trigger
+                    const next = el.parentElement.nextElementSibling;
+                    if(next && next.classList.contains('p-trigger')) {
+                        next.style.display = 'flex';
+                    } else {
+                        document.getElementById('final-footer').style.opacity = "1";
+                    }
+                }
+            }, 500);
+        }
+
+        function createFireflies() {
+            const box = document.getElementById('firefly-box');
+            for(let i=0; i<15; i++) {
+                const f = document.createElement('div');
+                f.className = 'firefly';
+                f.style.left = Math.random() * 100 + '%';
+                f.style.top = Math.random() * 100 + '%';
+                f.style.setProperty('--x', (Math.random() * 100 - 50) + 'px');
+                f.style.setProperty('--y', (Math.random() * 100 - 50) + 'px');
+                f.style.animation = `fireflyFly ${2 + Math.random() * 3}s infinite alternate`;
+                box.appendChild(f);
+            }
+        }
+
+        // --- ORIGINAL HELPERS ---
+        function validateLogin() {
+            const pass = document.getElementById('password').value;
+            if (pass.toUpperCase() === "FLAFOUR") {
+                document.body.classList.add('unlocked');
+                setTimeout(() => {
+                    document.getElementById('login-screen').style.display = 'none';
+                    if (audio.paused) audio.play();
+                    fetchWeather();
+                }, 1500);
+            }
         }
 
         const audio = document.getElementById('player');
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' });
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
+
         setInterval(() => {
             if(!document.body.classList.contains('unlocked')) return;
             const drop = document.createElement('div');
@@ -358,6 +337,11 @@
             document.getElementById('rain-layer').appendChild(drop);
             setTimeout(() => drop.remove(), 800);
         }, 50);
+
+        function secure() { document.body.classList.add('protected'); }
+        function release() { document.body.classList.remove('protected'); }
+        window.addEventListener('blur', secure);
+        window.addEventListener('focus', release);
     </script>
 </body>
 </html>
