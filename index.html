@@ -14,17 +14,14 @@
         /* SILENT PROTECTION */
         body.protected { filter: blur(80px) brightness(0); pointer-events: none; }
 
-        /* --- LOGIN SCREEN (UPDATED) --- */
+        /* --- LOGIN SCREEN --- */
         #login-screen {
             position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
-            /* Mesh Gradient: Hitam, Biru, Ungu, Pink */
             background: linear-gradient(135deg, #000000, #1e1b4b, #4c1d95, #831843, #000000);
             background-size: 400% 400%;
             animation: meshFlow 12s ease-in-out infinite;
             transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1);
         }
-        
-        /* Masking Blur Efek agar Fokus ke Tengah */
         #login-screen::before {
             content: ''; position: absolute; inset: 0;
             backdrop-filter: blur(15px);
@@ -32,7 +29,6 @@
             mask-image: radial-gradient(circle, transparent 20%, black 80%);
             pointer-events: none;
         }
-
         .login-box {
             position: relative; width: 320px; padding: 50px 40px; 
             background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); 
@@ -40,14 +36,12 @@
             text-align: center; z-index: 10;
             box-shadow: 0 0 40px rgba(0,0,0,0.5);
         }
-
         input {
             width: 100%; background: transparent; border: none; border-bottom: 0.5px solid rgba(255, 255, 255, 0.3);
             padding: 12px 2px; color: white; font-size: 9px; letter-spacing: 5px; margin-bottom: 25px; 
             outline: none; text-align: center; text-transform: uppercase; transition: 0.5s;
         }
         input:focus { border-bottom-color: white; letter-spacing: 7px; }
-
         .login-btn {
             width: 55px; height: 55px; margin: 15px auto 0; background: white; 
             border-radius: 50%; display: flex; align-items: center; justify-content: center; 
@@ -70,6 +64,7 @@
         body.unlocked #login-screen { transform: scale(1.2); opacity: 0; pointer-events: none; }
         body.unlocked #main-content { opacity: 1; pointer-events: auto; }
 
+        /* NASKAH ANIMATION */
         .reveal-p { opacity: 0; transform: translateY(30px); transition: all 1.5s ease; filter: blur(10px); margin-bottom: 4rem; }
         .reveal-p.active { opacity: 1; transform: translateY(0); filter: blur(0); }
 
@@ -115,34 +110,34 @@
         </div>
         
         <main class="max-w-[500px] mx-auto px-8 py-32 text-center relative z-10">
-            <header class="mb-32 reveal-p">
+            <header class="mb-32 reveal-p" data-para-index="0">
                 <p class="text-[9px] tracking-[6px] text-[#c4a47c] uppercase opacity-70">Journal Entry — 2026</p>
                 <h1 class="f-serif text-5xl text-white italic mt-3">For Elfrida</h1>
             </header>
 
-            <div class="border border-white/5 p-2 bg-white/5 backdrop-blur-sm mb-32 reveal-p">
+            <div class="border border-white/5 p-2 bg-white/5 backdrop-blur-sm mb-32 reveal-p" data-para-index="1">
                 <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-60 grayscale">
             </div>
 
             <div class="text-left space-y-24">
-                <p class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p">
+                <p class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p" data-para-index="2">
                     Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
                 </p>
-                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
+                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p" data-para-index="3">
                     Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.
                 </p>
-                <p class="f-serif text-3xl text-white py-12 border-y border-white/10 text-center italic leading-snug reveal-p">
+                <p class="f-serif text-3xl text-white py-12 border-y border-white/10 text-center italic leading-snug reveal-p" data-para-index="4">
                     "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
                 </p>
-                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
+                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p" data-para-index="5">
                     Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.
                 </p>
-                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
+                <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p" data-para-index="6">
                     Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang.
                 </p>
             </div>
 
-            <footer class="mt-40 reveal-p">
+            <footer class="mt-40 reveal-p" data-para-index="7">
                 <p class="f-tenor text-2xl tracking-[10px] text-white/80 uppercase">Himam Aby Maulana</p>
                 <p class="text-[7px] tracking-[4px] mt-4 opacity-30 uppercase">© Forever Virya Archive</p>
             </footer>
@@ -156,50 +151,62 @@
         function release() { document.body.classList.remove('protected'); }
         window.addEventListener('blur', secure);
         window.addEventListener('focus', release);
+        document.addEventListener('visibilitychange', () => { if (document.hidden) secure(); else release(); });
 
         function validateLogin() {
             const pass = document.getElementById('password').value;
             if (pass.toUpperCase() === "FLAFOUR") {
                 document.body.classList.add('unlocked');
-                for(let i=0; i<30; i++) {
-                    setTimeout(() => {
-                        createFlower(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
-                    }, i * 100);
+                // Bunga pembuka setelah login, sebelum naskah
+                for(let i=0; i<40; i++) { // Lebih banyak bunga untuk pembukaan!
+                    setTimeout(() => createFlower(Math.random() * window.innerWidth, Math.random() * window.innerHeight), i * 50);
                 }
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
                     if (audio.paused) audio.play();
                     startNaskahReveal();
-                }, 1500);
+                }, 2000); // Tunggu lebih lama agar bunga terlihat
             }
         }
 
         function startNaskahReveal() {
             const paragraphs = document.querySelectorAll('.reveal-p');
+            let delay = 0;
             paragraphs.forEach((p, index) => {
                 setTimeout(() => {
-                    p.classList.add('active');
-                    p.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, index * 5000);
+                    // Hanya panggil bunga sebelum paragraf muncul
+                    if (index > 0 || index === 0) { // Bahkan untuk header dan gambar pertama
+                        for(let i=0; i<20; i++) { // Jumlah bunga per paragraf
+                            setTimeout(() => createFlower(p.getBoundingClientRect().left + p.offsetWidth / 2, p.getBoundingClientRect().top + p.offsetHeight / 2), i * 70);
+                        }
+                    }
+                    setTimeout(() => { // Tampilkan paragraf setelah bunga
+                        p.classList.add('active');
+                        p.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 1000); // Sedikit jeda setelah bunga muncul
+                }, delay);
+                delay += 6000; // Jeda total per paragraf: (waktu bunga) + (waktu muncul paragraf) + (jeda antar paragraf)
             });
         }
 
         function createFlower(x, y) {
-            const flowers = ['🌸', '✨', '🌷', '🤍', '🌺', '🌼'];
+            const flowers = ['🌸', '✨', '🌷', '🤍', '🌺', '🌼', '💖'];
             const f = document.createElement('div');
             f.className = 'flower';
             f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-            f.style.left = x + 'px';
-            f.style.top = y + 'px';
+            // Tambahkan sedikit variasi posisi awal bunga
+            f.style.left = (x + (Math.random() * 80 - 40)) + 'px';
+            f.style.top = (y + (Math.random() * 80 - 40)) + 'px';
             document.body.appendChild(f);
             setTimeout(() => f.remove(), 2500);
         }
 
         function triggerLove(e) {
-            for(let i=0; i<10; i++) createFlower(e.clientX, e.clientY);
+            for(let i=0; i<15; i++) createFlower(e.clientX, e.clientY); // Lebih banyak bunga saat klik love
             const h = new Date().getHours();
             const msg = document.getElementById('love-msg');
-            msg.innerText = "Selamat " + (h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam") + " Virya ❤️";
+            let greet = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
+            msg.innerText = "Selamat " + greet + " Virya ❤️";
             msg.style.opacity = "1";
             setTimeout(() => msg.style.opacity = "0", 5000);
         }
