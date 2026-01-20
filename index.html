@@ -2,34 +2,48 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>A Private Letter — Elfrida</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@100;200;400&family=Tenor+Sans&display=swap" rel="stylesheet">
     <style>
         :root { --accent: #c4a47c; --green: #52b788; }
-        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; cursor: crosshair; }
+        
+        /* Proteksi Dasar: Mencegah Klik Kanan & Seleksi Teks */
+        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+        
+        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; cursor: crosshair; transition: filter 0.5s ease; }
+        
+        /* ANTI-SCREENSHOT/RECORD BLUR */
+        body.protected { filter: blur(40px) grayscale(1); pointer-events: none; }
+
         .bg-gradient { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -5; background: radial-gradient(circle at 50% 10%, #1a1b3a 0%, #050505 100%); }
         .stars-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -4; background-image: radial-gradient(white, rgba(255,255,255,.1) 1px, transparent 20px); background-size: 80px 80px; opacity: 0.15; }
         .moon { position: fixed; top: 15%; right: 10%; width: 100px; height: 100px; background: #fff; border-radius: 50%; z-index: -3; box-shadow: 0 0 60px 10px rgba(255, 255, 255, 0.1); opacity: 0.8; }
+        
         .rain { position: fixed; background: rgba(255,255,255,0.4); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
+        
         .butterfly { position: fixed; width: 4px; height: 4px; background: var(--accent); z-index: -1; border-radius: 50%; opacity: 0; box-shadow: 0 0 12px 2px var(--accent); animation: fly linear forwards; }
         @keyframes fly { 0% { transform: translate(0,0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translate(var(--x), var(--y)); opacity: 0; } }
-        .ripple { position: absolute; border: 0.5px solid rgba(255,255,255,0.5); border-radius: 50%; pointer-events: none; z-index: 9999; animation: ripple-out 0.8s cubic-bezier(0, 0.2, 0.8, 1) forwards; }
+        
+        .ripple { position: absolute; border: 0.5px solid rgba(255,255,255,0.5); border-radius: 50%; pointer-events: none; z-index: 9999; animation: ripple-out 0.8s forwards; }
         @keyframes ripple-out { from { width: 0; height: 0; opacity: 0.8; transform: translate(-50%, -50%); } to { width: 150px; height: 150px; opacity: 0; transform: translate(-50%, -50%); } }
+        
         .love-btn { position: relative; width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
         .love-btn::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, transparent, transparent, #fff); animation: rotateGlow 3s linear infinite; z-index: -1; }
         @keyframes rotateGlow { to { transform: rotate(360deg); } }
-        .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 1001; animation: bloomFade 2s ease-out forwards; }
-        @keyframes bloomFade { 0% { transform: scale(0) rotate(0); opacity: 0; } 50% { opacity: 1; transform: scale(1.2) rotate(20deg); } 100% { transform: scale(1) translateY(-50px) rotate(45deg); opacity: 0; } }
+        
+        .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 1001; animation: bloomFade 2s forwards; }
+        @keyframes bloomFade { 0% { transform: scale(0); opacity: 0; } 50% { opacity: 1; transform: scale(1.2); } 100% { transform: translateY(-50px); opacity: 0; } }
+        
         .f-serif { font-family: 'Cormorant Garamond', serif; }
         .f-tenor { font-family: 'Tenor Sans', sans-serif; }
         .main-wrapper { max-width: 550px; margin: 0 auto; padding: 120px 24px; z-index: 10; position: relative; }
         .btn-ui { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
     </style>
 </head>
-<body onclick="handleInteraction(event)">
+<body oncontextmenu="return false" onkeydown="return false" onclick="handleInteraction(event)">
     <div class="bg-gradient"></div>
     <div class="stars-overlay"></div>
     <div class="moon"></div>
@@ -57,28 +71,24 @@
         </header>
 
         <div class="image-container mb-24 rounded-sm overflow-hidden">
-            <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-70 grayscale hover:grayscale-0 transition-all duration-[3s]" alt="Elfrida">
+            <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full opacity-70 grayscale" alt="Protected">
         </div>
 
         <div class="text-left space-y-10">
             <p class="f-serif text-2xl italic text-white/90 leading-snug">
                 Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
             </p>
-
             <div class="font-light text-[14px] text-gray-400 space-y-8 leading-relaxed">
                 <p>Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.</p>
-                
                 <p class="f-serif text-3xl text-white py-10 border-y border-white/10 text-center italic leading-tight">
                     "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
                 </p>
-
                 <p>Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.</p>
-                
                 <p>Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang, dan menjadi pundak yang selalu ada kapanpun kamu merasa lelah.</p>
             </div>
         </div>
 
-        <button onclick="togglePlay()" class="mt-24 w-full py-5 btn-ui text-[10px] tracking-[6px] uppercase text-gray-400 hover:text-white transition-all">
+        <button onclick="togglePlay()" class="mt-24 w-full py-5 btn-ui text-[10px] tracking-[6px] uppercase text-gray-400">
             <span id="audio-stat">Enable Ambiance</span>
         </button>
 
@@ -91,73 +101,61 @@
     <audio id="player" src="Ed Sheeran - Perfect.mp3" loop></audio>
 
     <script>
-        // Self-Destruct Timer (22 Jan 2026)
+        // ANTI-RECORDING SCRIPT
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) { document.body.classList.add('protected'); }
+            else { document.body.classList.remove('protected'); }
+        });
+
+        window.onblur = function() { document.body.classList.add('protected'); };
+        window.onfocus = function() { document.body.classList.remove('protected'); };
+
+        // Expiry Logic
         const tanggalExpired = new Date("2026-01-22T00:00:00");
         const sekarang = new Date();
-        if (sekarang > tanggalExpired) {
-            document.body.innerHTML = "";
-            window.location.href = "https://google.com";
-        }
+        if (sekarang > tanggalExpired) { document.body.innerHTML = ""; window.location.href = "https://google.com"; }
 
-        // Clock
+        // Clock & Visuals
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB'); }, 1000);
-
-        // Rain
         setInterval(() => {
-            const drop = document.createElement('div');
-            drop.className = 'rain';
-            drop.style.left = Math.random() * 100 + 'vw';
-            drop.style.animationDuration = (Math.random() * 0.4 + 0.3) + 's';
+            const drop = document.createElement('div'); drop.className = 'rain';
+            drop.style.left = Math.random() * 100 + 'vw'; drop.style.animationDuration = (Math.random() * 0.4 + 0.3) + 's';
             document.getElementById('rain-layer').appendChild(drop);
             setTimeout(() => drop.remove(), 800);
         }, 40);
 
-        // Butterfly
         setInterval(() => {
-            const b = document.createElement('div');
-            b.className = 'butterfly';
-            b.style.left = Math.random() * 100 + 'vw';
-            b.style.top = Math.random() * 100 + 'vh';
-            b.style.setProperty('--x', (Math.random() * 300 - 150) + 'px');
-            b.style.setProperty('--y', (Math.random() * -300 - 100) + 'px');
+            const b = document.createElement('div'); b.className = 'butterfly';
+            b.style.left = Math.random() * 100 + 'vw'; b.style.top = Math.random() * 100 + 'vh';
+            b.style.setProperty('--x', (Math.random() * 300 - 150) + 'px'); b.style.setProperty('--y', (Math.random() * -300 - 100) + 'px');
             b.style.animationDuration = (Math.random() * 5 + 5) + 's';
             document.getElementById('butterfly-layer').appendChild(b);
             setTimeout(() => b.remove(), 10000);
         }, 1500);
 
-        // Ripple Effect
         function handleInteraction(e) {
             if(e.target.closest('button')) return;
-            const rip = document.createElement('div');
-            rip.className = 'ripple';
-            rip.style.left = e.pageX + 'px';
-            rip.style.top = e.pageY + 'px';
-            document.body.appendChild(rip);
-            setTimeout(() => rip.remove(), 800);
+            const rip = document.createElement('div'); rip.className = 'ripple';
+            rip.style.left = e.pageX + 'px'; rip.style.top = e.pageY + 'px';
+            document.body.appendChild(rip); setTimeout(() => rip.remove(), 800);
             if (audio.paused && !audio.played.length) togglePlay();
         }
 
-        // Love & Flower Trigger
         function triggerLove(e) {
             e.stopPropagation();
             const flowers = ['🌸', '✨', '🌷', '🤍', '🌺'];
             for(let i=0; i<12; i++) {
                 setTimeout(() => {
-                    const f = document.createElement('div');
-                    f.className = 'flower';
+                    const f = document.createElement('div'); f.className = 'flower';
                     f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
                     f.style.left = (e.clientX + (Math.random() * 100 - 50)) + 'px';
                     f.style.top = (e.clientY + (Math.random() * 100 - 50)) + 'px';
-                    document.body.appendChild(f);
-                    setTimeout(() => f.remove(), 2000);
+                    document.body.appendChild(f); setTimeout(() => f.remove(), 2000);
                 }, i * 100);
             }
-            const h = new Date().getHours();
             const msg = document.getElementById('love-msg');
-            let g = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
-            msg.innerText = "Selamat " + g + " Virya, jangan lupa sholat ❤️";
-            msg.style.opacity = "1";
-            setTimeout(() => { msg.style.opacity = "0"; }, 5000);
+            msg.innerText = "Selamat " + (new Date().getHours() < 11 ? "Pagi" : new Date().getHours() < 15 ? "Siang" : new Date().getHours() < 18 ? "Sore" : "Malam") + " Virya, jangan lupa sholat ❤️";
+            msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 5000);
             if (audio.paused) togglePlay();
         }
 
