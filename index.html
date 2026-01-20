@@ -11,39 +11,50 @@
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .gradient-text { background: linear-gradient(90deg, #60a5fa, #c084fc, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero-glow { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; height: 600px; background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%); z-index: -1; }
-        .heart { position: fixed; color: #ff4d6d; font-size: 15px; z-index: 10; pointer-events: none; animation: fall linear forwards; }
+        
+        /* Animasi Bunga & Hati Jatuh */
+        .falling { position: fixed; top: -20px; z-index: 10; pointer-events: none; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+        
+        /* Gaya Ilustrasi */
+        .char-container {
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.1), rgba(244, 114, 182, 0.1));
+            border-radius: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="p-6">
     <div class="hero-glow"></div>
     
     <nav class="flex justify-between items-center mb-10 max-w-2xl mx-auto">
-        <div class="text-xs font-bold tracking-[0.3em] uppercase gradient-text">Special Moment</div>
-        <div class="glass px-4 py-1.5 rounded-full text-[10px] border border-blue-500/30 text-blue-400 font-bold uppercase tracking-widest">Live Forever</div>
+        <div class="text-[10px] font-bold tracking-[0.3em] uppercase gradient-text">Special Gift for Her</div>
+        <div class="glass px-4 py-1.5 rounded-full text-[9px] border border-pink-500/30 text-pink-400 font-bold uppercase tracking-widest">🌸 Beautiful in Hijab</div>
     </nav>
 
     <main class="max-w-md mx-auto space-y-8">
         
         <div class="text-center space-y-3">
             <h1 class="text-4xl font-extrabold tracking-tight leading-tight">For <br> <span class="gradient-text">Elfrida Virya Rahmawati</span></h1>
-            <p class="text-gray-400 text-sm font-light">Terima kasih ya sudah menerima hadiah kecil hijab dariku. MasyaAllah, kamu terlihat sangat indah.</p>
+            <p class="text-gray-400 text-sm font-light">Hadiah kecil untukmu yang selalu istimewa. Terima kasih sudah menerima hijab pemberianku.</p>
         </div>
 
-        <div class="glass p-4 rounded-[2.5rem] relative group">
-            <div class="aspect-square w-full bg-gray-900 rounded-[2rem] overflow-hidden border border-white/5 flex items-center justify-center relative">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=hijab" class="w-48 opacity-90 transition duration-500 group-hover:scale-110">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        <div class="glass p-4 rounded-[2.5rem]">
+            <div class="char-container aspect-square flex items-center justify-center border border-white/5">
+                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Woman%20with%20White%20Headscarf.png" alt="Hijab Illustration" width="200" height="200" />
             </div>
-            <div class="absolute -bottom-2 -right-2 bg-pink-600 px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-tighter shadow-xl">Gift Received ❤️</div>
+            <div class="mt-4 text-center">
+                <span class="text-[10px] bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full font-bold uppercase tracking-tighter">You look so pretty!</span>
+            </div>
         </div>
 
         <div class="space-y-4">
-            <h3 class="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em] ml-2">Our Playlist</h3>
+            <h3 class="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em] ml-2">Music for You</h3>
             <div class="space-y-3">
                 <div onclick="playSong('https://www.youtube.com/embed/0yW7w8F2TVA?autoplay=1')" class="glass p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:bg-white/5 transition">
                     <div class="flex items-center gap-4">
-                        <span class="text-blue-500 font-bold">01</span>
+                        <span class="text-blue-500 font-bold text-xs">01</span>
                         <div>
                             <p class="text-sm font-semibold">Perfect</p>
                             <p class="text-[10px] text-gray-500">Ed Sheeran</p>
@@ -54,7 +65,7 @@
                 
                 <div onclick="playSong('https://www.youtube.com/embed/0K4J90s1A2M?autoplay=1')" class="glass p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:bg-white/5 transition">
                     <div class="flex items-center gap-4">
-                        <span class="text-purple-500 font-bold">02</span>
+                        <span class="text-purple-500 font-bold text-xs">02</span>
                         <div>
                             <p class="text-sm font-semibold">My Love</p>
                             <p class="text-[10px] text-gray-500">Westlife</p>
@@ -65,7 +76,7 @@
 
                 <div onclick="playSong('https://www.youtube.com/embed/KNZH-emehxA?autoplay=1')" class="glass p-4 rounded-2xl flex items-center justify-between cursor-pointer hover:bg-white/5 transition">
                     <div class="flex items-center gap-4">
-                        <span class="text-pink-500 font-bold">03</span>
+                        <span class="text-pink-500 font-bold text-xs">03</span>
                         <div>
                             <p class="text-sm font-semibold">You're Still The One</p>
                             <p class="text-[10px] text-gray-500">Shania Twain</p>
@@ -76,8 +87,9 @@
             </div>
         </div>
 
-        <div class="glass p-6 rounded-3xl border-l-4 border-pink-500 italic">
-            <p class="text-gray-300 text-sm leading-relaxed">
+        <div class="glass p-6 rounded-3xl border-l-4 border-pink-500 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-2 opacity-20 text-3xl">🌸</div>
+            <p class="text-gray-300 text-sm leading-relaxed italic">
                 "Hijab itu bukan sekadar kain, tapi mahkota kemuliaanmu. Terima kasih telah menjaganya dengan indah, sebagaimana kamu menjaga hatiku."
             </p>
             <p class="mt-4 text-[10px] font-bold uppercase tracking-widest text-pink-400">— Danuardheya</p>
@@ -86,7 +98,7 @@
         <div id="player" class="hidden"></div>
 
         <footer class="pt-10 pb-20 text-center">
-            <p class="text-[9px] text-gray-600 uppercase tracking-[0.8em]">Endless Memory &bull; 2024</p>
+            <p class="text-[9px] text-gray-700 uppercase tracking-[0.8em]">Endless Memory &bull; 2024</p>
         </footer>
     </main>
 
@@ -97,20 +109,24 @@
             player.innerHTML = `<iframe width="0" height="0" src="${url}" frameborder="0" allow="autoplay"></iframe>`;
         }
 
-        // Heart Animation
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.top = '-20px';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            heart.style.opacity = Math.random();
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
+        // Falling Flowers and Hearts Animation
+        function createFallingElement() {
+            const el = document.createElement('div');
+            el.classList.add('falling');
+            
+            // Randomly choose between flower and heart
+            const items = ['🌸', '✨', '❤️', '☁️'];
+            el.innerHTML = items[Math.floor(Math.random() * items.length)];
+            
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.fontSize = (Math.random() * 10 + 10) + 'px';
+            el.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            el.style.opacity = Math.random();
+            
+            document.body.appendChild(el);
+            setTimeout(() => { el.remove(); }, 6000);
         }
-        setInterval(createHeart, 400);
+        setInterval(createFallingElement, 500);
     </script>
 </body>
-                        </html>
-    
+</html>
