@@ -3,106 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Kenangan - Untuk Kamu</title>
+    <title>Memory & Gift - Modern Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: #ffe5ec; overflow: hidden; }
-        
-        /* Kontainer Slide */
-        .slide {
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.5s ease-in-out;
+        body {
+            background-color: #030712;
+            color: #f9fafb;
+            font-family: 'Inter', sans-serif;
         }
-
-        .container { scroll-snap-type: y mandatory; overflow-y: scroll; height: 100vh; }
-        section { scroll-snap-align: start; }
-
-        h1 { color: #ff4d6d; font-size: 2.5rem; margin-bottom: 10px; }
-        p { color: #590d22; font-size: 1.1rem; max-width: 80%; }
-        
-        .image-box {
-            width: 250px;
-            height: 250px;
-            border-radius: 20px;
-            background: #fff;
-            margin: 20px 0;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .image-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        .song-list { background: white; padding: 15px; border-radius: 15px; width: 90%; max-width: 300px; text-align: left; }
-        .song-item { margin: 10px 0; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        
-        .footer-text { position: absolute; bottom: 30px; font-weight: bold; color: #ff4d6d; }
+        .gradient-text {
+            background: linear-gradient(90deg, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-glow {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.2) 0%, transparent 70%);
+            z-index: -1;
+        }
     </style>
 </head>
-<body>
+<body class="p-6">
+    <div class="hero-glow"></div>
 
-<div class="container">
-    <section class="slide">
-        <h1>Website Kenangan</h1>
-        <p>Untuk Kamu dan Dia.</p>
-        <p style="font-size: 0.9rem; margin-top: 10px;">Tempat menyimpan cerita, foto, dan lagu spesial kita.</p>
-        <div class="footer-text">Luky - Scroll ke bawah</div>
-    </section>
+    <nav class="flex justify-between items-center mb-12">
+        <div class="text-xl font-bold gradient-text">LUKY.MEMO</div>
+        <div class="glass px-4 py-2 rounded-full text-sm">Online Card</div>
+    </nav>
 
-    <section class="slide">
-        <h1>Our Playlist</h1>
-        <p>Lagu Favorit Kita</p>
-        <div class="song-list">
-            <div class="song-item"><b>A Thousand Years</b><br><small>Christina Perri</small></div>
-            <div class="song-item"><b>All of Me</b><br><small>John Legend</small></div>
-            <div class="song-item"><b>Perfect</b><br><small>Ed Sheeran</small></div>
+    <main class="max-w-md mx-auto space-y-8">
+        
+        <div class="text-center space-y-4">
+            <h1 class="text-4xl font-extrabold tracking-tight">Website <span class="gradient-text">Kenangan</span></h1>
+            <p class="text-gray-400 text-sm">Sesuatu yang spesial untukmu yang telah menerima pemberianku.</p>
         </div>
-        <p style="margin-top: 15px; font-size: 0.8rem;">Setiap lagu punya cerita dan kenangan tersendiri.</p>
-    </section>
 
-    <section class="slide">
-        <div class="image-box">
-            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=couple1" alt="Foto">
+        <div class="glass p-6 rounded-3xl space-y-4">
+            <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500 uppercase tracking-widest">Special Moment</span>
+                <span class="text-blue-400 text-xs">● Live</span>
+            </div>
+            <div class="h-48 w-full bg-gray-900 rounded-2xl flex items-center justify-center border border-gray-800 overflow-hidden">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=hijab" class="w-32 opacity-80">
+            </div>
+            <h2 class="text-xl font-semibold italic text-center text-blue-100">"MasyaAllah, kamu terlihat sangat anggun."</h2>
         </div>
-        <h1>Cerita Kita</h1>
-        <p>Setiap momen bersama adalah kenangan yang tidak akan pernah pudar.</p>
-        <p><b>Pertama kali ketemu:</b> [Tulis di sini momenmu]</p>
-    </section>
 
-    <section class="slide">
-        <h1>First Date</h1>
-        <p>Tanggal yang tidak akan pernah aku lupakan saat kita menghabiskan waktu bersama.</p>
-        <div class="image-box" style="height: 100px; display: flex; align-items: center; justify-content: center;">
-            <h2 style="color: #ff4d6d;">DD-MM-YYYY</h2>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="glass p-4 rounded-2xl">
+                <p class="text-gray-500 text-xs">Status</p>
+                <p class="font-bold">Diterima</p>
+            </div>
+            <div class="glass p-4 rounded-2xl">
+                <p class="text-gray-500 text-xs">Pemberian</p>
+                <p class="font-bold">Hijab</p>
+            </div>
         </div>
-        <p><i>"Tulis teks dari hati di sini"</i></p>
-    </section>
 
-    <section class="slide">
-        <h1>Walau Jauh...</h1>
-        <p>Aku tetap ngerasa kamu deket. Jarak hanya angka, yang penting hati selalu terhubung.</p>
-        <div style="margin: 20px; font-size: 1.2rem;">
-            <span>You - Di sana</span><br>
-            <span>❤️</span><br>
-            <span>Me - Di sini</span>
+        <div class="space-y-4">
+            <h3 class="text-sm font-semibold text-gray-400">OUR PLAYLIST</h3>
+            <div class="space-y-2">
+                <div class="glass p-3 rounded-xl flex items-center justify-between">
+                    <span>A Thousand Years</span>
+                    <button class="text-blue-400">▶</button>
+                </div>
+                <div class="glass p-3 rounded-xl flex items-center justify-between">
+                    <span>All of Me</span>
+                    <button class="text-blue-400">▶</button>
+                </div>
+            </div>
         </div>
-    </section>
 
-    <section class="slide">
-        <h1>Selamanya...</h1>
-        <p>Terima kasih sudah menjadi bagian dari hidupku. Setiap detik bersamamu adalah hadiah yang tak ternilai.</p>
-        <p style="margin-top: 20px;"><b>Setiap kenangan kita tersimpan di sini, selamanya.</b></p>
-    </div>
-</div>
-
+        <footer class="pt-10 text-center">
+            <p class="text-xs text-gray-600">Terima kasih sudah menjadi bagian dari hidupku.</p>
+        </footer>
+    </main>
 </body>
 </html>
