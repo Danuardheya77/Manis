@@ -9,49 +9,56 @@
     <style>
         body { background-color: #05070a; color: white; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; margin: 0; }
         
-        /* Background Kaca Gelap Sesuai Gambar */
+        /* Background Gambar Utama */
         .bg-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3;
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                         url('https://e0.pxfuel.com/wallpapers/981/907/desktop-wallpaper-glass-with-drops-of-water-raindrops-on-glass-thumbnail.jpg');
             background-size: cover; background-position: center;
         }
 
-        /* Lapisan Embun Halus */
+        /* Overlay Video Air (Green Screen Effect) */
+        .video-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2; object-fit: cover; opacity: 0.4; pointer-events: none;
+            mix-blend-mode: screen; /* Menghilangkan warna hitam/gelap agar air terlihat transparan */
+        }
+
         .mist {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            backdrop-filter: blur(8px); background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px); background: rgba(255, 255, 255, 0.02);
         }
 
-        /* Efek Tetesan Air Mengalir Nyata */
-        .drop {
-            position: fixed;
-            background: rgba(255, 255, 255, 0.4);
-            width: 1.5px; height: 20px;
-            border-radius: 100px;
-            z-index: 0;
-            pointer-events: none;
-            animation: fall linear infinite;
+        /* JAM DIGITAL POJOK KIRI ATAS */
+        .digital-clock {
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
+            padding: 8px 15px; border-radius: 12px; border: 1px solid rgba(255, 214, 165, 0.3);
+            font-weight: 800; color: #ffd6a5; font-size: 14px;
+            box-shadow: 0 0 15px rgba(255, 214, 165, 0.2);
+            text-shadow: 0 0 8px rgba(255, 214, 165, 0.8);
         }
 
-        .drop::after {
-            content: ''; position: absolute; bottom: 0; left: -1px;
-            width: 3.5px; height: 3.5px; background: rgba(255, 255, 255, 0.5);
-            border-radius: 50%; box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+        /* TOMBOL LOVE HIJAU POJOK KANAN ATAS */
+        .love-btn {
+            position: fixed; top: 20px; right: 20px; z-index: 100;
+            width: 50px; height: 50px; background: #22c55e;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; cursor: pointer;
+            border: 2px solid rgba(255, 214, 165, 0.5);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
+            animation: pulse-love 2s infinite;
         }
 
-        @keyframes fall {
-            0% { transform: translateY(-15vh); opacity: 0; }
-            10% { opacity: 0.7; }
-            80% { opacity: 0.4; }
-            100% { transform: translateY(110vh); opacity: 0; }
+        @keyframes pulse-love {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
         }
 
         .glass-card { 
-            background: rgba(255, 255, 255, 0.03); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 2.5rem; 
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); 
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 2.5rem; 
         }
 
         .gradient-text { 
@@ -62,14 +69,23 @@
         .serif { font-family: 'Playfair Display', serif; }
     </style>
 </head>
-<body class="p-6" onclick="startMusic()">
+<body class="p-6" onclick="startAll()">
     
     <div class="bg-container"></div>
+    <video class="video-overlay" id="rainVideo" autoplay muted loop playsinline>
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-rain-drops-on-a-window-1558-large.mp4" type="video/mp4">
+    </video>
     <div class="mist"></div>
-    <div id="rain-container"></div>
+
+    <div class="digital-clock" id="clock">00:00:00</div>
+    <div class="love-btn" onclick="sayHello()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" width="28" height="28">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+    </div>
 
     <main class="max-w-md mx-auto space-y-12 relative z-10">
-        <section class="pt-10 text-center space-y-8">
+        <section class="pt-24 text-center space-y-8">
             <div class="space-y-3">
                 <p class="text-blue-500 font-bold tracking-[0.5em] uppercase text-[10px]">A Message From My Heart</p>
                 <h1 class="text-5xl font-extrabold tracking-tighter uppercase leading-none">
@@ -90,14 +106,13 @@
         <section class="space-y-8">
             <div class="glass-card p-8 space-y-6 leading-relaxed text-gray-200">
                 <p class="text-sm">Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku...</p>
-                <p class="text-sm">Tapi ketahuilah, hijab itu aku pilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.</p>
                 
                 <p class="serif text-xl text-white italic leading-snug">
                     "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri setiap harinya."
                 </p>
 
                 <p class="text-sm">
-                    Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang, dan menjadi pundak yang selalu ada kapanpun kamu merasa lelah.
+                    Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan.
                 </p>
 
                 <p class="text-sm font-bold gradient-text italic tracking-wide leading-relaxed">
@@ -125,20 +140,32 @@
     </main>
 
     <script>
-        const audio = document.getElementById('audioPlayer');
-        const playIcon = document.getElementById('playIcon');
-        const status = document.getElementById('status');
-        let hasStarted = false;
+        // Jam Digital
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
-        function startMusic() {
-            if (!hasStarted) {
-                audio.play().then(() => {
-                    hasStarted = true;
-                    status.innerText = "PLAYING";
-                    status.classList.add("animate-pulse");
-                    playIcon.innerHTML = "||";
-                }).catch(e => console.log("User interaction needed"));
-            }
+        // Pesan Love Button
+        function sayHello() {
+            const h = new Date().getHours();
+            let msg = h < 11 ? "Pagi" : h < 15 ? "Siang" : h < 18 ? "Sore" : "Malam";
+            alert("Selamat " + msg + " Sayangkuuu, jangan lupa sholat yaa! ❤️");
+        }
+
+        // Kontrol Musik & Video
+        const audio = document.getElementById('audioPlayer');
+        const video = document.getElementById('rainVideo');
+        const status = document.getElementById('status');
+        const playIcon = document.getElementById('playIcon');
+
+        function startAll() {
+            audio.play();
+            video.play();
+            status.innerText = "PLAYING";
+            playIcon.innerHTML = "||";
         }
 
         function togglePlay() {
@@ -152,26 +179,6 @@
                 playIcon.innerHTML = "▶";
             }
         }
-
-        function createRain() {
-            const container = document.getElementById('rain-container');
-            const drop = document.createElement('div');
-            drop.className = 'drop';
-            
-            drop.style.left = Math.random() * 100 + 'vw';
-            const duration = Math.random() * 2 + 3; // Kecepatan air mengalir (3-5 detik)
-            drop.style.animationDuration = duration + 's';
-            drop.style.opacity = Math.random() * 0.4 + 0.2;
-            
-            container.appendChild(drop);
-
-            setTimeout(() => {
-                drop.remove();
-            }, duration * 1000);
-        }
-
-        // Interval pembuatan tetesan air agar konsisten mengalir
-        setInterval(createRain, 200);
     </script>
 </body>
 </html>
