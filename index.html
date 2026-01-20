@@ -1,188 +1,243 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Untuk Ratu Hatiku - Elfrida</title>
+    <title>A Private Letter - Elfrida</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&family=Playfair+Display:italic,wght@700&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;600&family=Montserrat:wght@100;300;600&family=Pinyon+Script&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #05070a; color: white; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; margin: 0; }
-        
-        .wedding-font { font-family: 'Pinyon Script', cursive; }
-
-        .bg-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
-                        url('https://e0.pxfuel.com/wallpapers/981/907/desktop-wallpaper-glass-with-drops-of-water-raindrops-on-glass-thumbnail.jpg');
-            background-size: cover; background-position: center;
+        :root {
+            --primary-glow: #ffd6a5;
+            --accent-green: #22c55e;
         }
 
+        body { 
+            background-color: #030405; 
+            color: #e2e8f0; 
+            font-family: 'Montserrat', sans-serif; 
+            overflow-x: hidden; 
+            margin: 0;
+            cursor: crosshair;
+        }
+
+        /* Font Styles */
+        .font-serif-classic { font-family: 'Cormorant Garamond', serif; }
+        .font-script { font-family: 'Pinyon Script', cursive; }
+        .font-sans-light { font-family: 'Montserrat', sans-serif; font-weight: 100; letter-spacing: 4px; }
+
+        /* Cinematic Background */
+        .cinematic-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3;
+            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.8) 0%, #030405 100%),
+                        url('https://images.unsplash.com/photo-1483354483454-4cd359948304?auto=format&fit=crop&q=80');
+            background-size: cover; background-position: center;
+            filter: grayscale(40%) contrast(1.1);
+        }
+
+        /* Film Grain Effect */
+        .grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-image: url("https://media2.giphy.com/media/oEI9uWUic6p2/giphy.gif");
+            opacity: 0.03; pointer-events: none;
+        }
+
+        /* Rain Overlay */
         .video-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2; object-fit: cover; opacity: 0.5; pointer-events: none;
-            mix-blend-mode: screen; filter: brightness(1.2) contrast(1.1);
+            z-index: -2; object-fit: cover; opacity: 0.35; pointer-events: none;
+            mix-blend-mode: screen; filter: brightness(0.8);
         }
 
-        .mist {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            backdrop-filter: blur(5px); background: rgba(255, 255, 255, 0.01);
+        /* Interactive Water Ripple */
+        .ripple {
+            position: absolute; border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%; pointer-events: none;
+            animation: ripple-effect 1s linear forwards;
+            z-index: 999;
         }
 
-        /* TOOLBAR JAM (POJOK KIRI ATAS) */
+        @keyframes ripple-effect {
+            from { width: 0; height: 0; opacity: 0.5; transform: translate(-50%, -50%); }
+            to { width: 150px; height: 150px; opacity: 0; transform: translate(-50%, -50%); }
+        }
+
+        /* Floating UI Elements */
         .digital-clock {
-            position: fixed; top: 20px; left: 20px; z-index: 100;
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
-            padding: 8px 15px; border-radius: 12px; border: 1px solid rgba(255, 214, 165, 0.2);
-            font-weight: 800; color: #ffd6a5; font-size: 13px;
-            text-shadow: 0 0 5px rgba(255, 214, 165, 0.8);
+            position: fixed; top: 30px; left: 30px; z-index: 100;
+            font-family: 'Montserrat', sans-serif; font-weight: 300;
+            color: var(--primary-glow); font-size: 12px; letter-spacing: 3px;
+            padding: 10px 20px; border-left: 1px solid var(--primary-glow);
+            background: rgba(255,255,255,0.03); backdrop-filter: blur(10px);
         }
 
-        /* TOOLBAR LOVE (POJOK KANAN ATAS) */
-        .love-container { position: fixed; top: 20px; right: 20px; z-index: 100; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+        .love-container { position: fixed; top: 30px; right: 30px; z-index: 100; text-align: right; }
         
         .love-btn {
-            width: 48px; height: 48px; background: rgba(34, 197, 94, 0.8);
+            width: 50px; height: 50px; background: transparent;
+            border: 1px solid var(--accent-green); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; cursor: pointer; backdrop-filter: blur(5px);
-            border: 2px solid rgba(255, 214, 165, 0.4);
-            animation: pulse-love 2s infinite;
+            cursor: pointer; transition: all 0.5s;
+            box-shadow: inset 0 0 10px rgba(34, 197, 94, 0.2);
+            animation: pulse-slow 3s infinite;
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% { box-shadow: 0 0 10px rgba(34, 197, 94, 0.2); transform: scale(1); }
+            50% { box-shadow: 0 0 30px rgba(34, 197, 94, 0.5); transform: scale(1.05); }
         }
 
         #love-message {
-            background: rgba(34, 197, 94, 0.15); backdrop-filter: blur(12px);
-            border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 15px;
-            padding: 10px 15px; color: #dcfce7; font-size: 12px; font-weight: 600;
-            max-width: 180px; text-align: right; opacity: 0; transition: 0.5s;
-            pointer-events: none;
+            margin-top: 10px; font-size: 10px; color: var(--accent-green);
+            letter-spacing: 1px; opacity: 0; transition: 0.5s; font-weight: 300;
         }
 
-        @keyframes pulse-love {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); box-shadow: 0 0 25px rgba(34, 197, 94, 0.6); }
-            100% { transform: scale(1); }
+        /* Content Styling */
+        .main-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px);
+            border-radius: 2px; /* Square/Minimalist for high-end look */
+            padding: 4rem 2rem;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
         }
 
-        .glass-card { 
-            background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(30px); 
-            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 2.5rem; 
+        .img-frame {
+            position: relative;
+            padding: 10px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), transparent);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .gradient-text { background: linear-gradient(to right, #93c5fd, #c084fc, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .serif { font-family: 'Playfair Display', serif; }
+        .btn-play {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s;
+        }
+
+        .btn-play:hover { background: rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body class="p-6" onclick="startAll()">
+<body onclick="startAll(event)">
     
-    <div class="bg-container"></div>
+    <div class="cinematic-bg"></div>
+    <div class="grain"></div>
     <video class="video-overlay" id="rainVideo" autoplay muted loop playsinline>
         <source src="https://assets.mixkit.co/videos/preview/mixkit-water-drops-on-a-glass-surface-1557-large.mp4" type="video/mp4">
     </video>
-    <div class="mist"></div>
 
     <div class="digital-clock" id="clock">00:00:00</div>
     
     <div class="love-container">
-        <div class="love-btn" onclick="sayHello()">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" width="24" height="24">
+        <button class="love-btn" onclick="sayHello()">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--accent-green)">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
-        </div>
-        <div id="love-message">Selamat Pagi Sayangkuuu...</div>
+        </button>
+        <div id="love-message">Good Evening...</div>
     </div>
 
-    <main class="max-w-md mx-auto space-y-12 relative z-10">
-        <section class="pt-24 text-center space-y-4">
-            <div class="space-y-1">
-                <p class="text-blue-400 font-bold tracking-[0.4em] uppercase text-[9px] opacity-70">A Message From My Heart</p>
-                <h1 class="wedding-font text-6xl gradient-text leading-tight pt-2">For Elfrida</h1>
-            </div>
+    <main class="max-w-lg mx-auto min-h-screen flex flex-col justify-center py-20 px-6 relative z-10">
+        
+        <header class="text-center mb-16 space-y-4">
+            <p class="font-sans-light text-[10px] uppercase opacity-50">Private Collection No. 01</p>
+            <h1 class="font-script text-7xl text-[#ffd6a5]">For Elfrida</h1>
+        </header>
 
-            <div class="glass-card p-4 relative shadow-2xl mt-6">
-                <div class="aspect-[3/4] w-full bg-gray-900 rounded-[2rem] overflow-hidden border border-white/5">
-                    <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full h-full object-cover opacity-80" alt="Elfrida">
-                </div>
-                <div class="absolute -bottom-4 -right-2 bg-blue-600/60 backdrop-blur-lg px-6 py-2 rounded-2xl font-black text-[10px] tracking-widest uppercase border border-white/10">My Queen ❤️</div>
-            </div>
-        </section>
+        <div class="img-frame mb-16">
+            <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full grayscale hover:grayscale-0 transition duration-1000 opacity-80" alt="Elfrida">
+            <div class="absolute top-4 left-4 font-serif-classic italic text-[12px] opacity-40">Est. 2025</div>
+        </div>
 
-        <section class="space-y-8">
-            <div class="glass-card p-8 space-y-6 leading-relaxed text-gray-200">
-                <p class="text-sm">
+        <article class="main-card space-y-10">
+            <div class="space-y-6 font-serif-classic text-lg leading-relaxed text-slate-300">
+                <p class="first-letter:text-5xl first-letter:font-bold first-letter:mr-3 first-letter:float-left">
                     Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
                 </p>
-                <p class="text-sm">
-                    Tapi ketahuilah, hijab itu aku pilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku, dan kirimkan hasilnya padaku. Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu.
+                <p>
+                    Tapi ketahuilah, hijab itu aku pilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.
                 </p>
-                <p class="serif text-xl text-white italic">
+                <p class="text-white text-3xl font-serif-classic italic py-4 border-y border-white/5">
                     "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
                 </p>
-                <p class="text-sm">
-                    Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang, dan menjadi pundak yang selalu ada kapanpun kamu merasa lelah.
-                </p>
-                <p class="text-sm font-bold gradient-text italic tracking-wide leading-relaxed">
-                    Tetaplah berjalan bersamaku di sini. Kita nikmati setiap detiknya, kita lalui setiap jalannya, dan biarkan waktu yang menjadi saksi bagaimana doa-doaku tentangmu perlahan menjadi nyata.
+                <p>
+                    Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan.
                 </p>
             </div>
 
-            <div onclick="togglePlay()" class="glass-card p-6 flex items-center justify-between cursor-pointer active:scale-95 transition">
-                <div class="flex items-center gap-5 text-left">
-                    <span id="status" class="text-blue-500 font-extrabold text-[10px]">TAP TO PLAY</span>
-                    <div>
-                        <p class="text-sm font-bold">Perfect</p>
-                        <p class="text-[10px] text-gray-500 uppercase">Ed Sheeran</p>
-                    </div>
-                </div>
-                <div id="playIcon" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-blue-400">▶</div>
+            <div class="font-sans-light text-xs text-center border-t border-white/5 pt-10">
+                TETAPLAH BERJALAN BERSAMAKU DI SINI. NIKMATI SETIAP DETIKNYA, DAN BIARKAN WAKTU MENJADI SAKSI DOAKU.
             </div>
 
-            <div class="text-center pb-20">
-                <p class="wedding-font text-3xl opacity-60">Himam Aby M</p>
-                <p class="text-[9px] font-black tracking-widest text-gray-600 uppercase mt-2">Forever Yours</p>
-            </div>
-        </section>
+            <button onclick="togglePlay()" class="btn-play w-full py-6 flex items-center justify-center gap-4 group">
+                <div id="playIcon" class="w-2 h-2 rounded-full bg-blue-400 group-hover:scale-150 transition"></div>
+                <span id="status" class="font-sans-light text-[10px] tracking-[5px]">ACTIVATE SOUNDSCAPE</span>
+            </button>
+        </article>
+
+        <footer class="mt-20 text-center space-y-2">
+            <p class="font-script text-4xl text-[#ffd6a5]">Himam Aby M</p>
+            <p class="font-sans-light text-[8px] opacity-30">© 2026 ARCHIVE ALL RIGHTS RESERVED</p>
+        </footer>
 
         <audio id="audioPlayer" src="Ed Sheeran - Perfect.mp3" loop></audio>
     </main>
 
     <script>
+        // Digital Clock
         function updateClock() {
             const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('clock').innerText = now.toLocaleTimeString('en-US', { hour12: false });
         }
         setInterval(updateClock, 1000);
         updateClock();
 
+        // Water Ripple on Touch
+        function createRipple(e) {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            document.body.appendChild(ripple);
+            
+            const x = e.clientX || e.touches[0].clientX;
+            const y = e.clientY || e.touches[0].clientY;
+            
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            setTimeout(() => ripple.remove(), 1000);
+        }
+
+        // Love Accessibility
         function sayHello() {
             const h = new Date().getHours();
             const msgEl = document.getElementById('love-message');
-            let greet = h < 11 ? "Selamat Pagi" : h < 15 ? "Selamat Siang" : h < 18 ? "Selamat Sore" : "Selamat Malam";
-            msgEl.innerText = greet + " Sayangkuuu, jangan lupa sholat yaa! ❤️";
+            let greet = h < 11 ? "Good Morning" : h < 15 ? "Good Afternoon" : h < 18 ? "Good Evening" : "Good Night";
+            msgEl.innerText = greet + ", jangan lupa sholat ya sayang ❤️";
             msgEl.style.opacity = "1";
-            setTimeout(() => { msgEl.style.opacity = "0"; }, 4000);
+            setTimeout(() => { msgEl.style.opacity = "0"; }, 5000);
         }
 
+        // Sound & Video Control
         const audio = document.getElementById('audioPlayer');
         const video = document.getElementById('rainVideo');
         const status = document.getElementById('status');
-        const playIcon = document.getElementById('playIcon');
 
-        function startAll() {
-            audio.play();
-            video.play();
-            status.innerText = "PLAYING";
-            playIcon.innerHTML = "||";
+        function startAll(e) {
+            createRipple(e);
+            if (!audio.played.length) {
+                audio.play();
+                video.play();
+                status.innerText = "SOUNDSCAPE ACTIVE";
+            }
         }
 
         function togglePlay() {
             if (audio.paused) {
                 audio.play();
-                status.innerText = "PLAYING";
-                playIcon.innerHTML = "||";
+                status.innerText = "SOUNDSCAPE ACTIVE";
             } else {
                 audio.pause();
-                status.innerText = "PAUSED";
-                playIcon.innerHTML = "▶";
+                status.innerText = "SOUNDSCAPE PAUSED";
             }
         }
     </script>
