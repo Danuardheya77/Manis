@@ -99,7 +99,7 @@
             <button class="w-11 h-11 rounded-full bg-black/60 flex items-center justify-center border border-white/10" onclick="triggerLove(event)">
                 <svg viewBox="0 0 24 24" width="18" fill="var(--green)"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             </button>
-            <div id="love-msg" class="opacity-0 transition-all text-[10px] text-green-400"></div>
+            <div id="love-msg" class="opacity-0 transition-all text-[10px] text-green-400 font-medium tracking-widest uppercase"></div>
         </div>
 
         <main class="max-w-[500px] mx-auto px-8 py-32 text-center relative">
@@ -119,7 +119,7 @@
             <div class="relative mb-32 group">
                 <div id="switch" class="switch-btn" onclick="ignitePhoto()">
                     <svg viewBox="0 0 24 24" width="30" fill="#facc15"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                    <p class="text-[6px] text-white mt-1">CLICK</p>
+                    <p class="text-[6px] text-white mt-1">REVEAL</p>
                 </div>
                 <div id="photo-container" class="border border-white/5 p-2 bg-white/5 backdrop-blur-sm">
                     <img src="PXL_20250805_071541629.PORTRAITbb.jpg" class="w-full">
@@ -129,23 +129,23 @@
 
             <div class="text-left space-y-24">
                 <p class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p active">
-                    Terima kasih banyak ya, sudah bersedia menerima hadiah kecil dariku. Aku tahu kehadirannya mungkin terasa mengagetkan, sampai-sampai kamu belum berani membukanya...
+                    Terima kasih banyak ya, Sayang. Akhirnya foto yang aku tunggu-tunggu tiba juga. Melihatmu memakai pemberianku adalah pemandangan terindah yang pernah kulihat...
                     <span class="pull-rope" onclick="revealNext(this)"></span>
                 </p>
                 <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
-                    Namun ketahuilah, hijab itu kupilihkan dengan seluruh doa agar ia bisa menjagamu, sebagaimana aku ingin selalu menjagamu. Cobalah pakai mahkota indah itu, dandanlah yang cantik untukku.
+                    Jilbab itu tampak begitu menyatu denganmu. Bukan hijabnya yang membuatmu cantik, tapi kamulah yang membuat kain itu tampak begitu mulia dan istimewa. Kamu benar-benar terlihat sangat teduh dan mempesona.
                     <span class="pull-rope" onclick="revealNext(this)"></span>
                 </p>
                 <p class="f-serif text-3xl text-white py-12 border-y border-white/10 text-center italic reveal-p">
-                    "Sebab bagiku, kamu bukan sekadar pilihan, melainkan sebuah ketetapan yang ingin aku syukuri seumur hidupku."
+                    "Ternyata benar, mahkota paling indah bagi seorang wanita adalah kehormatan yang ia jaga, dan hari ini, kamu tampak sempurna di mataku."
                     <span class="pull-rope" onclick="revealNext(this)"></span>
                 </p>
                 <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
-                    Aku ingin melihat bagaimana dunia menjadi lebih indah dalam satu bingkai foto darimu. Nanti, kirimkan fotonya padaku ya jika jilbabnya sudah kamu pakai. Biarkan aku menyimpan satu kenangan betapa sempurnanya kamu di sana.
+                    Terima kasih sudah mau mencoba dan membagikan momen ini denganku. Foto ini akan kusimpan baik-baik, sebagai pengingat bahwa keputusan untuk memilihmu adalah hal terbaik yang pernah kulakukan dalam hidup.
                     <span class="pull-rope" onclick="revealNext(this)"></span>
                 </p>
                 <p class="font-light text-[14px] text-gray-400 leading-relaxed reveal-p">
-                    Aku paham bahwa perjalanan kita mungkin tidak akan selalu lurus dan mudah. Namun bagiku, setiap lika-liku bersamamu adalah bagian dari cerita yang tak ingin aku lewatkan. Aku ingin menjadi rumah tempatmu pulang.
+                    Tetaplah seperti ini, menjadi Elfrida yang lembut dan menenangkan. Aku berjanji akan terus menjagamu, mendukung setiap langkah baikmu, dan menjadi rumah paling nyaman untuk hatimu pulang.
                 </p>
             </div>
 
@@ -177,7 +177,7 @@
             }
         }
 
-        // ORIGINAL EFFECTS (Rain, Butterflies, Flowers)
+        // ORIGINAL EFFECTS
         function startOriginalEffects() {
             setInterval(() => {
                 const drop = document.createElement('div');
@@ -188,7 +188,6 @@
                 setTimeout(() => drop.remove(), 800);
             }, 50);
             
-            // Random Butterfly
             setInterval(() => {
                 const b = document.createElement('div');
                 b.className = 'butterfly';
@@ -199,7 +198,6 @@
             }, 4000);
         }
 
-        // ROPE REVEAL
         function revealNext(rope) {
             const current = rope.parentElement;
             const next = current.nextElementSibling;
@@ -210,7 +208,6 @@
             }
         }
 
-        // PHOTO INTERACTION (SWITCH & FIREFLIES)
         function ignitePhoto() {
             document.getElementById('switch').style.display = 'none';
             document.getElementById('photo-container').classList.add('lit');
@@ -225,7 +222,6 @@
             }
         }
 
-        // WEATHER API (FREE)
         async function getWeather() {
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&hourly=temperature_2m&current_weather=true&timezone=auto`);
@@ -243,22 +239,33 @@
             });
         }
 
-        // CLOCK & LOVE
+        // UPDATED CLOCK & AUTO SALAM
         setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString('en-GB');
-            document.getElementById('current-date').innerText = new Date().toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('en-GB');
+            document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
         }, 1000);
 
         function triggerLove(e) {
+            const now = new Date();
+            const hrs = now.getHours();
+            let greet = "";
+
+            if (hrs >= 5 && hrs < 11) greet = "Selamat Pagi";
+            else if (hrs >= 11 && hrs < 15) greet = "Selamat Siang";
+            else if (hrs >= 15 && hrs < 18) greet = "Selamat Sore";
+            else greet = "Selamat Malam";
+
             const msg = document.getElementById('love-msg');
-            msg.innerText = "Love You Virya ❤️";
+            msg.innerText = `${greet}, Elfrida ❤️`;
             msg.style.opacity = "1";
+            
             for(let i=0; i<10; i++) {
                 const f = document.createElement('div'); f.className = 'flower'; f.innerText = '🌸';
                 f.style.left = e.clientX + 'px'; f.style.top = e.clientY + 'px';
                 document.body.appendChild(f); setTimeout(() => f.remove(), 2000);
             }
-            setTimeout(() => msg.style.opacity = "0", 3000);
+            setTimeout(() => msg.style.opacity = "0", 4000);
         }
     </script>
 </body>
