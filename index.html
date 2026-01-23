@@ -9,11 +9,17 @@
     <style>
         :root { --neon-blue: #00d2ff; --green: #52b788; }
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
-        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; transition: filter 0.4s ease; }
+        body { background: #000; color: #fafafa; font-family: 'Inter', sans-serif; margin: 0; overflow: hidden; transition: filter 0.4s ease; }
 
         /* SILENT PROTECTION */
         body.protected { filter: blur(80px) brightness(0); pointer-events: none; }
         @media print { body { display: none; } }
+
+        /* --- EXPIRED SCREEN --- */
+        #expired-screen {
+            position: fixed; inset: 0; z-index: 99999; display: none; flex-direction: column;
+            align-items: center; justify-content: center; background: #000; text-align: center; padding: 20px;
+        }
 
         /* --- LOGIN SCREEN --- */
         #login-screen {
@@ -36,43 +42,39 @@
         }
         .login-btn { width: 55px; height: 55px; margin: 15px auto 0; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-        /* --- WEATHER WIDGET --- */
+        /* --- CONTENT --- */
+        #main-content { opacity: 0; pointer-events: none; transition: 2s ease; height: 100vh; overflow-y: auto; display: none; }
+        body.unlocked #main-content { opacity: 1; pointer-events: auto; display: block; }
+        
+        /* ... (rest of the styles stay the same) ... */
         .weather-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius: 15px; padding: 15px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1); text-align: left; }
         .weather-scroll { display: flex; overflow-x: auto; gap: 12px; padding-top: 10px; scrollbar-width: none; }
-        .weather-scroll::-webkit-scrollbar { display: none; }
-
-        /* --- MAIN CONTENT --- */
-        #main-content { opacity: 0; pointer-events: none; transition: 2s ease; height: 100vh; overflow-y: auto; }
-        body.unlocked #main-content { opacity: 1; pointer-events: auto; }
         .mesh-gradient-bg { position: fixed; inset: 0; z-index: -5; background: linear-gradient(125deg, #0f172a, #3b0764, #701a75, #db2777, #1e1b4b); background-size: 400% 400%; animation: meshFlow 15s infinite; }
-
-        /* --- PARAGRAPH REVEAL (ROPE SYSTEM) --- */
         .reveal-p { opacity: 0; transform: translateX(-30px); transition: 1.5s ease; margin-bottom: 5rem; position: relative; filter: blur(5px); }
         .reveal-p.active { opacity: 1; transform: translateX(0); filter: blur(0); }
         .pull-rope { position: absolute; right: -25px; top: 0; height: 100%; width: 2px; background: rgba(255,255,255,0.2); cursor: pointer; }
         .pull-rope::after { content: 'pull'; position: absolute; top: 50%; right: 5px; font-size: 7px; color: white; text-transform: uppercase; writing-mode: vertical-rl; }
-
-        /* --- PHOTO & LIGHTS --- */
         #photo-container { position: relative; opacity: 0.2; transition: 2s; filter: grayscale(1) brightness(0.3); }
         #photo-container.lit { opacity: 1; filter: grayscale(0.4) brightness(1.1); box-shadow: 0 0 50px rgba(255, 200, 100, 0.2); }
         .switch-btn { position: absolute; right: -40px; top: 50%; cursor: pointer; z-index: 20; animation: bounceX 2s infinite; }
         @keyframes bounceX { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(10px); } }
-        
         .firefly { position: absolute; width: 3px; height: 3px; background: #fef08a; border-radius: 50%; box-shadow: 0 0 10px #fef08a; pointer-events: none; opacity: 0; }
-        
-        /* ORIGINAL ANIMATIONS */
         .rain { position: fixed; background: rgba(255,255,255,0.2); width: 1px; height: 50px; z-index: -2; pointer-events: none; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(110vh); } }
         .butterfly { position: fixed; font-size: 20px; z-index: 1000; pointer-events: none; animation: butterflyFlight 8s linear forwards; }
         @keyframes butterflyFlight { 0% { transform: translate(-10vw, 100vh); opacity: 0; } 10% { opacity: 1; } 100% { transform: translate(110vw, -20vh); opacity: 0; } }
         .flower { position: fixed; font-size: 24px; pointer-events: none; z-index: 1001; animation: bloomFade 2.5s forwards; }
         @keyframes bloomFade { 0% { transform: scale(0); opacity: 0; } 100% { transform: translateY(-100px); opacity: 0; } }
-
         .f-serif { font-family: 'Cormorant Garamond', serif; }
         .f-tenor { font-family: 'Tenor Sans', sans-serif; }
     </style>
 </head>
-<body oncontextmenu="return false">
+<body>
+
+    <div id="expired-screen">
+        <h1 class="f-serif text-3xl italic text-white/50">Waktu akses telah berakhir.</h1>
+        <p class="text-[10px] tracking-[4px] mt-4 uppercase opacity-30">Archive Closed — 22.01.2026</p>
+    </div>
 
     <div id="login-screen">
         <div class="flex flex-col items-center">
@@ -90,23 +92,19 @@
     <div id="main-content">
         <div class="mesh-gradient-bg"></div>
         <div id="rain-layer"></div>
-
         <div class="fixed top-8 left-8 z-[100] bg-black/40 backdrop-blur-md px-4 py-1 rounded-full border border-white/5">
             <span class="text-[8px] font-light tracking-[3px] text-gray-400 uppercase" id="clock">00:00:00</span>
         </div>
-
         <div class="fixed top-8 right-8 z-[100] flex flex-col items-center gap-2">
             <button class="w-11 h-11 rounded-full bg-black/60 flex items-center justify-center border border-white/10" onclick="triggerLove(event)">
                 <svg viewBox="0 0 24 24" width="18" fill="var(--green)"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             </button>
             <div id="love-msg" class="opacity-0 transition-all text-[10px] text-green-400 font-medium tracking-widest uppercase"></div>
         </div>
-
         <main class="max-w-[500px] mx-auto px-8 py-32 text-center relative">
             <header class="mb-20">
                 <p class="text-[9px] tracking-[6px] text-[#c4a47c] uppercase">Journal Entry — 2026</p>
                 <h1 class="f-serif text-5xl text-white italic mt-3">For Elfrida</h1>
-                
                 <div class="weather-card mt-10">
                     <div class="flex justify-between items-center">
                         <span class="text-[10px] tracking-widest uppercase text-white/60" id="loc-text">Mencari Lokasi...</span>
@@ -115,7 +113,6 @@
                     <div class="weather-scroll" id="hourly-list"></div>
                 </div>
             </header>
-
             <div class="relative mb-32 group">
                 <div id="switch" class="switch-btn" onclick="ignitePhoto()">
                     <svg viewBox="0 0 24 24" width="30" fill="#facc15"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
@@ -126,7 +123,6 @@
                     <div id="fireflies-box" class="absolute inset-0 pointer-events-none"></div>
                 </div>
             </div>
-
             <div class="text-left space-y-24">
                 <p class="f-serif text-2xl italic text-white/90 leading-relaxed reveal-p active">
                     Terima kasih banyak ya. Akhirnya foto yang aku tunggu-tunggu tiba juga. Melihatmu memakai pemberianku adalah pemandangan yang menenangkan jiwa...
@@ -148,7 +144,6 @@
                     Tetaplah menjadi sosok yang lembut dan menyejukkan hati. Aku akan terus berusaha untuk menjaga senyumanmu, mendukung setiap pilihan baikmu, dan menjadi tempat paling aman bagimu untuk bercerita tentang dunia.
                 </p>
             </div>
-
             <footer class="mt-40 mb-20">
                 <div id="footer-temp" class="text-[14px] text-white/80 mb-1">--°C</div>
                 <div id="current-date" class="text-[9px] text-[#c4a47c] tracking-[3px] mb-6 uppercase"></div>
@@ -161,7 +156,20 @@
     <audio id="player" src="Ed Sheeran - Perfect.mp3" loop></audio>
 
     <script>
-        // PROTECTION
+        // CEK TANGGAL EXPIRED SAAT HALAMAN DIBUKA
+        window.onload = function() {
+            const now = new Date();
+            // Format: Tahun, Bulan (0-11), Tanggal
+            // Jadi Januari adalah 0. 2026, 0, 22 = 22 Jan 2026
+            const expiryDate = new Date(2026, 0, 22, 23, 59, 59); 
+
+            if (now > expiryDate) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('expired-screen').style.display = 'flex';
+                return;
+            }
+        };
+
         window.addEventListener('blur', () => document.body.classList.add('protected'));
         window.addEventListener('focus', () => document.body.classList.remove('protected'));
 
@@ -170,6 +178,7 @@
                 document.body.classList.add('unlocked');
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('main-content').style.display = 'block';
                     document.getElementById('player').play();
                     getWeather();
                     startOriginalEffects();
@@ -177,7 +186,7 @@
             }
         }
 
-        // EFFECTS
+        // ... (sisanya fungsi JS tetap sama) ...
         function startOriginalEffects() {
             setInterval(() => {
                 const drop = document.createElement('div');
@@ -187,7 +196,6 @@
                 document.getElementById('rain-layer').appendChild(drop);
                 setTimeout(() => drop.remove(), 800);
             }, 50);
-            
             setInterval(() => {
                 const b = document.createElement('div');
                 b.className = 'butterfly';
@@ -197,7 +205,6 @@
                 setTimeout(() => b.remove(), 8000);
             }, 4000);
         }
-
         function revealNext(rope) {
             const current = rope.parentElement;
             const next = current.nextElementSibling;
@@ -207,7 +214,6 @@
                 next.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
-
         function ignitePhoto() {
             document.getElementById('switch').style.display = 'none';
             document.getElementById('photo-container').classList.add('lit');
@@ -221,7 +227,6 @@
                 document.getElementById('fireflies-box').appendChild(f);
             }
         }
-
         async function getWeather() {
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&hourly=temperature_2m&current_weather=true&timezone=auto`);
@@ -230,7 +235,6 @@
                 document.getElementById('main-temp').innerText = temp + '°';
                 document.getElementById('footer-temp').innerText = temp + '°C';
                 document.getElementById('loc-text').innerText = "Lokasi Saat Ini";
-                
                 let html = '';
                 for(let i=0; i<12; i++) {
                     html += `<div class="text-center min-w-[50px]"><div class="text-[8px] opacity-50">${i*2}.00</div><div class="text-[10px]">${Math.round(data.hourly.temperature_2m[i*2])}°</div></div>`;
@@ -238,28 +242,22 @@
                 document.getElementById('hourly-list').innerHTML = html;
             });
         }
-
-        // CLOCK & GREETING
         setInterval(() => {
             const now = new Date();
             document.getElementById('clock').innerText = now.toLocaleTimeString('en-GB');
             document.getElementById('current-date').innerText = now.toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
         }, 1000);
-
         function triggerLove(e) {
             const now = new Date();
             const hrs = now.getHours();
             let greet = "";
-
             if (hrs >= 5 && hrs < 11) greet = "Selamat Pagi";
             else if (hrs >= 11 && hrs < 15) greet = "Selamat Siang";
             else if (hrs >= 15 && hrs < 18) greet = "Selamat Sore";
             else greet = "Selamat Malam";
-
             const msg = document.getElementById('love-msg');
             msg.innerText = `${greet}, Elfrida ❤️`;
             msg.style.opacity = "1";
-            
             for(let i=0; i<10; i++) {
                 const f = document.createElement('div'); f.className = 'flower'; f.innerText = '🌸';
                 f.style.left = e.clientX + 'px'; f.style.top = e.clientY + 'px';
