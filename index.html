@@ -8,9 +8,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@200;400&family=Tenor+Sans&family=Amiri:italic&display=swap" rel="stylesheet">
     <style>
         :root { --cream: #fdfaf5; --sand: #e8d5b7; --brown: #8d7b68; --dark-brown: #63564a; }
-        * { box-sizing: border-box; }
-        body { background: var(--cream); color: var(--dark-brown); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
+        /* proteksi dasar: mencegah seleksi teks */
+        body { 
+            background: var(--cream); 
+            color: var(--dark-brown); 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            transition: filter 0.5s ease;
+        }
+        
+        /* screen protection: saat fokus hilang (pindah tab/app) layar jadi gelap */
+        body.protected { filter: blur(100px) brightness(0); }
+
         #login-screen { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: var(--cream); transition: 1s ease; }
         .login-box { width: 300px; text-align: center; border: 1px solid var(--sand); padding: 40px; border-radius: 2px; background: white; }
         input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--sand); padding: 10px; color: var(--brown); font-size: 10px; letter-spacing: 4px; outline: none; text-align: center; text-transform: uppercase; margin-bottom: 20px; }
@@ -21,20 +35,19 @@
         .f-arabic { font-family: 'Amiri', serif; }
         
         .video-frame { border: 15px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.05); position: relative; width: 100%; }
-        .video-container { position: relative; width: 100%; padding-top: 177.77%; /* Rasio 9:16 untuk video HP */ background: #000; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .video-container { position: relative; width: 100%; padding-top: 177.77%; background: #000; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; pointer-events: auto; }
         
         .reveal-section { margin-bottom: 5rem; }
-        .scroll-hint { font-size: 8px; letter-spacing: 3px; color: var(--brown); text-transform: uppercase; cursor: pointer; border-bottom: 1px solid var(--sand); padding-bottom: 5px; margin-top: 15px; display: inline-block; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <div id="login-screen">
         <div class="flex flex-col items-center">
             <p class="f-serif italic text-xl mb-8 text-stone-400">assalamu'alaikum...</p>
             <div class="login-box">
-                <input type="password" id="password" placeholder="kata sandi">
+                <input type="password" id="password" placeholder="kata sandi" autocomplete="off">
                 <div class="login-btn" onclick="validateLogin()">
                     <svg viewBox="0 0 24 24" width="18" fill="white"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
                 </div>
@@ -57,22 +70,22 @@
                     </iframe>
                 </div>
                 <div class="py-4 bg-white">
-                    <p class="f-serif italic text-stone-400 text-xs">"karya web buatan tangan sendiri"</p>
+                    <p class="f-serif italic text-stone-400 text-xs text-center">"karya web buatan tangan sendiri"</p>
                 </div>
             </div>
 
-            <div class="text-left space-y-20">
+            <div class="text-left space-y-20 px-2">
                 <div class="reveal-section">
                     <p class="f-serif text-2xl italic text-stone-700 leading-relaxed">
                         assalamu'alaikum, devi nur afifah.
                     </p>
-                    <p class="text-stone-600 mt-4 leading-relaxed">
+                    <p class="text-stone-600 mt-4 leading-relaxed text-sm">
                         halaman ini adalah karya web buatanku sendiri, hasil tes belajar web hosting yang sedang aku jalankan.
                     </p>
                 </div>
 
                 <div class="reveal-section">
-                    <p class="text-stone-600 leading-relaxed">
+                    <p class="text-stone-600 leading-relaxed text-sm">
                         selain menunjukkan proyek ini, aku ingin kirim semangat buat kamu yang lagi berjuang dengan **revisi buku**. semangat terus ya, aku yakin hasilnya pasti luar biasa!
                     </p>
                 </div>
@@ -85,7 +98,7 @@
                 </div>
 
                 <div class="reveal-section">
-                    <p class="text-stone-500 italic border-l-2 border-sand pl-4">
+                    <p class="text-stone-500 italic border-l-2 border-sand pl-4 text-sm">
                         terima kasih sudah mampir ke web sederhana ini. semoga harimu lancar dan revisinya cepat selesai!
                     </p>
                 </div>
@@ -93,12 +106,23 @@
 
             <footer class="mt-32">
                 <p class="f-serif text-lg tracking-[5px] text-stone-400 uppercase">himam aby maulana</p>
-                <p class="text-[8px] tracking-[2px] mt-4 text-stone-300 uppercase italic">crafted with code — 2026</p>
+                <p class="text-[8px] tracking-[2px] mt-4 text-stone-300 uppercase italic">privacy protected project — 2026</p>
             </footer>
         </main>
     </div>
 
     <script>
+        // perlindungan: blur saat tab ditinggalkan
+        window.addEventListener('blur', () => document.body.classList.add('protected'));
+        window.addEventListener('focus', () => document.body.classList.remove('protected'));
+
+        // perlindungan: cegah screenshot keyboard shortcut (sebagian)
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && (e.key === 'p' || e.key === 's' || e.key === 'u')) {
+                e.preventDefault();
+            }
+        });
+
         function validateLogin() {
             const pass = document.getElementById('password').value.toLowerCase();
             if (pass === "satuhati") {
