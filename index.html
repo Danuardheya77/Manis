@@ -9,50 +9,28 @@
     <style>
         :root { --cream: #fdfaf5; --sand: #e8d5b7; --brown: #8d7b68; --dark-brown: #63564a; }
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
-        body { background: var(--cream); color: var(--dark-brown); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; transition: filter 0.4s ease; }
+        body { background: var(--cream); color: var(--dark-brown); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
         
-        /* screen protection */
-        body.protected { filter: blur(80px) brightness(0); pointer-events: none; }
-
-        /* login screen */
-        #login-screen {
-            position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center;
-            background: var(--cream); transition: 1.5s ease;
-        }
+        #login-screen { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: var(--cream); transition: 1.5s ease; }
         .login-box { width: 300px; text-align: center; border: 1px solid var(--sand); padding: 40px; border-radius: 2px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
         input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--sand); padding: 10px; color: var(--brown); font-size: 10px; letter-spacing: 4px; outline: none; text-align: center; text-transform: uppercase; margin-bottom: 20px; }
-        .login-btn { width: 45px; height: 45px; margin: 10px auto 0; background: var(--brown); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
-        .login-btn:hover { background: var(--dark-brown); transform: scale(1.05); }
+        .login-btn { width: 45px; height: 45px; margin: 10px auto 0; background: var(--brown); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-        /* main content area */
         #main-content { opacity: 0; display: none; padding-bottom: 100px; }
-        body.unlocked #main-content { opacity: 1; display: block; animation: fadeIn 3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        body.unlocked #main-content { opacity: 1; display: block; animation: fadeIn 2s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* typography */
-        .f-serif { font-family: 'Cormorant Garamond', serif; }
-        .f-arabic { font-family: 'Amiri', serif; }
-        .f-tenor { font-family: 'Tenor Sans', sans-serif; }
-
-        /* video frame styling */
-        .video-frame { border: 15px solid white; box-shadow: 0 20px 40px rgba(141, 123, 104, 0.15); position: relative; overflow: hidden; }
-        .video-frame::after { content: ''; position: absolute; inset: -1px; border: 1px solid var(--sand); pointer-events: none; }
-        
-        /* reveal animation */
-        .reveal-p { opacity: 0; transform: translateY(30px); transition: 2s ease; margin-bottom: 6rem; filter: blur(4px); }
+        .video-frame { border: 15px solid white; box-shadow: 0 20px 40px rgba(141, 123, 104, 0.15); position: relative; }
+        .reveal-p { opacity: 0; transform: translateY(30px); transition: 1.5s ease; margin-bottom: 6rem; filter: blur(4px); }
         .reveal-p.active { opacity: 1; transform: translateY(0); filter: blur(0); }
-        
-        .divider { width: 60px; height: 1px; background: var(--sand); margin: 30px auto; position: relative; }
-        .divider::after { content: '✨'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 12px; background: var(--cream); padding: 0 10px; }
-        
-        .scroll-hint { font-size: 8px; letter-spacing: 3px; color: var(--brown); text-transform: uppercase; cursor: pointer; margin-top: 20px; display: inline-block; border-bottom: 1px solid var(--sand); padding-bottom: 5px; }
+        .scroll-hint { font-size: 8px; letter-spacing: 3px; color: var(--brown); text-transform: uppercase; cursor: pointer; border-bottom: 1px solid var(--sand); padding-bottom: 5px; margin-top: 15px; display: inline-block; }
     </style>
 </head>
 <body>
 
     <div id="login-screen">
         <div class="flex flex-col items-center">
-            <p class="f-serif italic text-xl mb-8 text-stone-400">assalamu'alaikum...</p>
+            <p class="font-serif italic text-xl mb-8 text-stone-400">assalamu'alaikum...</p>
             <div class="login-box">
                 <input type="password" id="password" placeholder="kata sandi">
                 <div class="login-btn" onclick="validateLogin()">
@@ -64,94 +42,60 @@
 
     <div id="main-content">
         <main class="max-w-[550px] mx-auto px-10 py-24 text-center">
-            <header class="mb-24">
-                <p class="text-[9px] tracking-[5px] text-stone-400 uppercase">personal project — archive 2026</p>
-                <h1 class="f-serif text-5xl text-stone-700 italic mt-4">For Devi Nur Afifah</h1>
-                <div class="divider"></div>
+            <header class="mb-20">
+                <p class="text-[9px] tracking-[5px] text-stone-400 uppercase">personal project — 2026</p>
+                <h1 class="font-serif text-4xl text-stone-700 italic mt-4">For Devi Nur Afifah</h1>
             </header>
 
             <div class="video-frame mb-32 bg-white p-1">
-                <video id="mainVideo" class="w-full" controls playsinline preload="auto">
+                <video id="mainVideo" class="w-full" playsinline preload="auto">
                     <source src="video-kamu.mp4" type="video/mp4">
-                    browser tidak mendukung pemutaran video.
+                    browser tidak mendukung video.
                 </video>
-                <div class="py-4 bg-white">
-                    <p class="f-serif italic text-stone-500 text-sm">"sebuah karya dari garis kode..."</p>
-                    <p class="text-[7px] text-stone-300 mt-2 uppercase tracking-[2px]">tekan play untuk mendengarkan suara asli</p>
+                <div class="py-6 bg-white">
+                    <button id="playBtn" onclick="playVid()" class="bg-stone-800 text-white text-[10px] px-6 py-2 tracking-[3px] uppercase">
+                        putar video
+                    </button>
+                    <p class="font-serif italic text-stone-400 text-xs mt-4">"karya web buatan tangan sendiri"</p>
                 </div>
             </div>
 
             <div class="text-left space-y-28">
                 <div class="reveal-p active">
-                    <p class="f-serif text-2xl italic text-stone-700 leading-relaxed">
-                        assalamu'alaikum, devi nur afifah.
-                        halaman yang sedang kamu buka ini adalah **karya web buatanku sendiri**. ini adalah hasil tes ombak dari proses belajar web hosting yang sedang aku jalankan.
+                    <p class="font-serif text-2xl italic text-stone-700 leading-relaxed">
+                        assalamu'alaikum, devi nur afifah. halaman ini adalah karya web buatanku sendiri sebagai hasil tes belajar hosting.
                     </p>
-                    <span class="scroll-hint" onclick="revealNext(this)">lanjutkan membaca</span>
+                    <span class="scroll-hint" onclick="revealNext(this)">lanjutkan</span>
                 </div>
-
-                <div class="reveal-p">
-                    <p class="font-light text-[15px] text-stone-500 leading-relaxed">
-                        mulai dari desain antarmuka, penyusunan baris kode, hingga proses publikasi ke server hosting—semuanya aku kerjakan secara mandiri. video di atas adalah bagian dari dokumentasi proyek personal ini.
-                    </p>
-                    <span class="scroll-hint" onclick="revealNext(this)">lanjutkan membaca</span>
                 </div>
-
-                <div class="reveal-p text-center py-10">
-                    <p class="f-arabic text-3xl mb-4 text-stone-800">مَا شَاءَ اللَّهُ تَبَارَكَ اللَّهُ</p>
-                    <p class="f-serif text-xl italic text-stone-600">
-                        "membangun sesuatu dengan tangan sendiri selalu memberikan kepuasan yang berbeda."
-                    </p>
-                    <span class="scroll-hint" onclick="revealNext(this)">lanjutkan membaca</span>
-                </div>
-
-                <div class="reveal-p">
-                    <p class="font-light text-[15px] text-stone-500 leading-relaxed italic border-l-2 border-stone-200 pl-6">
-                        terima kasih ya sudah menjadi orang pertama yang mengunjungi dan mencoba hasil karya web buatan tangan ini. semoga kedepannya aku bisa mengembangkan teknologi yang jauh lebih bermanfaat.
-                    </p>
-                </div>
-            </div>
-
-            <footer class="mt-48 mb-10">
-                <p class="f-tenor text-xl tracking-[8px] text-stone-400 uppercase">himam aby maulana</p>
-                <p class="text-[8px] tracking-[3px] mt-6 text-stone-300 uppercase italic">crafted with heart and code — 2026</p>
-            </footer>
         </main>
     </div>
 
     <script>
-        // protection logic
-        window.addEventListener('blur', () => document.body.classList.add('protected'));
-        window.addEventListener('focus', () => document.body.classList.remove('protected'));
-
-        // login validation
         function validateLogin() {
-            const pass = document.getElementById('password').value.toLowerCase();
-            // password: satuhati
-            if (pass === "satuhati") {
+            if (document.getElementById('password').value.toLowerCase() === "satuhati") {
                 document.getElementById('login-screen').style.opacity = '0';
-                document.body.classList.add('unlocked');
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('main-content').style.display = 'block';
-                    // force load video after login
-                    const v = document.getElementById('mainVideo');
-                    v.load();
-                }, 1500);
-            } else {
-                alert("kata sandi salah.");
-            }
+                    document.body.classList.add('unlocked');
+                    document.getElementById('mainVideo').load();
+                }, 1000);
+            } else { alert("kata sandi salah."); }
         }
 
-        // reveal next text
-        function revealNext(btn) {
-            const currentDiv = btn.parentElement;
-            const nextDiv = currentDiv.nextElementSibling;
+        function playVid() {
+            const v = document.getElementById('mainVideo');
+            const btn = document.getElementById('playBtn');
+            v.play();
             btn.style.display = 'none';
-            if(nextDiv && nextDiv.classList.contains('reveal-p')) {
-                nextDiv.classList.add('active');
-                nextDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+            v.setAttribute("controls","controls"); // munculkan tombol pause/stop setelah jalan
+        }
+
+        function revealNext(btn) {
+            const next = btn.parentElement.nextElementSibling;
+            btn.style.display = 'none';
+            if(next) { next.classList.add('active'); next.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
         }
     </script>
 </body>
