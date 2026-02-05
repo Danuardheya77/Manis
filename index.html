@@ -8,24 +8,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@200;400&family=Tenor+Sans&family=Amiri:italic&display=swap" rel="stylesheet">
     <style>
         :root { --cream: #fdfaf5; --sand: #e8d5b7; --brown: #8d7b68; --dark-brown: #63564a; }
-        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
+        * { box-sizing: border-box; }
         body { background: var(--cream); color: var(--dark-brown); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
         
-        #login-screen { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: var(--cream); transition: 1.5s ease; }
-        .login-box { width: 300px; text-align: center; border: 1px solid var(--sand); padding: 40px; border-radius: 2px; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+        #login-screen { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: var(--cream); transition: 1s ease; }
+        .login-box { width: 300px; text-align: center; border: 1px solid var(--sand); padding: 40px; border-radius: 2px; background: white; }
         input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--sand); padding: 10px; color: var(--brown); font-size: 10px; letter-spacing: 4px; outline: none; text-align: center; text-transform: uppercase; margin-bottom: 20px; }
-        .login-btn { width: 45px; height: 45px; margin: 10px auto 0; background: var(--brown); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+        .login-btn { width: 45px; height: 45px; margin: 10px auto 0; background: var(--brown); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-        #main-content { opacity: 0; display: none; padding-bottom: 100px; }
-        body.unlocked #main-content { opacity: 1; display: block; animation: fadeIn 2s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .video-frame { border: 15px solid white; box-shadow: 0 20px 40px rgba(141, 123, 104, 0.15); position: relative; }
-        .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
+        #main-content { display: none; padding-bottom: 100px; }
+        .f-serif { font-family: 'Cormorant Garamond', serif; }
+        .f-arabic { font-family: 'Amiri', serif; }
+        
+        .video-frame { border: 15px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.05); position: relative; width: 100%; }
+        .video-container { position: relative; width: 100%; padding-top: 177.77%; /* Rasio 9:16 untuk video HP */ background: #000; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         
-        .reveal-p { opacity: 0; transform: translateY(30px); transition: 1.5s ease; margin-bottom: 6rem; filter: blur(4px); }
-        .reveal-p.active { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .reveal-section { margin-bottom: 5rem; }
         .scroll-hint { font-size: 8px; letter-spacing: 3px; color: var(--brown); text-transform: uppercase; cursor: pointer; border-bottom: 1px solid var(--sand); padding-bottom: 5px; margin-top: 15px; display: inline-block; }
     </style>
 </head>
@@ -33,7 +32,7 @@
 
     <div id="login-screen">
         <div class="flex flex-col items-center">
-            <p class="font-serif italic text-xl mb-8 text-stone-400">assalamu'alaikum...</p>
+            <p class="f-serif italic text-xl mb-8 text-stone-400">assalamu'alaikum...</p>
             <div class="login-box">
                 <input type="password" id="password" placeholder="kata sandi">
                 <div class="login-btn" onclick="validateLogin()">
@@ -44,85 +43,72 @@
     </div>
 
     <div id="main-content">
-        <main class="max-w-[550px] mx-auto px-10 py-24 text-center">
-            <header class="mb-20">
-                <p class="text-[9px] tracking-[5px] text-stone-400 uppercase">personal project — archive 2026</p>
-                <h1 class="font-serif text-4xl text-stone-700 italic mt-4">For Devi Nur Afifah</h1>
+        <main class="max-w-[500px] mx-auto px-6 py-20 text-center">
+            <header class="mb-16">
+                <p class="text-[9px] tracking-[5px] text-stone-400 uppercase">personal project — 2026</p>
+                <h1 class="f-serif text-4xl text-stone-700 italic mt-4">For Devi Nur Afifah</h1>
             </header>
 
-            <div class="video-frame mb-32 bg-white p-1">
+            <div class="video-frame mb-20 bg-white">
                 <div class="video-container">
                     <iframe 
                         src="https://drive.google.com/file/d/13tmrGP_6MkVt2hx_GbXbz-5nSw2gazl1/preview" 
-                        allow="autoplay" 
-                        allowfullscreen>
+                        allow="autoplay">
                     </iframe>
                 </div>
-                <div class="py-6 bg-white">
-                    <p class="font-serif italic text-stone-400 text-xs">"karya web buatan tangan sendiri"</p>
+                <div class="py-4 bg-white">
+                    <p class="f-serif italic text-stone-400 text-xs">"karya web buatan tangan sendiri"</p>
                 </div>
             </div>
 
-            <div class="text-left space-y-28">
-                <div class="reveal-p active">
-                    <p class="font-serif text-2xl italic text-stone-700 leading-relaxed">
+            <div class="text-left space-y-20">
+                <div class="reveal-section">
+                    <p class="f-serif text-2xl italic text-stone-700 leading-relaxed">
                         assalamu'alaikum, devi nur afifah.
                     </p>
-                    <p class="font-serif text-xl italic text-stone-600 mt-4">
-                        halaman ini adalah **karya web buatanku sendiri**. ini adalah hasil tes ombak dari proses belajar web hosting yang sedang aku jalankan.
+                    <p class="text-stone-600 mt-4 leading-relaxed">
+                        halaman ini adalah karya web buatanku sendiri, hasil tes belajar web hosting yang sedang aku jalankan.
                     </p>
-                    <span class="scroll-hint" onclick="revealNext(this)">lanjutkan membaca</span>
                 </div>
 
-                <div class="reveal-p">
-                    <p class="font-light text-[15px] text-stone-500 leading-relaxed">
-                        selain ingin menunjukkan hasil proyek ini, aku juga ingin memberikan sedikit semangat buat kamu yang sedang berjuang dengan **revisi buku**. semnagat terus ya, aku yakin hasilnya pasti luar biasa.
+                <div class="reveal-section">
+                    <p class="text-stone-600 leading-relaxed">
+                        selain menunjukkan proyek ini, aku ingin kirim semangat buat kamu yang lagi berjuang dengan **revisi buku**. semangat terus ya, aku yakin hasilnya pasti luar biasa!
                     </p>
-                    <span class="scroll-hint" onclick="revealNext(this)">lanjutkan membaca</span>
                 </div>
 
-                <div class="reveal-p text-center py-10">
-                    <p class="f-arabic text-3xl mb-4 text-stone-800">مَا شَاءَ اللَّهُ تَبَارَكَ اللَّهُ</p>
+                <div class="reveal-section text-center py-6 border-y border-stone-100">
+                    <p class="f-arabic text-3xl mb-4 text-stone-800">مَا شَاءَ اللَّهُ</p>
                     <p class="f-serif text-xl italic text-stone-600">
                         "kalau butuh bantuan apapun itu, jangan sungkan untuk bilang ya."
                     </p>
-                    <span class="scroll-hint" onclick="revealNext(this)">lanjutkan membaca</span>
                 </div>
 
-                <div class="reveal-p">
-                    <p class="font-light text-[15px] text-stone-500 leading-relaxed italic border-l-2 border-stone-200 pl-6">
-                        terima kasih sudah menjadi orang pertama yang mengunjungi hasil karya ini. semoga hari-harimu menyenangkan dan proses revisinya berjalan lancar!
+                <div class="reveal-section">
+                    <p class="text-stone-500 italic border-l-2 border-sand pl-4">
+                        terima kasih sudah mampir ke web sederhana ini. semoga harimu lancar dan revisinya cepat selesai!
                     </p>
                 </div>
             </div>
 
-            <footer class="mt-48 mb-10">
-                <p class="f-tenor text-xl tracking-[8px] text-stone-400 uppercase">himam aby maulana</p>
-                <p class="text-[8px] tracking-[3px] mt-6 text-stone-300 uppercase italic">crafted with heart and code — 2026</p>
+            <footer class="mt-32">
+                <p class="f-serif text-lg tracking-[5px] text-stone-400 uppercase">himam aby maulana</p>
+                <p class="text-[8px] tracking-[2px] mt-4 text-stone-300 uppercase italic">crafted with code — 2026</p>
             </footer>
         </main>
     </div>
 
     <script>
         function validateLogin() {
-            if (document.getElementById('password').value.toLowerCase() === "satuhati") {
+            const pass = document.getElementById('password').value.toLowerCase();
+            if (pass === "satuhati") {
                 document.getElementById('login-screen').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('main-content').style.display = 'block';
-                    document.body.classList.add('unlocked');
-                }, 1000);
+                }, 500);
             } else {
                 alert("kata sandi salah.");
-            }
-        }
-
-        function revealNext(btn) {
-            const next = btn.parentElement.nextElementSibling;
-            btn.style.display = 'none';
-            if(next) {
-                next.classList.add('active');
-                next.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
     </script>
