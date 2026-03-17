@@ -3,103 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>untuk devi nur afifah — karya web</title>
+    <title>link kadaluarsa</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&family=Inter:wght@200;400&family=Tenor+Sans&family=Amiri:italic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:italic,wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --cream: #fdfaf5; --sand: #e8d5b7; --brown: #8d7b68; --dark-brown: #63564a; }
-        * { box-sizing: border-box; }
-        body { background: var(--cream); color: var(--dark-brown); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
-        
-        /* layar login */
-        #login-screen { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: var(--cream); transition: 1s ease; }
-        .login-box { width: 300px; text-align: center; border: 1px solid var(--sand); padding: 40px; border-radius: 2px; background: white; }
-        input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--sand); padding: 10px; color: var(--brown); font-size: 10px; letter-spacing: 4px; outline: none; text-align: center; text-transform: uppercase; margin-bottom: 20px; }
-        .login-btn { width: 45px; height: 45px; margin: 10px auto 0; background: var(--brown); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-
-        /* layar kadaluarsa */
-        #expiry-screen { display: none; position: fixed; inset: 0; z-index: 10000; align-items: center; justify-content: center; background: var(--cream); text-align: center; }
-
-        #main-content { display: none; padding-bottom: 100px; }
+        :root { --cream: #fdfaf5; --sand: #e8d5b7; --brown: #8d7b68; }
+        body { background: var(--cream); margin: 0; overflow: hidden; height: 100vh; display: flex; align-items: center; justify-content: center; }
         .f-serif { font-family: 'Cormorant Garamond', serif; }
-        .f-arabic { font-family: 'Amiri', serif; }
         
-        .video-frame { border: 15px solid white; box-shadow: 0 20px 40px rgba(0,0,0,0.05); position: relative; width: 100%; }
-        .video-container { position: relative; width: 100%; padding-top: 177.77%; background: #000; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        /* animasi halus munculnya pesan */
+        .fade-in { animation: fadeIn 2s ease forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body onload="checkExpiry()">
+<body>
 
-    <div id="expiry-screen">
+    <div class="text-center px-6 fade-in">
         <div class="opacity-40">
-            <p class="f-serif italic text-xl text-stone-500">maaf, link ini telah kadaluarsa.</p>
-            <p class="text-[9px] tracking-[4px] mt-4 uppercase">akses sudah tidak tersedia</p>
+            <p class="f-serif italic text-2xl text-stone-600 mb-4">afwan, akses telah berakhir.</p>
+            <div class="w-12 h-[1px] bg-stone-400 mx-auto mb-6"></div>
+            <p class="text-[9px] tracking-[5px] text-stone-400 uppercase">link ini sudah kadaluarsa dan tidak dapat dibuka kembali</p>
+            <p class="text-[8px] tracking-[2px] mt-12 text-stone-300 uppercase italic">personal project — 2026</p>
         </div>
-    </div>
-
-    <div id="login-screen">
-        <div class="flex flex-col items-center">
-            <p class="f-serif italic text-xl mb-8 text-stone-400">assalamu'alaikum...</p>
-            <div class="login-box">
-                <input type="password" id="password" placeholder="kata sandi">
-                <div class="login-btn" onclick="validateLogin()">
-                    <svg viewBox="0 0 24 24" width="18" fill="white"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="main-content">
-        <main class="max-w-[500px] mx-auto px-6 py-20 text-center">
-            <header class="mb-16">
-                <p class="text-[9px] tracking-[5px] text-stone-400 uppercase">personal project — 2026</p>
-                <h1 class="f-serif text-4xl text-stone-700 italic mt-4">For Devi Nur Afifah</h1>
-            </header>
-
-            <div class="video-frame mb-20 bg-white">
-                <div class="video-container">
-                    <iframe src="https://drive.google.com/file/d/13tmrGP_6MkVt2hx_GbXbz-5nSw2gazl1/preview"></iframe>
-                </div>
-            </div>
-
-            <div class="text-left space-y-20">
-                <div class="reveal-section">
-                    <p class="f-serif text-2xl italic text-stone-700 leading-relaxed">assalamu'alaikum, devi nur afifah.</p>
-                    <p class="text-stone-600 mt-4 leading-relaxed">halaman ini adalah karya web buatanku sendiri, hasil tes belajar web hosting.</p>
-                </div>
-                </div>
-        </main>
     </div>
 
     <script>
-        // atur tanggal kadaluarsa di sini
-        // format: tahun, bulan (0-11), tanggal, jam, menit
-        // contoh: 20 maret 2026 jam 12:00 malam
-        const expiryDate = new Date(2026, 2, 20, 0, 0); 
-
-        function checkExpiry() {
-            const now = new Date();
-            if (now > expiryDate) {
-                // jika sudah lewat waktu, hapus semua konten dan tampilkan pesan kadaluarsa
-                document.getElementById('login-screen').remove();
-                document.getElementById('main-content').remove();
-                document.getElementById('expiry-screen').style.display = 'flex';
-            }
-        }
-
-        function validateLogin() {
-            const pass = document.getElementById('password').value.toLowerCase();
-            if (pass === "satuhati") {
-                document.getElementById('login-screen').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('main-content').style.display = 'block';
-                }, 500);
-            } else {
-                alert("kata sandi salah.");
-            }
-        }
+        // sistem pengunci otomatis:
+        // menghapus paksa seluruh sisa-sisa elemen login atau konten jika masih ada di memori browser
+        window.onload = function() {
+            const forbiddenElements = ['login-screen', 'main-content', 'password'];
+            forbiddenElements.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.remove();
+            });
+            console.log("akses ditutup: link sudah kadaluarsa.");
+        };
     </script>
 </body>
 </html>
